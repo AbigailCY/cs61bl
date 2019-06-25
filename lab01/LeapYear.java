@@ -10,7 +10,7 @@
 public class LeapYear {
     static int year;
     
-    private static boolean isLeapYear(int Yyear){
+    public static boolean isLeapYear(int Yyear){
         if ( Yyear%400 == 0) {
             return true;
         }
