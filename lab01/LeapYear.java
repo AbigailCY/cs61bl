@@ -1,8 +1,29 @@
 /**
  * Class that determines whether or not a year is a leap year.
- * @author YOUR NAME HERE
+ * @author Chen Yuan (Abigail)
+ */
+
+ /**
+ * if the year can be divided by 400, return true; if the year can be divided by 4 not by 100, return true; else, return false.
+ * @source CS 61BL Lab 1
  */
 public class LeapYear {
+    static int year;
+    
+    private static boolean isLeapYear(int Yyear){
+        if ( Yyear%400 == 0) {
+            return true;
+        }
+        else if (Yyear%4 == 0) {
+            if (Yyear%100 != 0) {
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
+        return false;
+    };
 
     /** Calls isLeapYear to print correct statement. */
     private static void checkLeapYear(int year) {
@@ -28,4 +49,5 @@ public class LeapYear {
             }
         }
     }
+    
 }
