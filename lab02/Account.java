@@ -56,6 +56,7 @@ public class Account {
             } else {
 
                 amount = amount - balance;
+                this.balance = 0;
                 
                 while (this.parentAccount.balance >= 0){
 
@@ -65,6 +66,7 @@ public class Account {
                         this.parentAccount = this.parentAccount.parentAccount;
                     } else {
                         this.parentAccount.balance -= amount;
+                        // System.out.println(this.parentAccount.balance);
                         break;
                     }               
                 }
@@ -87,6 +89,11 @@ public class Account {
         other.balance = 0;
     }
 
+    public static void main(String[] args){
+        Account christine = new Account(500);
+        Account matt = new Account(100, christine);
+        matt.withdraw(150);
+    }
 
 
 
