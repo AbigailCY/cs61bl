@@ -8,8 +8,7 @@ public class Path {
 
     public Path (double x, double y){
         this.Next = new Point(x, y);
-        // this.Next.setX(x);
-        // this.Next.setY(y);
+        this.Curr = new Point(1,1);
     }
 
     public double getCurrX() {
@@ -43,9 +42,9 @@ public class Path {
 
     public static void main(String[] args){
         Path mypa = new Path(0, 1);
-        Point pa = new Point(3,4);
-        mypa.setCurrentPoint(pa);
-        mypa.iterate(5, 5);
+        mypa.iterate(1,1);
+        System.out.println(mypa.getCurrX()+" "+ mypa.getCurrY()+ " "+mypa.getNextX()+" "+mypa.getNextY());
+        mypa.iterate(1,1);
         System.out.println(mypa.getCurrX()+" "+ mypa.getCurrY()+ " "+mypa.getNextX()+" "+mypa.getNextY());
         // System.out.println(String.format("%.1f %.1f", mypa.getNextX(), mypa.getNextY()));
     }
