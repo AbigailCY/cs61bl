@@ -88,12 +88,6 @@ public class Account {
     }
 
 
-    public static void main(String[] args){
-        Account chr = new Account(500);
-        Account christine = new Account(500, chr);
-        Account matt = new Account(100, christine);
-        matt.withdraw(50);
-    }
 
 
 
