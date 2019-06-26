@@ -7,6 +7,8 @@ public class Path {
     public Path (double x, double y){
         this.Next.setX(x);
         this.Next.setY(y);
+        this.Curr.setX(0);
+        this.Curr.setY(0);
     }
 
     public double getCurrX() {
