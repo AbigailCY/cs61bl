@@ -17,8 +17,7 @@ public class AddingMachine {
         int index = 0;
 
 
-        // TODO Add code anywhere below to complete AddingMachine
-		while (true) {
+        while (true) {
 			input = scanner.nextInt();
 			listOfInputs[index] = input;
 
@@ -27,6 +26,9 @@ public class AddingMachine {
 					System.out.println("total " + total);
 
 					for (int a = 0; a <= index; a++) {
+						if (listOfInputs[a] == 0){
+							continue;
+						}
 						System.out.println(listOfInputs[a]);
 					}
 					return;
