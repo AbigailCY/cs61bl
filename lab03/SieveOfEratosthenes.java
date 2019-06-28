@@ -11,7 +11,7 @@ public class SieveOfEratosthenes {
 		int upperBound = Integer.parseInt(args[0]);
 		boolean[] isNotPrime = new boolean[upperBound];
 
-		for (int i = 2; i <= upperBound; i++) {
+		for (int i = 2; i < upperBound; i++) {
 
 			int previous = 2;
 			while (previous <= i/2){
