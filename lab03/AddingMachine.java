@@ -2,7 +2,10 @@ import java.util.*;
 
 public class AddingMachine {
 
+
+
 	public static void main (String[] args) {
+
 
 		Scanner scanner = new Scanner(System.in);
 		boolean isPreviousZero = false;
@@ -13,14 +16,23 @@ public class AddingMachine {
         int[] listOfInputs = new int[MAXIMUM_NUMBER_OF_INPUTS];
         int index = 0;
 
+
         // TODO Add code anywhere below to complete AddingMachine
 		while (true) {
 			input = scanner.nextInt();
+			listOfInputs[index] = input;
+
 			if (input == 0) {
 				if (isPreviousZero) {
 					System.out.println("total " + total);
+
+					for (int a = 0; a <= index; a++) {
+						System.out.println(listOfInputs[a]);
+					}
 					return;
+
 				} else {
+
 					System.out.println("subtotal " + subtotal);
 					total += subtotal;
 					subtotal = 0;
@@ -28,6 +40,7 @@ public class AddingMachine {
 				}
 			}
 			subtotal += input;
+			index ++;
 			if (input != 0) {
 				isPreviousZero = false;
 			}
