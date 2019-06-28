@@ -7,8 +7,13 @@ public class ArrayOperations {
     public static void delete(int[] values, int pos) {
         if (pos < 0 || pos >= values.length) {
             return;
+
+        }else{
+            for (int a = pos; a < values.length-1; a++){
+                values[a] = values[a+1];
+            }
+            values[values.length-1] = 0;
         }
-        // TODO: YOUR CODE HERE
     }
 
     /**
@@ -20,6 +25,10 @@ public class ArrayOperations {
         if (pos < 0 || pos >= values.length) {
             return;
         }
-        // TODO: YOUR CODE HERE
+
+        for (int a = values.length-1; a > pos; a -= 1){
+            values[a] = values[a-1];
+        }
+        values[pos] = newInt;
     }
 }
