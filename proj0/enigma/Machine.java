@@ -179,5 +179,27 @@ public class Machine {
         System.out.println(machine.convert("OMHISSHOULDERHIAWATHA").equals("PQSOKOILPUBKJZPISFXDW"));
         System.out.println(machine.convert("TOOK THE CAMERA OF ROSEWOOD").equals("BHCNSCXNUOAATZXSRCFYDGU"));
         System.out.println(machine.convert("Made of sliding folding rosewood").equals("FLPNXGXIXTYJUJRCAUGEUNCFMKUF"));
+
+//        CharacterRange upper = new CharacterRange('A', 'D');
+//        Rotor[] allRotors = new Rotor[3];
+//        MovingRotor rotorI = new MovingRotor("I",
+//                new Permutation("(ABC)", upper),
+//                "D");
+//        MovingRotor rotorII = new MovingRotor("II",
+//                new Permutation("(ACD)", upper),
+//                "D");
+//        Reflector rotorB = new Reflector("B",
+//                new Permutation("(AC)(BD)", upper));
+//        allRotors[0] = rotorI;
+//        allRotors[1] = rotorII;
+//        allRotors[2] = rotorB;
+//        Machine machine3 = new Machine(upper, 3, 2, allRotors);
+//        machine3.insertRotors(new String[]{"B", "I", "II"});
+//        machine3.setRotors("BB");
+//        machine3.setPlugboard(new Permutation("(CA)", upper));
+//        System.out.println(machine3.numRotors());
+//        System.out.println(machine3.numPawls());
+//        System.out.println(machine3.convert("CABBAADB"));
+
     }
 }

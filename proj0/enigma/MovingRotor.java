@@ -44,7 +44,7 @@ public class MovingRotor extends Rotor {
 
     @Override // Use this special tag when updating the behavior of a method this class inherits from Rotor
     public void advance() {
-        if (setting() == 25){
+        if (setting() == alphabet().size()-1){
             set(0);
         } else{
             set(setting()+1);
