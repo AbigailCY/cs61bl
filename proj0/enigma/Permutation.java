@@ -4,7 +4,7 @@ import static enigma.EnigmaException.*;
 
 /** Represents a permutation of a range of integers starting at 0 corresponding
  *  to the characters of an alphabet.
- *  @author
+ *  @AbigailChen
  */
 public class Permutation {
 
@@ -13,7 +13,7 @@ public class Permutation {
      *  is interpreted as a permutation in cycle notation.  Characters in the
      *  alphabet that are not included in any cycle map to themselves.
      *  Whitespace is ignored. */
-    String _cycles;
+
 
     public Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
@@ -97,10 +97,7 @@ public class Permutation {
 
     /** Alphabet of this permutation. */
     private Alphabet _alphabet;
-
-    // FIXME - How do we store which letter permutes/inverts to which?
-
-    // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
+    private String _cycles;
 
     // Some starter code for unit tests. Feel free to change these up!
     // To run this through command line, from the proj0 directory, run the following:

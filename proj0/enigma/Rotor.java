@@ -87,6 +87,7 @@ public class Rotor {
     /** Returns true if and only if I am positioned to allow the rotor
      * to my left to advance. */
     public boolean atNotch() {
+
         return false;
     }
 
@@ -94,7 +95,7 @@ public class Rotor {
     public void advance() {
     }
 
-//    @Override®
+    @Override
     public String toString() {
         return "Rotor " + _name;
     }
