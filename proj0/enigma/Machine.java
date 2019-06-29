@@ -38,7 +38,7 @@ public class Machine {
         for (int x = 0; x < _allRotors.length; x++){
             String name = _allRotors[x].name().toUpperCase();
             for (int y = 0; y < rotors.length; y++){
-                if (name.equals(rotors[y])){
+                if (name.equals(rotors[y].toUpperCase())){
                     _Rotors[y] = _allRotors[x];
                 }
             }
