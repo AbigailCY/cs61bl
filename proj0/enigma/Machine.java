@@ -51,7 +51,9 @@ public class Machine {
     public void setRotors(String setting) {
         for (int x = 0; x < setting.length(); x++){
             char pos = setting.charAt(x);
-            _avaRotors[x+1].set(pos);
+            if (_avaRotors[0] != null){
+                _avaRotors[x+1].set(pos);
+            }
         }
     }
 
