@@ -3,15 +3,17 @@ package enigma;
 import static enigma.EnigmaException.*;
 
 /** Superclass that represents a rotor in the enigma machine.
- *  @author
+ *  @AbigailChen
  */
-class Rotor {
+public class Rotor {
+
+
 
     /** A rotor named NAME whose permutation is given by PERM. */
-    Rotor(String name, Permutation perm) {
+    public Rotor(String name, Permutation perm) {
         _name = name;
         _permutation = perm;
-        // FIXME - Assign any additional instance variables.
+        _position = 0;
     }
 
     /** Return my name. */
@@ -46,29 +48,40 @@ class Rotor {
 
     /** Return my current setting. */
     public int setting() {
-        return 0; // FIXME - How do we keep track of my current position?
+
+        return _position;
     }
 
     /** Set setting() to POSN.  */
     public void set(int posn) {
-        // FIXME - How do we update our current position, based on an alphabet index?
+        _position = posn;
     }
 
     /** Set setting() to character CPOSN. */
     public void set(char cposn) {
-        // FIXME - How do we update our current position, based on an alphabet character?
+        int posn = alphabet().toInt(cposn);
+        _position = posn;
     }
 
     /** Return the conversion of P (an integer in the range 0..size()-1)
      *  according to my permutation. */
     public int convertForward(int p) {
-        return 0;  // FIXME - How do we permute the index P, taking into account my current position?
+        int rotorP = _permutation.wrap(_position + p);
+        int rotorQ = _permutation.permute(rotorP);
+        int Q = _permutation.wrap(rotorQ - _position);
+        return Q;
+
     }
 
     /** Return the conversion of C (an integer in the range 0..size()-1)
      *  according to the inverse of my permutation. */
     public int convertBackward(int c) {
-        return 0;  // FIXME - How do we invert the index E, taking into account my current position?
+
+        int rotorC = _permutation.wrap(_position + c);
+        int rotorQ = _permutation.invert(rotorC);
+        int Q = _permutation.wrap(rotorQ - _position);
+        return Q;
+
     }
 
     /** Returns true if and only if I am positioned to allow the rotor
@@ -81,7 +94,7 @@ class Rotor {
     public void advance() {
     }
 
-    @Override
+//    @Override®
     public String toString() {
         return "Rotor " + _name;
     }
@@ -92,8 +105,7 @@ class Rotor {
     /** The permutation implemented by this rotor in its 0 position. */
     private Permutation _permutation;
 
-    // FIXME - How do we keep track of what position I am in?
-
-    // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
+    /** My position now. */
+    private int _position;
 
 }
