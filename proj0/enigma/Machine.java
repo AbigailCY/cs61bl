@@ -16,7 +16,7 @@ public class Machine {
         _numRotors = numRotors;
         _pawls = pawls;
         _allRotors = allRotors;
-        _avaRotors = new Rotor[numRotors];
+        _Rotors = new Rotor[numRotors];
         _PLUGBOARD = new Rotor("plugboard", new Permutation("", alpha));
     }
 
@@ -39,7 +39,7 @@ public class Machine {
             String name = _allRotors[x].name().toUpperCase();
             for (int y = 0; y < rotors.length; y++){
                 if (name.equals(rotors[y])){
-                    _avaRotors[y] = _allRotors[x];
+                    _Rotors[y] = _allRotors[x];
                 }
             }
         }
@@ -51,8 +51,8 @@ public class Machine {
     public void setRotors(String setting) {
         for (int x = 0; x < setting.length(); x++){
             char pos = setting.charAt(x);
-            if (_avaRotors[0] != null){
-                _avaRotors[x+1].set(pos);
+            if (_Rotors[x+1] != null){
+                _Rotors[x+1].set(pos);
             }
         }
     }
@@ -73,10 +73,10 @@ public class Machine {
         int posIN = _PLUGBOARD.convertForward(c);
         advance();
         for (int x = _numRotors-1; x >= 0; x--){
-            posIN = _avaRotors[x].convertForward(posIN);
+            posIN = _Rotors[x].convertForward(posIN);
         }
         for (int x = 1; x < _numRotors; x++){
-            posIN = _avaRotors[x].convertBackward(posIN);
+            posIN = _Rotors[x].convertBackward(posIN);
         }
         int conC = _PLUGBOARD.convertBackward(posIN);
 
@@ -88,13 +88,13 @@ public class Machine {
 
 
         for (int x = _numRotors - _pawls; x < _numRotors-1; x++){
-            if (_avaRotors[x+1].atNotch()){
-                _avaRotors[x].advance();
-            } else if (_avaRotors[x].atNotch() && _avaRotors[x-1].rotates()){
-                _avaRotors[x].advance();
+            if (_Rotors[x+1].atNotch()){
+                _Rotors[x].advance();
+            } else if (_Rotors[x].atNotch() && _Rotors[x-1].rotates()){
+                _Rotors[x].advance();
             }
         }
-        _avaRotors[_numRotors-1].advance();
+        _Rotors[_numRotors-1].advance();
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
@@ -121,7 +121,7 @@ public class Machine {
     private int _numRotors;
     private int _pawls;
     private Rotor[] _allRotors;
-    private Rotor[] _avaRotors;
+    private Rotor[] _Rotors;
     private Rotor _PLUGBOARD;
 
 
