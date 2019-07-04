@@ -127,19 +127,25 @@ public class ArrayDequeTest {
             test2.addFirst(1);
             test2.addLast(2);
             test2.addLast(3);
+            test2.addLast(4);
             test2.addFirst(5);
             test2.addFirst(6);
             test2.addLast(7);
             test2.addLast(8);
+            test2.addLast(9);
             test2.addLast(10);
-
-
-
-
+            test2.removeFirst();
+            assertEquals(9,test2.size());
+            test2.removeFirst();
+            assertEquals(8,test2.size());
+            test2.removeFirst();
+            assertEquals(7,test2.size());
+            test2.removeFirst();
+            assertEquals(6,test2.size());
+            test2.removeLast();
+            assertEquals(5,test2.size());
 
             System.out.println(test2.removeFirst());
-
-
 
         } finally {
 
@@ -149,4 +155,8 @@ public class ArrayDequeTest {
         }
     }
 
+    @Test
+    public void debugging() {
+        System.out.println(33 / 2);
+    }
 }

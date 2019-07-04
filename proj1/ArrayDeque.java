@@ -94,8 +94,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
         int a = (nextFirst + 1) % items.length;
         T first = this.items[a];
-        T[] newT = (T[]) new Object[2];
-        this.items[a] = newT[0];
+        this.items[a] = ((T[]) new Object[2])[0];
         this.nextFirst = a;
         size -= 1;
 
@@ -114,8 +113,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
         int a = ((nextLast - 1) % items.length + items.length) % items.length;
         T last = this.items[a];
-        T[] newT = (T[]) new Object[2];
-        this.items[a] = newT[0];
+        this.items[a] = ((T[]) new Object[2])[0];
         this.nextLast = a;
         size -= 1;
 
