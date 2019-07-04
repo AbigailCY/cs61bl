@@ -100,6 +100,8 @@ public class ArrayDeque<T> implements Deque<T> {
 
         if (items.length >= 16 && ((double) size / items.length) < 0.25) {
             resize(items.length / 2);
+            this.nextFirst = items.length - 1;
+            this.nextLast = this.size;
         }
         return first;
 
@@ -119,6 +121,8 @@ public class ArrayDeque<T> implements Deque<T> {
 
         if (items.length >= 16 && ((double) size / items.length) < 0.25) {
             resize(items.length / 2);
+            this.nextFirst = items.length - 1;
+            this.nextLast = this.size;
         }
         return last;
     }

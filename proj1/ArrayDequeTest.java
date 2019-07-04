@@ -135,15 +135,15 @@ public class ArrayDequeTest {
             test2.addLast(9);
             test2.addLast(10);
             test2.removeFirst();
-            assertEquals(9,test2.size());
+            assertEquals(9, test2.size());
             test2.removeFirst();
-            assertEquals(8,test2.size());
+            assertEquals(8, test2.size());
             test2.removeFirst();
-            assertEquals(7,test2.size());
+            assertEquals(7, test2.size());
             test2.removeFirst();
-            assertEquals(6,test2.size());
+            assertEquals(6, test2.size());
             test2.removeLast();
-            assertEquals(5,test2.size());
+            assertEquals(5, test2.size());
 
             System.out.println(test2.removeFirst());
 
