@@ -1,4 +1,4 @@
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
 
     private class Node {
         /*
@@ -21,19 +21,6 @@ public class LinkedListDeque<T> {
             this.prev = prev;
         }
 
-//        @Override
-//        public boolean equals(Object o) {
-//            if (this == o) return true;
-//            if (o == null || getClass() != o.getClass()) return false;
-//            IntListNode that = (IntListNode) o;
-//            return item == that.item;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return item + "";
-//        }
-
     }
 
     private Node sentinel;
@@ -49,7 +36,7 @@ public class LinkedListDeque<T> {
     }
 
 
-
+    @Override
     public void addFirst(T item) {
 
         Node temp = this.sentinel.next;
@@ -58,6 +45,7 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
+    @Override
     public void addLast(T item) {
 
         Node temp = sentinel.prev;
@@ -67,13 +55,7 @@ public class LinkedListDeque<T> {
 
     }
 
-    public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        }
-        return false;
-    }
-
+    @Override
     public int size() {
         return this.size;
     }
@@ -82,6 +64,7 @@ public class LinkedListDeque<T> {
         size = x;
     }
 
+    @Override
     public void printDeque() {
 
         if (size == 0) {
@@ -98,6 +81,7 @@ public class LinkedListDeque<T> {
         System.out.println();
     }
 
+    @Override
     public T removeFirst() {
 
         if (size == 0) {
@@ -114,6 +98,7 @@ public class LinkedListDeque<T> {
 
     }
 
+    @Override
     public T removeLast() {
 
         if (size == 0) {
@@ -130,6 +115,7 @@ public class LinkedListDeque<T> {
 
     }
 
+    @Override
     public T get(int index) {
 
         if (index >= size || index < 0) {

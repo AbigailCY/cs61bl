@@ -37,7 +37,7 @@ public class ArrayDequeTest {
     }
 
     @Test
-    public void Resize() {
+    public void resize() {
         System.out.println("Resize test.");
         ArrayDeque<String> test2 = new ArrayDeque<>();
 
@@ -65,7 +65,7 @@ public class ArrayDequeTest {
     }
 
     @Test
-    public void Memory() {
+    public void memory() {
         System.out.println("Resize up and down test.");
         ArrayDeque<String> test2 = new ArrayDeque<>();
 
@@ -107,6 +107,38 @@ public class ArrayDequeTest {
             test2.removeLast();
             test2.removeLast();
             test2.removeLast();
+
+
+        } finally {
+
+            System.out.println("Printing out deque: ");
+            test2.printDeque();
+
+        }
+    }
+
+    @Test
+    public void debug() {
+        System.out.println("Resize up and down test.");
+        ArrayDeque<Integer> test2 = new ArrayDeque<>();
+
+        try {
+
+            test2.addFirst(1);
+            test2.addLast(2);
+            test2.addLast(3);
+            test2.addFirst(5);
+            test2.addFirst(6);
+            test2.addLast(7);
+            test2.addLast(8);
+            test2.addLast(10);
+
+
+
+
+
+            System.out.println(test2.removeFirst());
+
 
 
         } finally {
