@@ -74,16 +74,16 @@ public class LinkedListDequeTest {
             assertTrue(lld1.isEmpty());
 
             lld1.addFirst(10);
-            assertEquals(1,lld1.size());
+            assertEquals(1, lld1.size());
             lld1.addLast(11);
-            assertEquals(2,lld1.size());
+            assertEquals(2, lld1.size());
             lld1.addLast(13);
 
-            System.out.println( lld1.getRecursive(0));
-            System.out.println( lld1.getRecursive(1));
-            System.out.println( lld1.get(2));
-            System.out.println( lld1.get(3));
-            System.out.println( lld1.get(-1));
+            System.out.println(lld1.getRecursive(0));
+            System.out.println(lld1.getRecursive(1));
+            System.out.println(lld1.get(2));
+            System.out.println(lld1.get(3));
+            System.out.println(lld1.get(-1));
 
 
         } finally {

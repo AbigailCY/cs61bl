@@ -1,7 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.LinkedList;
-
-public class LinkedListDeque <T> {
+public class LinkedListDeque<T> {
 
     private class Node {
         /*
@@ -9,9 +6,9 @@ public class LinkedListDeque <T> {
          * both the inner class and the outer class can access these instance
          * variables and methods.
          */
-        public T item;
-        public Node next;
-        public Node prev;
+        private T item;
+        private Node next;
+        private Node prev;
 
         public Node(T item, Node next, Node prev) {
             this.item = item;
@@ -43,7 +40,7 @@ public class LinkedListDeque <T> {
     private int size;
 
 
-    public LinkedListDeque(){
+    public LinkedListDeque() {
 
         sentinel = new Node(null, null);
         sentinel.next = sentinel;
@@ -53,7 +50,7 @@ public class LinkedListDeque <T> {
 
 
 
-    public void addFirst(T item){
+    public void addFirst(T item) {
 
         Node temp = this.sentinel.next;
         this.sentinel.next = new Node(item, temp, sentinel);
@@ -61,7 +58,7 @@ public class LinkedListDeque <T> {
         size += 1;
     }
 
-    public void addLast(T item){
+    public void addLast(T item) {
 
         Node temp = sentinel.prev;
         sentinel.prev = new Node(item, sentinel, temp);
@@ -70,40 +67,40 @@ public class LinkedListDeque <T> {
 
     }
 
-    public boolean isEmpty(){
-        if (size == 0){
+    public boolean isEmpty() {
+        if (size == 0) {
             return true;
         }
         return false;
     }
 
-    public int size(){
+    public int size() {
         return this.size;
     }
 
-    public void changeSize(int x){
+    public void changeSize(int x) {
         size = x;
     }
 
-    public void printDeque(){
+    public void printDeque() {
 
-        if (size == 0){
+        if (size == 0) {
             System.out.println();
             return;
         }
 
         Node temp = sentinel.next;
-        while (temp.next != sentinel){
-            System.out.print(temp.item+" ");
+        while (temp.next != sentinel) {
+            System.out.print(temp.item + " ");
             temp = temp.next;
         }
         System.out.print(temp.item);
         System.out.println();
     }
 
-    public T removeFirst(){
+    public T removeFirst() {
 
-        if (size == 0){
+        if (size == 0) {
             return null;
         }
 
@@ -117,9 +114,9 @@ public class LinkedListDeque <T> {
 
     }
 
-    public T removeLast(){
+    public T removeLast() {
 
-        if (size == 0){
+        if (size == 0) {
             return null;
         }
 
@@ -133,37 +130,33 @@ public class LinkedListDeque <T> {
 
     }
 
-    public T get(int index){
+    public T get(int index) {
 
-        if (index >= size || index < 0){
+        if (index >= size || index < 0) {
             return null;
         }
         Node temp = sentinel.next;
-        while (index > 0){
+        while (index > 0) {
             temp = temp.next;
             index -= 1;
         }
         return temp.item;
     }
 
-    public T getRecursive(int index){
-        if (index >= size || index < 0){
+    public T getRecursive(int index) {
+        if (index >= size || index < 0) {
             return null;
         }
 
-        if (index == 0){
+        if (index == 0) {
             return this.sentinel.next.item;
         }
 
         LinkedListDeque<T> temp = new LinkedListDeque<>();
         temp.sentinel.next = this.sentinel.next.next;
         temp.sentinel.prev = this.sentinel.prev;
-        temp.changeSize(size-1);
-        return temp.getRecursive(index-1);
-
-    }
-
-    public static void main(String[] args){
+        temp.changeSize(size - 1);
+        return temp.getRecursive(index - 1);
 
     }
 }
