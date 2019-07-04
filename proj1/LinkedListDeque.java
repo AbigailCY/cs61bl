@@ -60,7 +60,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         return this.size;
     }
 
-    public void changeSize(int x) {
+    private void changeSize(int x) {
         size = x;
     }
 
