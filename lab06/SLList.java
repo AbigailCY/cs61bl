@@ -22,6 +22,10 @@ public class SLList {
             this.next = next;
         }
 
+        public IntListNode(IntListNode next) {
+            this.next = next;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -43,13 +47,13 @@ public class SLList {
 
     /** Creates an empty SLList. */
     public SLList() {
-        sentinel = new IntListNode(42, null);
+        sentinel = new IntListNode(null);
         sentinel.next = sentinel;
         size = 0;
     }
 
     public SLList(int x) {
-        sentinel = new IntListNode(42, null);
+        sentinel = new IntListNode( null);
         sentinel.next = new IntListNode(x, null);
         sentinel.next.next = sentinel;
         size = 1;
