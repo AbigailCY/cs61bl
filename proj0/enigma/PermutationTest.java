@@ -27,6 +27,7 @@ public class PermutationTest {
      *  vice-versa. TESTID is used in error messages. */
     private void checkPerm(String testId,
                            String fromAlpha, String toAlpha) {
+        System.out.println(testId+" "+fromAlpha+" "+toAlpha);
         int N = fromAlpha.length();
         assertEquals(testId + " (wrong length)", N, perm.size());
         for (int i = 0; i < N; i += 1) {
