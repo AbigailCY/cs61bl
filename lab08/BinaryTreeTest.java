@@ -16,8 +16,13 @@ public class BinaryTreeTest {
 
         List<String> tree1Contents = sampleTree1.getContents();
         assertEquals("a", tree1Contents.get(0));
-//        assertEquals(3, sampleTree4.height());
+        assertEquals(3, sampleTree4.height());
         assertEquals(true, sampleTree4.isCompletelyBalanced());
+
+
+        BinaryTree<Integer> fibbb = BinaryTree.fibTree(6);
+        List<Integer> fibContents = fibbb.getContents();
+        System.out.println(fibContents.get(0));
 
 
 //        fail("Add your own tests here, using the provided sample trees or your own trees.");

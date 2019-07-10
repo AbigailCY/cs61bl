@@ -102,21 +102,68 @@ public class BinaryTree<T> {
 
     /* Returns the height of the tree. */
     public int height() {
-        // TODO
-        return -1;
+        if (root == null) {
+            return 0;
+        } else if (this.getContents().size() == 1){
+            return 1;
+        } else {
+            return root.heightHelper();
+        }
     }
 
     /* Returns true if the tree's left and right children are the same height
        and are themselves completely balanced. */
     public boolean isCompletelyBalanced() {
-        // TODO
-        return false;
+        if (root == null) {
+            return true;
+        } else if (this.getContents().size() == 1){
+            return true;
+        }
+        return root.balanceHelper(true);
     }
 
+
+
     public static BinaryTree<Integer> fibTree(int N) {
-        // TODO
-        return null;
+        BinaryTree<Integer> fib = new BinaryTree<>();
+        fib.root = binaryTreeHelper(N);
+        return fib;
     }
+
+    public static TreeNode<Integer> binaryTreeHelper(int number) {
+        if ( number == 0) {
+            return new TreeNode<>(0);
+        }else if ( number == 1) {
+            return new TreeNode<>(1);
+        } else {
+            int fibNum = fibHelper(number);
+            TreeNode<Integer> mytree = new TreeNode<>(fibNum);
+            mytree.left = binaryTreeHelper(number - 1);
+            mytree.right = binaryTreeHelper(number - 2);
+            return mytree;
+        }
+    }
+
+    public static int fibHelper(int number) {
+        if (number == 0) {
+            return 0;
+        } else if (number == 1) {
+            return 1;
+        } else {
+            int fibnum1 = 0;
+            int fibnum2 = 1;
+            while (number > 1) {
+                int temp = fibnum2;
+                fibnum2 += fibnum1;
+                fibnum1 = temp;
+                number -= 1;
+            }
+            return fibnum2;
+        }
+    }
+
+
+
 
     private static class TreeNode<T> {
 
@@ -135,5 +182,37 @@ public class BinaryTree<T> {
             this.left = left;
             this.right = right;
         }
+
+        private int heightHelper() {
+            if(left == null && right == null) {
+                return 1;
+            } else if (left == null) {
+                return 1 + right.heightHelper();
+            } else if (right == null) {
+                return 1 + left.heightHelper();
+            } else {
+                int need = Math.max(left.heightHelper(), right.heightHelper());
+                return 1 + need;
+            }
+        }
+
+        private boolean balanceHelper(Boolean judge) {
+            if (left == null && right == null){
+                return true;
+            } else if (left == null) {
+                return false;
+            } else if (right == null) {
+                return false;
+            }
+
+            if (left.heightHelper() != right.heightHelper()) {
+                return false;
+            } else {
+                judge = left.balanceHelper(judge);
+                judge = right.balanceHelper(judge);
+            }
+            return judge;
+        }
+
     }
 }
