@@ -105,7 +105,22 @@ public class BinaryTree<T> {
      * Prints on a single line the items in preorder, each separated by a space.
      */
     public void preorder() {
-        // TODO
+        if (root == null) {
+            return;
+        }
+        root.preHelper(root);
+        System.out.println();
+//        System.out.print(root.item + " ");
+//        if (root.left != null) {
+//            TreeNode temp = root;
+//            root = root.left;
+//            preorder();
+//            root = temp;
+//        }
+//        if (root.right != null) {
+//            root = root.right;
+//            preorder();
+//        }
     }
 
     /**
@@ -113,7 +128,11 @@ public class BinaryTree<T> {
      * Prints on a single line the items in inorder, each separated by a space.
      */
     public void inorder() {
-        // TODO
+        if (root == null) {
+            return;
+        }
+        root.inHelper(root);
+        System.out.println();
     }
 
     /**
@@ -121,7 +140,11 @@ public class BinaryTree<T> {
      * Prints on a single line the items in postorder, each separated by a space.
      */
     public void postorder() {
-        // TODO
+        if (root == null) {
+            return;
+        }
+        root.postHelper(root);
+        System.out.println();
     }
 
     /**
@@ -129,7 +152,23 @@ public class BinaryTree<T> {
      * Prints on a single line the items in dfs, each separated by a space.
      */
     public void dfs() {
-        // TODO
+        if (root == null) {
+            return;
+        }
+        TreeNode temp = root;
+        LinkedList<TreeNode> treeList = new LinkedList<>();
+        treeList.addFirst(temp);
+        while (treeList.size() != 0) {
+            temp = treeList.removeFirst();
+            if (temp.right != null) {
+                treeList.addFirst(temp.right);
+            }
+            if (temp.left != null) {
+                treeList.addFirst(temp.left);
+            }
+            System.out.print(temp.item + " ");
+        }
+        System.out.println();
     }
 
     /**
@@ -137,7 +176,23 @@ public class BinaryTree<T> {
      * Prints on a single line the items in bfs, each separated by a space.
      */
     public void bfs() {
-        // TODO
+        if (root == null) {
+            return;
+        }
+        TreeNode temp = root;
+        LinkedList<TreeNode> treeList = new LinkedList<>();
+        treeList.addLast(temp);
+        while (treeList.size() != 0) {
+            temp = treeList.removeFirst();
+            if (temp.left != null) {
+                treeList.addLast(temp.left);
+            }
+            if (temp.right != null) {
+                treeList.addLast(temp.right);
+            }
+            System.out.print(temp.item + " ");
+        }
+        System.out.println();
     }
 
     /**
@@ -146,13 +201,30 @@ public class BinaryTree<T> {
      * @return the dfs list of items.
      */
     public void printSumPaths(int k) {
-        // FIXME
-        sumPaths(null, -1, null);
+        if (root == null) {
+            return;
+        }
+        sumPaths(root, k, Integer.toString((int) root.item));
     }
 
     private void sumPaths(TreeNode n, int k, String path) {
         int currItem = (int) n.item;
-        // TODO
+
+        if (n.left == null && n.right == null) {
+            if (k - currItem == 0) {
+                System.out.println(path);
+                return;
+            } else if (k - currItem < 0) {
+                return;
+            }
+        }
+
+        if (n.left != null) {
+            sumPaths(n.left, k - currItem, path + " " + Integer.toString((int) n.left.item));
+        }
+        if (n.right != null) {
+            sumPaths(n.right, k - currItem, path + (" " + Integer.toString((int) n.right.item)));
+        }
     }
 
     private class TreeNode {
@@ -171,6 +243,36 @@ public class BinaryTree<T> {
             item = obj;
             this.left = left;
             this.right = right;
+        }
+
+        public void preHelper(TreeNode node){
+            System.out.print(node.item + " ");
+            if (node.left != null) {
+                preHelper(node.left);
+            }
+            if (node.right != null) {
+                preHelper(node.right);
+            }
+        }
+
+        public void inHelper(TreeNode node){
+            if (node.left != null) {
+                inHelper(node.left);
+            }
+            System.out.print(node.item + " ");
+            if (node.right != null) {
+                inHelper(node.right);
+            }
+        }
+
+        public void postHelper(TreeNode node){
+            if (node.left != null) {
+                postHelper(node.left);
+            }
+            if (node.right != null) {
+                postHelper(node.right);
+            }
+            System.out.print(node.item + " ");
         }
     }
 }
