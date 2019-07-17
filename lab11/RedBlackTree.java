@@ -117,6 +117,9 @@ public class RedBlackTree<T extends Comparable<T>> {
     private RBTreeNode<T> insert(RBTreeNode<T> node, T item, RBTreeNode<T> parent) {
     	// Optional helper method
     	// HINT: Remember to handle each of the cases from the spec
+        if (item == null) {
+            return null;
+        }
         if (node == null) {
             node = new RBTreeNode<>(false, item);
             if (parent.item.compareTo(item) > 0) {
@@ -136,14 +139,14 @@ public class RedBlackTree<T extends Comparable<T>> {
             }
 
             if (!parent.isBlack && parent.left == node) {
-                rotateRight(parent);
+                parent = rotateRight(parent);
             }
 
             if (!parent.isBlack && parent.right == node) {
-                rotateLeft(findParent(parent, root));
+                parent = rotateLeft(findParent(parent, root));
             }
 
-            if (parent.isBlack && !node.isBlack) {
+            if (parent.isBlack && !parent.left.isBlack && !parent.right.isBlack) {
                 flipColors(parent);
             }
 
