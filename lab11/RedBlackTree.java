@@ -63,10 +63,11 @@ public class RedBlackTree<T extends Comparable<T>> {
         if (node.left == null) {
             return null;
         }
-        RBTreeNode<T> temp = node;
+        RBTreeNode<T> temp = new RBTreeNode<>(node.isBlack, node.item, node.left, node.right);
         node.left = temp.left.right;
         temp.left.right = node;
-        temp.left.isBlack = true;
+        temp.left.isBlack = temp.isBlack;
+        node.isBlack = false;
         return temp.left;
     }
 
@@ -76,10 +77,11 @@ public class RedBlackTree<T extends Comparable<T>> {
         if (node.right == null) {
             return null;
         }
-        RBTreeNode<T> temp = node;
+        RBTreeNode<T> temp = new RBTreeNode<>(node.isBlack, node.item, node.left, node.right);
         node.right = temp.right.left;
         temp.right.left = node;
-        temp.left.isBlack = true;
+        temp.right.isBlack = temp.isBlack;
+        node.isBlack = false;
         return temp.right;
     }
 
