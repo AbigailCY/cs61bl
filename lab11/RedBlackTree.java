@@ -50,16 +50,18 @@ public class RedBlackTree<T extends Comparable<T>> {
        and right children. */
     void flipColors(RBTreeNode<T> node) {
         node.isBlack = !node.isBlack;
-        node.left.isBlack = !node.left.isBlack;
-        node.right.isBlack = !node.right.isBlack;
+        if (node.left != null) {
+            node.left.isBlack = !node.left.isBlack;
+        }
+        if (node.right != null) {
+            node.right.isBlack = !node.right.isBlack;
+        }
     }
 
     /* Rotates the given node NODE to the right. Returns the new root node of
        this subtree. */
     RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
-//        temp = thhis.(item);thhis.left=node(5);5.right=node.left;(order!!!)
-//        the node we hhave reference to is teh old parent, it should not become
-//        switchh colors old parent = child =  black, new parent red
+
         if (node.left == null) {
             return null;
         }
@@ -89,15 +91,42 @@ public class RedBlackTree<T extends Comparable<T>> {
 //        helper fcn.   root.helper; root black
 //        hhelper fcn:return RBTreeNode. 1. regular BST insertion 2. check diff 2.insert red to lest, rotate left 3. if old have to consective children, rotate tighht....
 //        4.if leaf has tewo red children, split
-
-        root = insert(root, item);
-
+        if (root == null) {
+            root = new RBTreeNode<>(true, item);
+            return;
+        }
+        insert(root, item, null);
+        root.isBlack = true;
     }
 
-    private RBTreeNode<T> insert(RBTreeNode<T> node, T item) {
+    private RBTreeNode<T> insert(RBTreeNode<T> node, T item, RBTreeNode<T> parent) {
     	// Optional helper method
     	// HINT: Remember to handle each of the cases from the spec
-    	return null;
+        if (node == null) {
+            node = new RBTreeNode<>(false, item);
+
+            if (parent.left == node) {
+                boolean oldcolor = parent.isBlack;
+                parent = rotateRight(parent);
+                parent.isBlack = oldcolor;
+                parent.right.isBlack = false;
+            } else if (!parent.isBlack && !node.isBlack) {
+                parent = rotateRight(parent);
+                flipColors(parent);
+            }
+
+            return node;
+        }
+
+        if (node.item.compareTo(item) == 0) {
+            return node;
+        } else if (node.item.compareTo(item) > 0) {
+            insert(node.left, item, node);
+        } else if (node.item.compareTo(item) < 0) {
+            insert(node.right, item, node);
+        }
+
+    	return node;
     }
 
     /* Returns whether the given node NODE is red. Null nodes (children of leaf
