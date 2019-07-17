@@ -61,16 +61,20 @@ public class RedBlackTree<T extends Comparable<T>> {
 //        the node we hhave reference to is teh old parent, it should not become
 //        switchh colors old parent = child =  black, new parent red
         RBTreeNode<T> temp = node;
-
-
-        return null;
+        node.left = temp.left.right;
+        temp.left.right = node;
+        flipColors(temp.left);
+        return temp.left;
     }
 
     /* Rotates the given node NODE to the left. Returns the new root node of
        this subtree. */
     RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
-        // TODO: YOUR CODE HERE
-        return null;
+        RBTreeNode<T> temp = node;
+        node.right = temp.right.left;
+        temp.right.left = node;
+        flipColors(temp.right);
+        return temp.right;
     }
 
     void insert(T item) {
