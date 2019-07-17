@@ -119,6 +119,11 @@ public class RedBlackTree<T extends Comparable<T>> {
     	// HINT: Remember to handle each of the cases from the spec
         if (node == null) {
             node = new RBTreeNode<>(false, item);
+            if (parent.item.compareTo(item) > 0) {
+                parent.left = node;
+            } else {
+                parent.right = node;
+            }
 
             if (parent.isBlack && parent.right == null) {
                 boolean oldcolor = parent.isBlack;
@@ -205,15 +210,24 @@ public class RedBlackTree<T extends Comparable<T>> {
     /* Main method to help test constructor. Feel free to modify */
     public static void main(String[] args) {
         BTree<Integer> bTree = new BTree<>();
-        bTree.root = new BTree.TwoThreeFourNode<>(3, 4);
+        bTree.root = new BTree.TwoThreeFourNode<>(5, 7, 11);
         RedBlackTree<Integer> rbTree = new RedBlackTree<>(bTree);
         System.out.println((rbTree.root != null));
-        System.out.println((rbTree.root.left == null));
+//        System.out.println((rbTree.root.left == null));
         System.out.println((rbTree.root.right != null));
-        System.out.println((rbTree.root.isBlack));
-        System.out.println((!rbTree.root.right.isBlack));
-        System.out.println(3 == rbTree.root.item);
-        System.out.println(4 == rbTree.root.right.item);
+//        System.out.println((rbTree.root.isBlack));
+//        System.out.println((!rbTree.root.right.isBlack));
+//        System.out.println(3 == rbTree.root.item);
+//        System.out.println(4 == rbTree.root.right.item);
+        rbTree.root.left.left = new RBTreeNode<>(true, 3);
+        rbTree.root.left.right = new RBTreeNode<>(true, 6);
+        rbTree.root.right.left = new RBTreeNode<>(true, 10);
+        rbTree.root.right.right = new RBTreeNode<>(true, 13);
+//        System.out.println(rbTree.root.left.item);
+//        rbTree.rotateLeft(rbTree.root.left);
+//        System.out.println(rbTree.root.left.item);
+        rbTree.insert(9);
+//        System.out.println(rbTree.root.right.left.item);
     }
 
 }
