@@ -122,7 +122,7 @@ public class RedBlackTree<T extends Comparable<T>> {
 
             if (parent.isBlack && parent.right == null) {
                 boolean oldcolor = parent.isBlack;
-                RBTreeNode<T> newHead = rotateLeft(parent);
+                RBTreeNode<T> newHead = rotateRight(parent);
                 newHead.isBlack = oldcolor;
                 newHead.right.isBlack = false;
                 return node;
