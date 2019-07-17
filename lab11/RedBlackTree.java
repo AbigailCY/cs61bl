@@ -17,18 +17,33 @@ public class RedBlackTree<T extends Comparable<T>> {
     /* Builds a RedBlackTree that has isometry with given 2-3-4 tree rooted at
        given node R, and returns the root node. */
     RBTreeNode<T> buildRedBlackTree(Node<T> r) {
-        // TODO: YOUR CODE HERE
+
         // HINT: Having a case for each number of items in r might help
-
-//        if r = null. return null
-        if (r.getItemCount() == 1){
-//            recurse on left and right
-        } else if (r.getItemCount() == 2) {
-//            the first one black larger; second red, assigh it as teh left child, BST insertion;;recurse on blacknode.left.left,red.left.right
-        } else if (r.getItemCount() == 3) {
-
+        if (r == null) {
+            return null;
         }
-        return null;
+
+        RBTreeNode<T> rootNode = null;
+        if (r.getItemCount() == 1){
+            rootNode = new RBTreeNode(true, r.getItemAt(0));
+            rootNode.left = buildRedBlackTree(r.getChildAt(0));
+            rootNode.right = buildRedBlackTree(r.getChildAt(1));
+        } else if (r.getItemCount() == 2) {
+            rootNode = new RBTreeNode<> (true, r.getItemAt(0));
+            rootNode.right = new RBTreeNode<> (false, r.getItemAt(1));
+            rootNode.left = buildRedBlackTree(r.getChildAt(0));
+            rootNode.right.left = buildRedBlackTree(r.getChildAt(1));
+            rootNode.right.right = buildRedBlackTree(r.getChildAt(2));
+        } else if (r.getItemCount() == 3) {
+            rootNode = new RBTreeNode<> (true, r.getItemAt(1));
+            rootNode.left = new RBTreeNode<> (false, r.getItemAt(0));
+            rootNode.right = new RBTreeNode<> (false, r.getItemAt(2));
+            rootNode.left.left = buildRedBlackTree(r.getChildAt(0));
+            rootNode.left.right = buildRedBlackTree(r.getChildAt(1));
+            rootNode.right.left = buildRedBlackTree(r.getChildAt(2));
+            rootNode.right.right = buildRedBlackTree(r.getChildAt(3));
+        }
+        return rootNode;
     }
 
     /* Flips the color of NODE and its children. Assume that NODE has both left
@@ -42,10 +57,12 @@ public class RedBlackTree<T extends Comparable<T>> {
     /* Rotates the given node NODE to the right. Returns the new root node of
        this subtree. */
     RBTreeNode<T> rotateRight(RBTreeNode<T> node) {
-        // TODO: YOUR CODE HERE
 //        temp = thhis.(item);thhis.left=node(5);5.right=node.left;(order!!!)
 //        the node we hhave reference to is teh old parent, it should not become
 //        switchh colors old parent = child =  black, new parent red
+        RBTreeNode<T> temp = node;
+
+
         return null;
     }
 
