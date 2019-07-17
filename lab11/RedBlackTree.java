@@ -60,20 +60,26 @@ public class RedBlackTree<T extends Comparable<T>> {
 //        temp = thhis.(item);thhis.left=node(5);5.right=node.left;(order!!!)
 //        the node we hhave reference to is teh old parent, it should not become
 //        switchh colors old parent = child =  black, new parent red
+        if (node.left == null) {
+            return null;
+        }
         RBTreeNode<T> temp = node;
         node.left = temp.left.right;
         temp.left.right = node;
-        flipColors(temp.left);
+        temp.left.isBlack = true;
         return temp.left;
     }
 
     /* Rotates the given node NODE to the left. Returns the new root node of
        this subtree. */
     RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
+        if (node.right == null) {
+            return null;
+        }
         RBTreeNode<T> temp = node;
         node.right = temp.right.left;
         temp.right.left = node;
-        flipColors(temp.right);
+        temp.left.isBlack = true;
         return temp.right;
     }
 
@@ -82,7 +88,8 @@ public class RedBlackTree<T extends Comparable<T>> {
 //        hhelper fcn:return RBTreeNode. 1. regular BST insertion 2. check diff 2.insert red to lest, rotate left 3. if old have to consective children, rotate tighht....
 //        4.if leaf has tewo red children, split
 
-        // TODO: YOUR CODE HERE
+        root = insert(root, item);
+
     }
 
     private RBTreeNode<T> insert(RBTreeNode<T> node, T item) {
