@@ -88,9 +88,7 @@ public class RedBlackTree<T extends Comparable<T>> {
     }
 
     void insert(T item) {
-//        helper fcn.   root.helper; root black
-//        hhelper fcn:return RBTreeNode. 1. regular BST insertion 2. check diff 2.insert red to lest, rotate left 3. if old have to consective children, rotate tighht....
-//        4.if leaf has tewo red children, split
+
         if (root == null) {
             root = new RBTreeNode<>(true, item);
             return;
@@ -105,13 +103,26 @@ public class RedBlackTree<T extends Comparable<T>> {
         if (node == null) {
             node = new RBTreeNode<>(false, item);
 
-            if (parent.left == node) {
+            if (parent.isBlack && parent.right == null) {
                 boolean oldcolor = parent.isBlack;
-                parent = rotateRight(parent);
+                parent = rotateLeft(parent);
                 parent.isBlack = oldcolor;
                 parent.right.isBlack = false;
-            } else if (!parent.isBlack && !node.isBlack) {
+                return node;
+            } else if (parent.isBlack && parent.left == null) {
+                return node;
+            }
+
+            if (!parent.isBlack && parent.left == node) {
                 parent = rotateRight(parent);
+            }
+
+            if (!parent.isBlack && parent.right == node) {
+                RBTreeNode<T> pParent = findParent(parent, root);
+                pParent = rotateLeft(findParent(parent, root));
+            }
+
+            if (parent.isBlack && !node.isBlack) {
                 flipColors(parent);
             }
 
@@ -121,12 +132,28 @@ public class RedBlackTree<T extends Comparable<T>> {
         if (node.item.compareTo(item) == 0) {
             return node;
         } else if (node.item.compareTo(item) > 0) {
-            insert(node.left, item, node);
-        } else if (node.item.compareTo(item) < 0) {
-            insert(node.right, item, node);
+            return insert(node.left, item, node);
+        } else {
+            return insert(node.right, item, node);
         }
+    }
 
-    	return node;
+    private RBTreeNode<T> findParent(RBTreeNode<T> node, RBTreeNode<T> psudoP) {
+        if (psudoP == null) {
+            return null;
+        }
+        if (psudoP.left == node) {
+            return psudoP;
+        } else if (psudoP.right ==node) {
+            return psudoP;
+        }
+        RBTreeNode<T> a = findParent(node, psudoP.left);
+        RBTreeNode<T> b = findParent(node, psudoP.right);
+        if (a == null) {
+            return b;
+        } else {
+            return a;
+        }
     }
 
     /* Returns whether the given node NODE is red. Null nodes (children of leaf
