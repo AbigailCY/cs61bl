@@ -66,6 +66,14 @@ public class RedBlackTree<T extends Comparable<T>> {
             return null;
         }
         RBTreeNode<T> temp = new RBTreeNode<>(node.isBlack, node.item, node.left, node.right);
+        if (findParent(node, root) != null) {
+            RBTreeNode<T> parent = findParent(node, root);
+            if (parent.left == node) {
+                parent.left = temp.left;
+            } else if (parent.right == node) {
+                parent.right = temp.left;
+            }
+        }
         node.left = temp.left.right;
         temp.left.right = node;
         temp.left.isBlack = temp.isBlack;
@@ -80,10 +88,19 @@ public class RedBlackTree<T extends Comparable<T>> {
             return null;
         }
         RBTreeNode<T> temp = new RBTreeNode<>(node.isBlack, node.item, node.left, node.right);
+        if (findParent(node, root) != null) {
+            RBTreeNode<T> parent = findParent(node, root);
+            if (parent.left == node) {
+                parent.left = temp.right;
+            } else if (parent.right == node) {
+                parent.right = temp.right;
+            }
+        }
         node.right = temp.right.left;
         temp.right.left = node;
         temp.right.isBlack = temp.isBlack;
         node.isBlack = false;
+
         return temp.right;
     }
 
@@ -105,21 +122,20 @@ public class RedBlackTree<T extends Comparable<T>> {
 
             if (parent.isBlack && parent.right == null) {
                 boolean oldcolor = parent.isBlack;
-                parent = rotateLeft(parent);
-                parent.isBlack = oldcolor;
-                parent.right.isBlack = false;
+                RBTreeNode<T> newHead = rotateLeft(parent);
+                newHead.isBlack = oldcolor;
+                newHead.right.isBlack = false;
                 return node;
             } else if (parent.isBlack && parent.left == null) {
                 return node;
             }
 
             if (!parent.isBlack && parent.left == node) {
-                parent = rotateRight(parent);
+                rotateRight(parent);
             }
 
             if (!parent.isBlack && parent.right == node) {
-                RBTreeNode<T> pParent = findParent(parent, root);
-                pParent = rotateLeft(findParent(parent, root));
+                rotateLeft(findParent(parent, root));
             }
 
             if (parent.isBlack && !node.isBlack) {
