@@ -23,11 +23,11 @@ public class BST<T> {
             T temp = Q.poll();
             arrTree[i] = temp;
         }
-        root = sqtHelper(arrTree, 0, N-1)
+        root = sqtHelper(arrTree, 0, N-1);
         return root;
     }
 
-    private BSTNode<T> sqtHelper(T[] arrTree,int start, int end) {
+    private BSTNode<T> sqtHelper(T[] arrTree, int start, int end) {
         if (start > end) {
             return null;
         }
