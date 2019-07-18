@@ -138,17 +138,25 @@ public class RedBlackTree<T extends Comparable<T>> {
                 return node;
             }
 
-            if (!parent.isBlack && parent.left == node) {
+            if (!parent.isBlack && findParent(parent, root).right == parent && parent.left == node) {
                 parent = rotateRight(parent);
             }
 
-            if (!parent.isBlack && parent.right == node) {
+            if (!parent.isBlack && findParent(parent, root).right == parent && parent.right == node) {
                 parent = rotateLeft(findParent(parent, root));
             }
 
-            if (parent.isBlack && !parent.left.isBlack && !parent.right.isBlack) {
-                flipColors(parent);
+            if (!parent.isBlack && findParent(parent, root).left == parent && parent.left == node) {
+                parent = rotateLeft(parent);
             }
+
+            if (!parent.isBlack && findParent(parent, root).left == parent && parent.right == node) {
+                parent = rotateRight(findParent(parent, root));
+            }
+
+//            if (parent.isBlack && !parent.left.isBlack && !parent.right.isBlack) {
+//                flipColors(parent);
+//            }
 
             return node;
         }
@@ -230,6 +238,11 @@ public class RedBlackTree<T extends Comparable<T>> {
 //        rbTree.rotateLeft(rbTree.root.left);
 //        System.out.println(rbTree.root.left.item);
         rbTree.insert(9);
+        rbTree.insert(8);
+        rbTree.insert(12);
+        rbTree.insert(19);
+        rbTree.insert(2);
+        rbTree.insert(1);
 //        System.out.println(rbTree.root.right.left.item);
     }
 
