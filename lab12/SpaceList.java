@@ -8,9 +8,15 @@ import java.util.Iterator;
  *   getLast: The item we want to return is in position size - 2
  *   size: The number of items in the list should be size/2.
  */
-public class SpaceList<Item> implements Iterable<Item> {
+public class SpaceList<Item> implements Iterable<Item>{
     private Item[] items;
     private int size;
+
+    /** Creates an empty list. */
+    public SpaceList() {
+        items = (Item[]) new Object[16];
+        size = 0;
+    }
 
     @Override
     public Iterator<Item> iterator() {
@@ -18,33 +24,22 @@ public class SpaceList<Item> implements Iterable<Item> {
     }
 
     private class SpaceListIterator implements Iterator<Item> {
-
-        private int bookmark = 0;
-
-        @Override
-        public Item next() {
-            Item toReturn = items[bookmark];
-            bookmark += 2;
-
-            return toReturn;
-        }
+        private int index;
 
         @Override
         public boolean hasNext() {
-            if (bookmark > size - 2){
-                return false;
-            }else if (items[bookmark] == (Item[]) new Object[1][0]) {
+            if (size == 0) {
                 return false;
             }
-            return true;
+            return !(index == size);
         }
 
-
+        @Override
+        public Item next() {
+            Item result = items[index];
+            index += 2;
+            return result;
         }
-    /** Creates an empty list. */
-    public SpaceList() {
-        items = (Item[]) new Object[16];
-        size = 0;
     }
 
     /** Resizes the underlying array to the target capacity. */
