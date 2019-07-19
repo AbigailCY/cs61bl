@@ -180,9 +180,9 @@ public class Lockdown implements Iterable<String[]> {
             int[] pos = getDirection(from, moveDir);
             int[] block = getDirection(pos, blockDir);
             String[] result = new String[]{getPosition(pos), getPosition(block)};
-            makeMove(getPosition(pos), getPosition(block));
             this.from = pos;
-
+            moveDir = -1;
+            blockDir = -1;
             return result;
 
         }
