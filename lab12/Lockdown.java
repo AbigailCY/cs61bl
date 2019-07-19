@@ -151,6 +151,9 @@ public class Lockdown implements Iterable<String[]> {
         @Override
         public boolean hasNext() {
             nextPos();
+            if (moveDir == 7 && blockDir == 7) {
+                return false;
+            }
             if (moveDir == 8) {
                 return false;
             }
@@ -160,12 +163,11 @@ public class Lockdown implements Iterable<String[]> {
         /* A helper method to calculate the next valid position. */
         private void nextPos() {
 
-
             while (true) {
+                if (moveDir == 8) {
+                    return;
+                }
                 while (!moveAvailable(from, getDirection(from, moveDir), from)) {
-                    if (moveDir == 8) {
-                        return;
-                    }
                     moveDir += 1;
                     if (moveDir == 8) {
                         return;
@@ -173,12 +175,14 @@ public class Lockdown implements Iterable<String[]> {
                 }
                 int[] to = getDirection(from, moveDir);
                 while (!moveAvailable(to, getDirection(to, blockDir), from)) {
-                    blockDir += 1;
-                    if (blockDir == 8) {
+                    if (moveDir == 7 && blockDir == 7) {
+                        return;
+                    } else if (blockDir == 7) {
                         moveDir += 1;
                         blockDir = 0;
                         break;
                     }
+                    blockDir += 1;
                 }
                 if (moveAvailable(from, getDirection(from, moveDir), from) && moveAvailable(to, getDirection(to, blockDir), from)) {
                     return;
