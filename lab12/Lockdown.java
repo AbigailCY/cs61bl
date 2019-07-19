@@ -137,10 +137,10 @@ public class Lockdown implements Iterable<String[]> {
         int[] from;
 
         /* Direction in which I am attempting to move. */
-        int moveDir = -1;
+        int moveDir = 0;
 
         /* Direction in which I am attempting to block. */
-        int blockDir = -1;
+        int blockDir = 0;
 
         /* Constructor which takes in FROM, a position to move from.
          */
@@ -151,42 +151,55 @@ public class Lockdown implements Iterable<String[]> {
         @Override
         public boolean hasNext() {
             nextPos();
-            if (moveDir != -1 && blockDir != -1) {
-//                moveDir = -1;
-//                blockDir = -1;
-                return true;
+            if (moveDir == 8) {
+                return false;
             }
-            return false;
+            return true;
         }
 
         /* A helper method to calculate the next valid position. */
         private void nextPos() {
-            for (int i = 0; i < 8; i++) {
-                int[] mayM = getDirection(from, i);
-                if (moveAvailable(from, mayM, from)) {
-                    moveDir = i;
-                    for (int j = 0; j < 8; j++) {
-                        int[] mayB = getDirection(mayM, j);
-                        if (moveAvailable(mayM, mayB, from)) {
-                            blockDir = j;
-                            break;
-                        }
+
+
+            while (true) {
+                while (!moveAvailable(from, getDirection(from, moveDir), from)) {
+                    if (moveDir == 8) {
+                        return;
+                    }
+                    moveDir += 1;
+                    if (moveDir == 8) {
+                        return;
                     }
                 }
+                int[] to = getDirection(from, moveDir);
+                while (!moveAvailable(to, getDirection(to, blockDir), from)) {
+                    blockDir += 1;
+                    if (blockDir == 8) {
+                        moveDir += 1;
+                        blockDir = 0;
+                        break;
+                    }
+                }
+                if (moveAvailable(from, getDirection(from, moveDir), from) && moveAvailable(to, getDirection(to, blockDir), from)) {
+                    return;
+                }
             }
+
         }
 
         @Override
         public String[] next() {
-//            nextPos();
-            int[] pos = getDirection(from, moveDir);
-            int[] block = getDirection(pos, blockDir);
-            String[] result = new String[]{getPosition(pos), getPosition(block)};
-            this.from = pos;
-            moveDir = -1;
-            blockDir = -1;
-            return result;
+            int[] me = getDirection(from, moveDir);
+            int[] block = getDirection(me, blockDir);
 
+            if (blockDir == 7) {
+                blockDir = 0;
+                moveDir += 1;
+            } else {
+                blockDir += 1;
+            }
+
+            return new String[]{getPosition(me), getPosition(block)};
         }
     }
     
@@ -220,7 +233,7 @@ public class Lockdown implements Iterable<String[]> {
     }
 
     public static void main(String[] args) {
-        // You can modify this line in order to change the size of the board
+//         You can modify this line in order to change the size of the board
         Lockdown game = new Lockdown(5);
         Scanner reader = new Scanner(System.in);
         while (game.iterator().hasNext()) {
@@ -237,5 +250,6 @@ public class Lockdown implements Iterable<String[]> {
             }
         }
         System.out.println(game.turn() + " loses!");
+
     }
 }
