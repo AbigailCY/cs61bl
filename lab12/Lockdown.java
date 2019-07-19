@@ -176,11 +176,15 @@ public class Lockdown implements Iterable<String[]> {
 
         @Override
         public String[] next() {
+
             int[] pos = getDirection(from, moveDir);
             int[] block = getDirection(pos, blockDir);
             String[] result = new String[]{getPosition(pos), getPosition(block)};
-            from = pos;
+            makeMove(getPosition(pos), getPosition(block));
+            this.from = pos;
+
             return result;
+
         }
     }
     
