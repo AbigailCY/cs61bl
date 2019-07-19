@@ -152,6 +152,8 @@ public class Lockdown implements Iterable<String[]> {
         public boolean hasNext() {
             nextPos();
             if (moveDir != -1 && blockDir != -1) {
+                moveDir = -1;
+                blockDir = -1;
                 return true;
             }
             return false;
@@ -176,7 +178,7 @@ public class Lockdown implements Iterable<String[]> {
 
         @Override
         public String[] next() {
-
+            nextPos();
             int[] pos = getDirection(from, moveDir);
             int[] block = getDirection(pos, blockDir);
             String[] result = new String[]{getPosition(pos), getPosition(block)};
