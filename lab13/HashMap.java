@@ -1,8 +1,8 @@
 import java.util.Iterator;
 import java.util.LinkedList;
-//import java.util.Map;
 
-public class HashMap<K, V> implements Map61BL<K, V> {
+
+public class HashMap<K, V> implements Map61BL<K, V>, Iterable<K> {
 
     private LinkedList<Entry<K, V>>[] map;
     private double maxFactor;
@@ -129,6 +129,10 @@ public class HashMap<K, V> implements Map61BL<K, V> {
 
     @Override
     public boolean remove(K key, V value) {
+        if (containsKey(key) && get(key) == value) {
+            remove(key);
+            return true;
+        }
         return false;
     }
 
@@ -139,7 +143,59 @@ public class HashMap<K, V> implements Map61BL<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return new HashMapIterator(size);
+    }
+
+    private class HashMapIterator implements Iterator<K> {
+        private int number;
+        private int currNum;
+        private int[] pos;
+
+
+
+
+        HashMapIterator(int number) {
+            this.number = number;
+            this.currNum = 0;
+            this.pos = new int[]{0, 0};
+
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (currNum < number) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public K next() {
+            while (hasNext()) {
+                while (map[pos[0]] == null) {
+                    pos[0] += 1;
+                }
+                K toReturn = map[pos[0]].get(pos[1]).key;
+                currNum += 1;
+                if (pos[1] < map[pos[0]].size() - 1) {
+                    pos[1] += 1;
+                } else {
+                    pos[0] += 1;
+                    pos[1] = 0;
+                }
+
+                return toReturn;
+            }
+            return null;
+        }
+
+        @Override
+        public void remove() {
+            while (map[pos[0]] == null) {
+                pos[0] += 1;
+            }
+            map[pos[0]].remove(pos[1]);
+        }
     }
 
 
@@ -173,7 +229,16 @@ public class HashMap<K, V> implements Map61BL<K, V> {
     }
 
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
+//        HashMap<String, Integer> studentIDs = new HashMap<String, Integer>();
+//        studentIDs.put("christine", 12345);
+//        studentIDs.put("itai", 345);
+//        studentIDs.put("jon", 162);
+//        studentIDs.put("zoe", 12345);
+//        HashSet<String> output = new HashSet<String>();
+//        for (String name : studentIDs) {
+//            output.add(name);
+//        }
 //        HashMap<String, String> dictionary = new HashMap<String, String>();
 //
 //
@@ -183,6 +248,6 @@ public class HashMap<K, V> implements Map61BL<K, V> {
 //
 //        // putting with existing key replaces key
 //        dictionary.put("won", "brandon");
-    }
-
+//    }
+//
 }
