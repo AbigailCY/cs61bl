@@ -127,19 +127,18 @@ public class SimpleNameMap {
         }
     }
 
-    public static void main(String[] args) {
-//        LinkedList<Entry>[] arr = new LinkedList[26];
-//        arr[0] = new LinkedList<>();
-//        Entry aee = new Entry("Awa", "1");
-//        arr[0].addLast(aee);
-
-
-        SimpleNameMap newsm = new SimpleNameMap();
-        newsm.put("Awa", "1");
-        newsm.put("Ana","2");
-        newsm.put("ana","2");
-        System.out.println(newsm.get("Ana"));
-        newsm.remove("Awa");
-    }
+//    public static void main(String[] args) {
+////        LinkedList<Entry>[] arr = new LinkedList[26];
+////        arr[0] = new LinkedList<>();
+////        Entry aee = new Entry("Awa", "1");
+////        arr[0].addLast(aee);
+//
+//        SimpleNameMap newsm = new SimpleNameMap();
+//        newsm.put("Awa", "1");
+//        newsm.put("Ana", "2");
+//        newsm.put("ana", "2");
+//        System.out.println(newsm.get("Ana"));
+//        newsm.remove("Awa");
+//    }
 
 }
