@@ -69,7 +69,7 @@ public class MinHeap<E extends Comparable<E>> {
 
     /* Returns the index of the left child of the element at index INDEX. */
     private int getLeftOf(int index) {
-        if (contents.get(2 * index) != null) {
+        if (2 * index <= size && contents.get(2 * index) != null) {
             return 2 * index;
         } else {
             return -1;
@@ -78,7 +78,7 @@ public class MinHeap<E extends Comparable<E>> {
 
     /* Returns the index of the right child of the element at index INDEX. */
     private int getRightOf(int index) {
-        if (contents.get(2 * index + 1) != null) {
+        if (2 * index + 1 <= size && contents.get(2 * index + 1) != null) {
             return 2 * index + 1;
         } else {
             return -1;
@@ -117,8 +117,8 @@ public class MinHeap<E extends Comparable<E>> {
 
     /* Bubbles up the element currently at index INDEX. */
     private void bubbleUp(int index) {
-        while (index != 1 || getParentOf(index) != -1 && contents.get(getParentOf(index)).compareTo(contents.get(index)) > 0) {
-            E toSwap = contents.get(getParentOf(index));
+        while (getParentOf(index) != -1 && contents.get(getParentOf(index)).compareTo(contents.get(index)) > 0) {
+            if (index == 1) { break; }
             swap(getParentOf(index), index);
             index = getParentOf(index);
         }
@@ -126,11 +126,6 @@ public class MinHeap<E extends Comparable<E>> {
 
     /* Bubbles down the element currently at index INDEX. */
     private void bubbleDown(int index) {
-        while (getLeftOf(index) != -1 && contents.get(getLeftOf(index)).compareTo(contents.get(index)) < 0) {
-            swap(index, getLeftOf(index));
-            index = getLeftOf(index);
-        }
-
         while (true) {
             if (getLeftOf(index) != -1 && getRightOf(index) != -1) {
                 int toChild = min(getLeftOf(index), getRightOf(index));
@@ -158,23 +153,36 @@ public class MinHeap<E extends Comparable<E>> {
     /* Inserts ELEMENT into the MinHeap. If ELEMENT is already in the MinHeap,
        throw an IllegalArgumentException.*/
     public void insert(E element) {
-        contents.add(size + 1, element);
-        size += 1;
-        bubbleUp(size + 1);
+        if (contains(element)) {
+            try {
+                throw new IllegalAccessException();
+            } catch (IllegalAccessException e) {
+                System.out.println("Already exists!");
+            }
+        } else {
+            contents.add(element);
+            size += 1;
+            bubbleUp(size);
+        }
     }
 
     /* Returns and removes the smallest element in the MinHeap. */
     public E removeMin() {
+        if (contents.get(1) == null) {
+            return null;
+        }
         if (getRightOf(1) == -1) {
+            size -= 1;
             return contents.remove(1);
         } else {
             int right = getRightOf(1);
             while (getRightOf(right) != -1) {
                 right = getRightOf(right);
             }
-            swap(1, getRightOf(right));
+            swap(1, right);
             bubbleDown(1);
-            return contents.remove(getRightOf(right));
+            size -= 1;
+            return contents.remove(right);
         }
     }
 
