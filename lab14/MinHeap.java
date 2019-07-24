@@ -193,9 +193,10 @@ public class MinHeap<E extends Comparable<E>> {
                 right = getRightOf(right);
             }
             swap(1, right);
-            bubbleDown(1);
+            E toReturn = contents.remove(right);
             size -= 1;
-            return contents.remove(right);
+            bubbleDown(1);
+            return toReturn;
         }
     }
 
