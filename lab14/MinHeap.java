@@ -185,7 +185,7 @@ public class MinHeap<E extends Comparable<E>> {
     public void update(E element) {
         if (contains(element)) {
             for (E i : contents) {
-                if (i.equals(element)) {
+                if (i != null && i.equals(element)) {
                     setElement(contents.indexOf(i), element);
                     break;
                 }
@@ -199,7 +199,7 @@ public class MinHeap<E extends Comparable<E>> {
        be checked using .equals(), not ==. */
     public boolean contains(E element) {
         for (E i : contents) {
-            if (i.equals(element)) {
+            if (i != null && i.equals(element)) {
                 return true;
             }
         }
