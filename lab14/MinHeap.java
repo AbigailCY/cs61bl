@@ -117,10 +117,15 @@ public class MinHeap<E extends Comparable<E>> {
 
     /* Bubbles up the element currently at index INDEX. */
     private void bubbleUp(int index) {
-        while (getParentOf(index) != -1 && contents.get(getParentOf(index)).compareTo(contents.get(index)) > 0) {
-            if (index == 1) { break; }
-            swap(getParentOf(index), index);
-            index = getParentOf(index);
+        while (getParentOf(index) != -1) {
+            if (index == 1) {
+                break;
+            } else if (contents.get(getParentOf(index)).compareTo(contents.get(index)) > 0) {
+                swap(getParentOf(index), index);
+                index = getParentOf(index);
+            } else {
+                break;
+            }
         }
     }
 
@@ -135,10 +140,18 @@ public class MinHeap<E extends Comparable<E>> {
                 } else {
                     break;
                 }
-            } else if (getLeftOf(index) != -1 && contents.get(getLeftOf(index)).compareTo(contents.get(index)) < 0) {
-                swap(index, getLeftOf(index));
-            } else if (getRightOf(index) != -1 && contents.get(getRightOf(index)).compareTo(contents.get(index)) < 0) {
-                swap(index, getRightOf(index));
+            } else if (getLeftOf(index) != -1) {
+                if (contents.get(getLeftOf(index)).compareTo(contents.get(index)) < 0) {
+                    swap(index, getLeftOf(index));
+                } else {
+                    break;
+                }
+            } else if (getRightOf(index) != -1) {
+                if (contents.get(getRightOf(index)).compareTo(contents.get(index)) < 0) {
+                    swap(index, getRightOf(index));
+                } else {
+                    break;
+                }
             } else {
                 break;
             }
@@ -194,7 +207,13 @@ public class MinHeap<E extends Comparable<E>> {
         if (contains(element)) {
             for (E i : contents) {
                 if (i != null && i.equals(element)) {
-                    setElement(contents.indexOf(i), element);
+                    int index = contents.indexOf(i);
+                    setElement(index, element);
+                    if (i.compareTo(element) > 0) {
+                        bubbleUp(index);
+                    } else if (i.compareTo(element) < 0) {
+                        bubbleDown(index);
+                    }
                     break;
                 }
             }
@@ -213,8 +232,4 @@ public class MinHeap<E extends Comparable<E>> {
         }
         return false;
     }
-
-//    public static void main(String[] args) {
-////        System.out.println("asd".compareTo("s"));
-//    }
 }

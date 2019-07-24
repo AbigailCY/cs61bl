@@ -5,5 +5,14 @@ public class MinHeapPQTest {
 
     @Test
     public void test1() {
+        MinHeapPQ<Integer> test1 = new MinHeapPQ();
+        test1.insert(2, 6);
+        test1.insert(3, 2);
+        test1.insert(4, 5);
+        test1.insert(5, 4);
+
+        test1.changePriority(5, 1);
+        test1.changePriority(5, 9);
+
     }
 }
