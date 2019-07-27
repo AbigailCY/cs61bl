@@ -268,13 +268,14 @@ public class Gitlet implements Serializable {
             Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
             Commit headCommit = heads.get(currBranch);
             for (String i : currFiles) {
-                String iD = new Blob(new File("./" + i)).getSHA();
-                if (currCommit.getContents().containsKey(i)
-                        && currCommit.getContents().get(i) != iD) {
-                    System.out.println(
-                            "There is an untracked file in the way; delete it or add it first.");
-                    return;
-
+                if (!headCommit.getContents().containsKey(i)) {
+                    String iD = new Blob(new File("./" + i)).getSHA();
+                    if (currCommit.getContents().containsKey(i)
+                            && currCommit.getContents().get(i) != iD) {
+                        System.out.println(
+                                "There is an untracked file in the way; delete it or add it first.");
+                        return;
+                    }
                 }
             }
 
