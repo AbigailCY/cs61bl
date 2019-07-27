@@ -11,13 +11,11 @@ import java.io.ObjectOutputStream;
 public class Blob implements Serializable {
     private byte[] content;
     private String filename;
-    private boolean toRemove;
 //    private File file;
 
     public Blob(File file) {
         content = Utils.readContents(file);
         filename = file.getName();
-        toRemove = false;
 //        this.file = file;
     }
 
@@ -30,11 +28,11 @@ public class Blob implements Serializable {
     }
 
     public String getSHA() {
-        return Utils.sha1(content);
-//        File newFile = serialize("./.gitlet/temp/");
-//        String hash = newFile.getName();
-//        newFile.delete();
-//        return hash;
+//        return Utils.sha1(content);
+        File newFile = serialize("./.gitlet/temp/");
+        String hash = newFile.getName();
+        newFile.delete();
+        return hash;
     }
 
 //    public File getFile() {
@@ -48,11 +46,11 @@ public class Blob implements Serializable {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path));
             out.writeObject(this);
             out.close();
-//            File newOut = new File(gitletDirectory + Utils.sha1(Utils.readContents(outFile)));
-//            newOut.createNewFile();
-//            Utils.writeContents(newOut, Utils.readContents(outFile));
-//            outFile.delete();
-            return outFile;
+            File newOut = new File(gitletDirectory + Utils.sha1(Utils.readContents(outFile)));
+            newOut.createNewFile();
+            Utils.writeContents(newOut, Utils.readContents(outFile));
+            outFile.delete();
+            return newOut;
         } catch (IOException excp) {
             System.out.println("1Error!");
             return null;
@@ -75,15 +73,6 @@ public class Blob implements Serializable {
 //            c.printStackTrace();
             return null;
         }
-    }
-
-
-    public boolean isToRemove() {
-        return toRemove;
-    }
-
-    public void setToRemove(boolean rm) {
-        toRemove = rm;
     }
 
 }

@@ -23,6 +23,8 @@ public class Gitlet implements Serializable {
     private HashMap<String, Commit> heads = new HashMap<>();
     //   Commits: commit SHA1 -- commit
     private HashMap<String, Commit> commits = new HashMap<>();
+//    Removes: remove file name--SHA
+    private HashMap<String, String> removes = new HashMap<>();
     private String currHeadID;
     private String currBranch;
     //    split points: (branch1, branch2) -- commitID
@@ -44,7 +46,7 @@ public class Gitlet implements Serializable {
             Files.createDirectory(pathGit);
             Files.createDirectory(Paths.get("./.gitlet/StagingArea/"));
             Files.createDirectory(Paths.get("./.gitlet/commit/"));
-//            Files.createDirectory(Paths.get("./.gitlet/temp/"));
+            Files.createDirectory(Paths.get("./.gitlet/temp/"));
 
             Commit initCommit = new Commit("initial commit", stagingArea, "./.gitlet/");
             currHeadID = initCommit.initializeID("./.gitlet/");
@@ -66,10 +68,8 @@ public class Gitlet implements Serializable {
             String path = "./" + filename;
             if (heads.get(currBranch).getContents().containsKey(filename)) {
                 String targetID = heads.get(currBranch).getContents().get(filename);
-                Blob targetBlob = Blob.deserialize("./.gitlet/" + targetID);
-                if (targetBlob.isToRemove()) {
-                    targetBlob.setToRemove(false);
-                    targetBlob.serialize("./.gitlet/");
+                if (removes.get(filename).equals(targetID)) {
+                    removes.remove(filename);
                 }
             }
 
@@ -79,8 +79,8 @@ public class Gitlet implements Serializable {
                     return;
                 }
             }
-            currFile.serialize("./.gitlet/StagingArea/");
-            stagingArea.put(filename, currFile.getSHA());
+            File myFile = currFile.serialize("./.gitlet/StagingArea/");
+            stagingArea.put(filename, myFile.getName());
         }
     }
 
@@ -90,13 +90,10 @@ public class Gitlet implements Serializable {
 //            boolean workingRm = false;
             Commit myCommit = Commit.deserialize("./.gitlet/", currHeadID);
             for (String name : myCommit.getContents().keySet()) {
-//                if (!new File("./" + name).exists()) {
-//                    workingRm = true;
-//                    Blob targetBlob = Blob.deserialize("./.gitlet/" + name);
-//                    targetBlob.setToRemove(true);
-//                    targetBlob.serialize("./.gitlet/");
-//                }
-                if (Blob.deserialize("./.gitlet/" + myCommit.getContents().get(name)).isToRemove()) {
+                if (removes.containsKey(name) && removes.containsValue(myCommit.getContents().get(name))) {
+                    rm = true;
+                } else if (!new File("./" + name).exists()) {
+                    removes.put(name, myCommit.getContents().get(name));
                     rm = true;
                 }
             }
@@ -106,11 +103,11 @@ public class Gitlet implements Serializable {
             }
         }
         Commit currCom = heads.get(currBranch);
-        Commit newCom = new Commit(currCom.getID(), message, stagingArea, commits, "./.gitlet/");
+        Commit newCom = new Commit(currCom.getID(), message, stagingArea, commits, "./.gitlet/", removes);
+        removes.clear();
         currHeadID = newCom.initializeID("./.gitlet/");
         stagingArea.clear();
         heads.put(currBranch, newCom);
-        currHeadID = newCom.getID();
         commits.put(newCom.getID(), newCom);
 
     }
@@ -118,9 +115,10 @@ public class Gitlet implements Serializable {
     public void rm(String fileName) {
         if (heads.get(currBranch).getContents().containsKey(fileName)) {
             String targetID = heads.get(currBranch).getContents().get(fileName);
-            Blob targetBlob = Blob.deserialize("./.gitlet/" + targetID);
-            targetBlob.setToRemove(true);
-            targetBlob.serialize("./.gitlet/");
+//            Blob targetBlob = Blob.deserialize("./.gitlet/" + targetID);
+//            targetBlob.setToRemove(true);
+//            targetBlob.serialize("./.gitlet/");
+            removes.put(fileName, targetID);
             File targetFile = new File("./" + fileName);
             targetFile.delete();
             if (stagingArea.containsKey(fileName)) {
@@ -482,11 +480,13 @@ public class Gitlet implements Serializable {
         HashMap<String, String> comCon = myCommit.getContents();
 
         System.out.println("=== Removed Files ===");
-        for (String fileName : myCommit.getContents().keySet()) {
-            Blob myFile = Blob.deserialize("./.gitlet/" + myCommit.getContents().get(fileName));
-            if (myFile.isToRemove()) {
-                System.out.println(fileName);
-            }
+//        for (String fileName : myCommit.getContents().keySet()) {
+//            if (removes.get(fileName).equals(myCommit.getContents().get(fileName))) {
+//                System.out.println(fileName);
+//            }
+//        }
+        for (String fileName :removes.keySet()) {
+            System.out.println(fileName);
         }
         System.out.println();
 
@@ -510,10 +510,8 @@ public class Gitlet implements Serializable {
 
         for (String fileName : comCon.keySet()) {
             File myFile = new File("./" + fileName);
-            if (!myFile.exists()) {
-                if (!Blob.deserialize("./.gitlet/" + comCon.get(fileName)).isToRemove()) {
-                    System.out.println(fileName + " (deleted)");
-                }
+            if (!myFile.exists() && !removes.get(fileName).equals(comCon.get(fileName))) {
+                System.out.println(fileName + " (deleted)");
             }
         }
 
@@ -523,7 +521,6 @@ public class Gitlet implements Serializable {
                 System.out.println(fileName + " (deleted)");
             }
         }
-
 
         System.out.println();
 

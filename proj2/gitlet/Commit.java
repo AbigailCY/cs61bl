@@ -32,7 +32,8 @@ public class Commit implements Serializable {
         isSplit = false;
     }
 
-    public Commit(String parentId, String message, HashMap<String, String> StagingArea, HashMap<String, Commit> commits, String gitletDirectory) throws IOException {
+    public Commit(String parentId, String message, HashMap<String, String> StagingArea,
+                  HashMap<String, Commit> commits, String gitletDirectory, HashMap<String, String> removes) throws IOException {
         parent = parentId;
         this.message = message;
         Date date = new Date();
@@ -45,10 +46,15 @@ public class Commit implements Serializable {
             contents = new HashMap<>();
         }
 
-        HashMap<String, String> temp1 = copyHash(contents);
-        for (String checkName : temp1.keySet()) {
-            Blob toCheck = Blob.deserialize(gitletDirectory + contents.get(checkName));
-            if (toCheck.isToRemove()) {
+//        HashMap<String, String> temp1 = copyHash(contents);
+//        for (String checkName : temp1.keySet()) {
+//            Blob toCheck = Blob.deserialize(gitletDirectory + contents.get(checkName));
+//            if (toCheck.isToRemove()) {
+//                contents.remove(checkName);
+//            }
+//        }
+        for (String checkName : removes.keySet()) {
+            if (contents.containsKey(checkName)) {
                 contents.remove(checkName);
             }
         }
