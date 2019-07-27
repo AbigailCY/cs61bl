@@ -300,6 +300,7 @@ public class Gitlet implements Serializable {
             }
             heads.put(currBranch, currCommit);
             currHeadID = heads.get(currBranch).getID();
+            commits.put(currHeadID, currCommit);
             stagingArea.clear();
             removes.get(currBranch).clear();
         }
@@ -439,6 +440,7 @@ public class Gitlet implements Serializable {
                 Utils.writeContents(myFile, ">>>>>>>".getBytes());
             }
             commit("Encountered a merge conflict.");
+
         }
     }
 
