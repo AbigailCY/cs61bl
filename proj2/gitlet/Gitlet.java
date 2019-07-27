@@ -24,7 +24,7 @@ public class Gitlet implements Serializable {
     //   Commits: commit SHA1 -- commit
     private HashMap<String, Commit> commits = new HashMap<>();
 //    Removes: remove file name--SHA
-    private HashMap<String, String> removes = new HashMap<>();
+    private HashMap<String, HashSet<String>> removes = new HashMap<>();
     private String currHeadID;
     private String currBranch;
     //    split points: (branch1, branch2) -- commitID
@@ -53,12 +53,12 @@ public class Gitlet implements Serializable {
             heads.put("master", initCommit);
             currBranch = "master";
             commits.put(currHeadID, initCommit);
+            removes.put("master", new HashSet<>());
         } catch (IOException ex) {
             System.out.println(
                     "A gitlet version-control system already exists in the current directory.");
         }
     }
-
 
     public void add(String filename) {
         List<String> names = Utils.plainFilenamesIn("./");
@@ -67,8 +67,8 @@ public class Gitlet implements Serializable {
             return;
         } else {
             String path = "./" + filename;
-            if (removes.containsKey(filename)) {
-                removes.remove(filename);
+            if (removes.get(currBranch).contains(filename)) {
+                removes.get(currBranch).remove(filename);
             }
 
             Blob currFile = new Blob(new File(path));
@@ -88,11 +88,10 @@ public class Gitlet implements Serializable {
 //            boolean workingRm = false;
             Commit myCommit = Commit.deserialize("./.gitlet/", currHeadID);
             for (String name : myCommit.getContents().keySet()) {
-                if (removes.containsKey(name)
-                        && removes.containsValue(myCommit.getContents().get(name))) {
+                if (removes.get(currBranch).contains(name)){
                     rm = true;
                 } else if (!new File("./" + name).exists()) {
-                    removes.put(name, myCommit.getContents().get(name));
+                    removes.get(currBranch).add(name);
                     rm = true;
                 }
             }
@@ -103,7 +102,7 @@ public class Gitlet implements Serializable {
         }
         Commit currCom = heads.get(currBranch);
         Commit newCom = new Commit(currCom.getID(), message,
-                stagingArea, commits, "./.gitlet/", removes);
+                stagingArea, commits, "./.gitlet/", removes.get(currBranch));
         removes.clear();
         currHeadID = newCom.initializeID("./.gitlet/");
         stagingArea.clear();
@@ -114,11 +113,11 @@ public class Gitlet implements Serializable {
 
     public void rm(String fileName) {
         if (heads.get(currBranch).getContents().containsKey(fileName)) {
-            String targetID = heads.get(currBranch).getContents().get(fileName);
+//            String targetID = heads.get(currBranch).getContents().get(fileName);
 //            Blob targetBlob = Blob.deserialize("./.gitlet/" + targetID);
 //            targetBlob.setToRemove(true);
 //            targetBlob.serialize("./.gitlet/");
-            removes.put(fileName, targetID);
+            removes.get(currBranch).add(fileName);
             File targetFile = new File("./" + fileName);
             targetFile.delete();
             if (stagingArea.containsKey(fileName)) {
@@ -142,6 +141,7 @@ public class Gitlet implements Serializable {
         }
         heads.put(branchName, heads.get(currBranch));
         isSplit.put(Arrays.asList(currBranch, branchName), currHeadID);
+        removes.put(branchName, removes.get(currBranch));
     }
 
     public void rmBranch(String branchName) {
@@ -154,6 +154,7 @@ public class Gitlet implements Serializable {
             return;
         }
         heads.remove(branchName);
+        removes.remove(branchName);
 
         for (List<String> i : isSplit.keySet()) {
             if (i.contains(branchName)) {
@@ -245,7 +246,6 @@ public class Gitlet implements Serializable {
             currBranch = branchName;
             currHeadID = heads.get(currBranch).getID();
             stagingArea.clear();
-            removes.clear();
         }
     }
 

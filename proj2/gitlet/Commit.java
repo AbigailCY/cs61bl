@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashSet;
 
 
 public class Commit implements Serializable {
@@ -34,7 +35,7 @@ public class Commit implements Serializable {
 
     public Commit(String parentId, String message, HashMap<String, String> stagingArea,
                   HashMap<String, Commit> commits, String gitletDirectory,
-                  HashMap<String, String> removes) throws IOException {
+                  HashSet<String> removes) throws IOException {
         parent = parentId;
         this.message = message;
         Date date = new Date();
@@ -54,7 +55,7 @@ public class Commit implements Serializable {
 //                contents.remove(checkName);
 //            }
 //        }
-        for (String checkName : removes.keySet()) {
+        for (String checkName : removes) {
             if (contents.containsKey(checkName)) {
                 contents.remove(checkName);
             }
