@@ -262,6 +262,7 @@ public class Gitlet implements Serializable {
 //        }
         if (!Utils.plainFilenamesIn("./.gitlet/commit/").contains(commitID)) {
             System.out.println("No commit with that id exists.");
+        }
 
         List<String> currFiles = Utils.plainFilenamesIn("./");
         Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
