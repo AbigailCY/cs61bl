@@ -103,7 +103,7 @@ public class Gitlet implements Serializable {
         Commit currCom = heads.get(currBranch);
         Commit newCom = new Commit(currCom.getID(), message,
                 stagingArea, commits, "./.gitlet/", removes.get(currBranch));
-        removes.clear();
+        removes.get(currBranch).clear();
         currHeadID = newCom.initializeID("./.gitlet/");
         stagingArea.clear();
         heads.put(currBranch, newCom);
