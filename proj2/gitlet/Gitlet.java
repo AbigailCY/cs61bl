@@ -460,12 +460,16 @@ public class Gitlet implements Serializable {
     }
 
     public void find(String commitMessage) {
+        boolean find = false;
         for (String i : commits.keySet()) {
             if (commits.get(i).getMessage().equals(commitMessage)) {
                 System.out.println(commits.get(i).getID());
+                find = true;
             }
         }
-        System.out.println("Found no commit with that message.");
+        if (!find) {
+            System.out.println("Found no commit with that message.");
+        }
     }
 
     public void status() {
