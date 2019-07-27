@@ -1,6 +1,9 @@
 package gitlet;
 
-import java.io.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,10 +11,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Gitlet implements Serializable {
     //    StagingArea: filename -- file SHA1
-    private HashMap<String, String> StagingArea = new HashMap<>();
+    private HashMap<String, String> stagingArea = new HashMap<>();
     //    Heads: branch -- head(commits)
     private HashMap<String, Commit> heads = new HashMap<>();
     //   Commits: commit SHA1 -- commit
@@ -39,7 +46,7 @@ public class Gitlet implements Serializable {
             Files.createDirectory(Paths.get("./.gitlet/commit/"));
 //            Files.createDirectory(Paths.get("./.gitlet/temp/"));
 
-            Commit initCommit = new Commit("initial commit", StagingArea, "./.gitlet/");
+            Commit initCommit = new Commit("initial commit", stagingArea, "./.gitlet/");
             currHeadID = initCommit.initializeID("./.gitlet/");
             heads.put("master", initCommit);
             currBranch = "master";
@@ -73,12 +80,12 @@ public class Gitlet implements Serializable {
                 }
             }
             currFile.serialize("./.gitlet/StagingArea/");
-            StagingArea.put(filename, currFile.getSHA());
+            stagingArea.put(filename, currFile.getSHA());
         }
     }
 
     public void commit(String message) throws IOException {
-        if (StagingArea.isEmpty()) {
+        if (stagingArea.isEmpty()) {
             boolean rm = false;
 //            boolean workingRm = false;
             Commit myCommit = Commit.deserialize("./.gitlet/", currHeadID);
@@ -99,9 +106,9 @@ public class Gitlet implements Serializable {
             }
         }
         Commit currCom = heads.get(currBranch);
-        Commit newCom = new Commit(currCom.getID(), message, StagingArea, commits, "./.gitlet/");
+        Commit newCom = new Commit(currCom.getID(), message, stagingArea, commits, "./.gitlet/");
         currHeadID = newCom.initializeID("./.gitlet/");
-        StagingArea.clear();
+        stagingArea.clear();
         heads.put(currBranch, newCom);
         currHeadID = newCom.getID();
         commits.put(newCom.getID(), newCom);
@@ -116,14 +123,14 @@ public class Gitlet implements Serializable {
             targetBlob.serialize("./.gitlet/");
             File targetFile = new File("./" + fileName);
             targetFile.delete();
-            if (StagingArea.containsKey(fileName)) {
-                StagingArea.remove(fileName);
-                File rmStage = new File("./.gitlet/StagingArea/" + StagingArea.get(fileName));
+            if (stagingArea.containsKey(fileName)) {
+                stagingArea.remove(fileName);
+                File rmStage = new File("./.gitlet/StagingArea/" + stagingArea.get(fileName));
                 rmStage.delete();
             }
-        } else if (StagingArea.containsKey(fileName)) {
-            StagingArea.remove(fileName);
-            File rmStage = new File("./.gitlet/StagingArea/" + StagingArea.get(fileName));
+        } else if (stagingArea.containsKey(fileName)) {
+            stagingArea.remove(fileName);
+            File rmStage = new File("./.gitlet/StagingArea/" + stagingArea.get(fileName));
             rmStage.delete();
         } else {
             System.out.println("No reason to remove the file.");
@@ -239,7 +246,7 @@ public class Gitlet implements Serializable {
 
             currBranch = branchName;
             currHeadID = heads.get(currBranch).getID();
-            StagingArea.clear();
+            stagingArea.clear();
         }
     }
 
@@ -277,7 +284,7 @@ public class Gitlet implements Serializable {
             }
             heads.put(currBranch, currCommit);
             currHeadID = heads.get(currBranch).getID();
-            StagingArea.clear();
+            stagingArea.clear();
         }
     }
 
@@ -467,7 +474,7 @@ public class Gitlet implements Serializable {
         Commit myCommit = Commit.deserialize("./.gitlet/", currHeadID);
 
         System.out.println("=== Staged Files ===");
-        for (String j : StagingArea.keySet()) {
+        for (String j : stagingArea.keySet()) {
             System.out.println(j);
         }
         System.out.println();
@@ -490,13 +497,13 @@ public class Gitlet implements Serializable {
         for (String fileName : Utils.plainFilenamesIn("./")) {
             String fileID = new Blob(new File("./" + fileName)).getSHA();
 
-            if (!comCon.containsKey(fileName) && !StagingArea.containsKey(fileName)) {
+            if (!comCon.containsKey(fileName) && !stagingArea.containsKey(fileName)) {
                 untrack.add(fileName);
             } else if (comCon.containsKey(fileName) && !comCon.get(fileName).equals(fileID)) {
-                if (!StagingArea.containsKey(fileName)) {
+                if (!stagingArea.containsKey(fileName)) {
                     System.out.println(fileName + " (modified)");
                 }
-            } else if (StagingArea.containsKey(fileName) && !StagingArea.get(fileName).equals(fileID)) {
+            } else if (stagingArea.containsKey(fileName) && !stagingArea.get(fileName).equals(fileID)) {
                 System.out.println(fileName + " (modified)");
             }
         }
@@ -510,7 +517,7 @@ public class Gitlet implements Serializable {
             }
         }
 
-        for (String fileName : StagingArea.keySet()) {
+        for (String fileName : stagingArea.keySet()) {
             File myFile = new File("./" + fileName);
             if (!myFile.exists()) {
                 System.out.println(fileName + " (deleted)");
