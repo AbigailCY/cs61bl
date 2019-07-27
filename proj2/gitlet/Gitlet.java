@@ -251,7 +251,7 @@ public class Gitlet implements Serializable {
     public void reset(String commitID) throws IOException {
         boolean contain = false;
         for (String commitId : Utils.plainFilenamesIn("./.gitlet/commit/")) {
-            if (commitId.startsWith(commitID)) {
+            if (commitID.length() >= 6 && commitId.startsWith(commitID)) {
                 commitID = commitId;
                 contain = true;
             }
@@ -260,6 +260,8 @@ public class Gitlet implements Serializable {
             System.out.println("No commit with that id exists.");
             return;
         }
+//        if (!Utils.plainFilenamesIn("./.gitlet/commit/").contains(commitID)) {
+//            System.out.println("No commit with that id exists.");
 
         List<String> currFiles = Utils.plainFilenamesIn("./");
         Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
