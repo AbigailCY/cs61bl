@@ -88,7 +88,7 @@ public class Gitlet implements Serializable {
 //            boolean workingRm = false;
             Commit myCommit = Commit.deserialize("./.gitlet/", currHeadID);
             for (String name : myCommit.getContents().keySet()) {
-                if (removes.get(currBranch).contains(name)){
+                if (removes.get(currBranch).contains(name)) {
                     rm = true;
                 } else if (!new File("./" + name).exists()) {
                     removes.get(currBranch).add(name);
@@ -268,14 +268,13 @@ public class Gitlet implements Serializable {
             Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
             Commit headCommit = heads.get(currBranch);
             for (String i : currFiles) {
-                if (!headCommit.getContents().containsKey(i) && !stagingArea.containsKey(i)) {
-                    String iD = new Blob(new File("./" + i)).getSHA();
-                    if (currCommit.getContents().containsKey(i)
-                            && currCommit.getContents().get(i) != iD) {
-                        System.out.println(
-                                "There is an untracked file in the way; delete it or add it first.");
-                        return;
-                    }
+                String iD = new Blob(new File("./" + i)).getSHA();
+                if (currCommit.getContents().containsKey(i)
+                        && currCommit.getContents().get(i) != iD) {
+                    System.out.println(
+                            "There is an untracked file in the way; delete it or add it first.");
+                    return;
+
                 }
             }
 
