@@ -272,8 +272,8 @@ public class Gitlet implements Serializable {
                     String iD = new Blob(new File("./" + i)).getSHA();
                     if (currCommit.getContents().containsKey(i)
                             && currCommit.getContents().get(i) != iD) {
-                        System.out.println(
-                                "There is an untracked file in the way; delete it or add it first.");
+                        System.out.println("There is an untracked file "
+                                + "in the way; delete it or add it first.");
                         return;
                     }
                 }
