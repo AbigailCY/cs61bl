@@ -8,8 +8,8 @@ import static org.junit.Assert.*;
  */
 public class UnitTest {
 
-    @Test
-    public void placeholderTest() {
+    public static void main(String... args) {
+
     }
 
 }
