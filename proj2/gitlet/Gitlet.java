@@ -442,7 +442,6 @@ public class Gitlet implements Serializable {
         }
     }
 
-
     public void log() {
         for (String pointer = currHeadID; pointer != null;
              pointer = commits.get(pointer).getParent()) {
