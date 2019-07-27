@@ -250,43 +250,56 @@ public class Gitlet implements Serializable {
     }
 
     public void reset(String commitID) throws IOException {
-        if (!Utils.plainFilenamesIn("./.gitlet/commit/").contains(commitID)) {
+        boolean contain = false;
+        for (String commitId : Utils.plainFilenamesIn("./.gitlet/commit/")) {
+            if (commitId.startsWith(commitID)) {
+                commitID = commitId;
+                contain = true;
+            }
+        }
+        if (!contain) {
             System.out.println("No commit with that id exists.");
-        } else {
-            List<String> currFiles = Utils.plainFilenamesIn("./");
-            Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
-            for (String i : currFiles) {
+            return;
+        }
+
+        List<String> currFiles = Utils.plainFilenamesIn("./");
+        Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
+        Commit headCommit = heads.get(currBranch);
+        for (String i : currFiles) {
+            if (!headCommit.getContents().containsKey(i) && !stagingArea.containsKey(i)) {
                 String iD = new Blob(new File("./" + i)).getSHA();
-                if (currCommit.getContents().containsKey(i) &&
-                        currCommit.getContents().get(i) != iD) {
+                if (currCommit.getContents().containsKey(i) && currCommit.getContents().get(i) != iD) {
                     System.out.println(
                             "There is an untracked file in the way; delete it or add it first.");
                     return;
                 }
-            }
-            for (String blobName : currCommit.getContents().keySet()) {
-                File targetFile = new File("./" + blobName);
-                if (targetFile.exists()) {
-                    targetFile.delete();
-                }
-                targetFile.createNewFile();
-                String blobID = currCommit.getContents().get(blobName);
-                byte[] myContent = Blob.deserialize("./.gitlet/" + blobID).getContent();
-                Utils.writeContents(targetFile, myContent);
-            }
 
-            for (String j : Commit.deserialize("./.gitlet/", currHeadID).getContents().keySet()) {
-                if (!currCommit.getContents().keySet().contains(j)) {
-                    File rmFile = new File("./" + j);
-                    if (rmFile.exists()) {
-                        rmFile.delete();
-                    }
+            }
+        }
+
+        for (String blobName : currCommit.getContents().keySet()) {
+            File targetFile = new File("./" + blobName);
+            if (targetFile.exists()) {
+                targetFile.delete();
+            }
+            targetFile.createNewFile();
+            String blobID = currCommit.getContents().get(blobName);
+            byte[] myContent = Blob.deserialize("./.gitlet/" + blobID).getContent();
+            Utils.writeContents(targetFile, myContent);
+        }
+
+        for (String j : Commit.deserialize("./.gitlet/", currHeadID).getContents().keySet()) {
+            if (!currCommit.getContents().keySet().contains(j)) {
+                File rmFile = new File("./" + j);
+                if (rmFile.exists()) {
+                    rmFile.delete();
                 }
             }
-            heads.put(currBranch, currCommit);
-            currHeadID = heads.get(currBranch).getID();
-            stagingArea.clear();
         }
+        heads.put(currBranch, currCommit);
+        currHeadID = heads.get(currBranch).getID();
+        stagingArea.clear();
+
     }
 
     public void merge(String branchName) throws IOException {
