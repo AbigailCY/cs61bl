@@ -262,48 +262,46 @@ public class Gitlet implements Serializable {
 //        }
         if (!Utils.plainFilenamesIn("./.gitlet/commit/").contains(commitID)) {
             System.out.println("No commit with that id exists.");
-            return;
-        }
+        } else {
 
-        List<String> currFiles = Utils.plainFilenamesIn("./");
-        Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
-        Commit headCommit = heads.get(currBranch);
-        for (String i : currFiles) {
-            if (!headCommit.getContents().containsKey(i) && !stagingArea.containsKey(i)) {
-                String iD = new Blob(new File("./" + i)).getSHA();
-                if (currCommit.getContents().containsKey(i)
-                        && currCommit.getContents().get(i) != iD) {
-                    System.out.println(
-                            "There is an untracked file in the way; delete it or add it first.");
-                    return;
-                }
-
-            }
-        }
-
-        for (String blobName : currCommit.getContents().keySet()) {
-            File targetFile = new File("./" + blobName);
-            if (targetFile.exists()) {
-                targetFile.delete();
-            }
-            targetFile.createNewFile();
-            String blobID = currCommit.getContents().get(blobName);
-            byte[] myContent = Blob.deserialize("./.gitlet/" + blobID).getContent();
-            Utils.writeContents(targetFile, myContent);
-        }
-
-        for (String j : Commit.deserialize("./.gitlet/", currHeadID).getContents().keySet()) {
-            if (!currCommit.getContents().keySet().contains(j)) {
-                File rmFile = new File("./" + j);
-                if (rmFile.exists()) {
-                    rmFile.delete();
+            List<String> currFiles = Utils.plainFilenamesIn("./");
+            Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
+            Commit headCommit = heads.get(currBranch);
+            for (String i : currFiles) {
+                if (!headCommit.getContents().containsKey(i) && !stagingArea.containsKey(i)) {
+                    String iD = new Blob(new File("./" + i)).getSHA();
+                    if (currCommit.getContents().containsKey(i)
+                            && currCommit.getContents().get(i) != iD) {
+                        System.out.println(
+                                "There is an untracked file in the way; delete it or add it first.");
+                        return;
+                    }
                 }
             }
-        }
-        heads.put(currBranch, currCommit);
-        currHeadID = heads.get(currBranch).getID();
-        stagingArea.clear();
 
+            for (String blobName : currCommit.getContents().keySet()) {
+                File targetFile = new File("./" + blobName);
+                if (targetFile.exists()) {
+                    targetFile.delete();
+                }
+                targetFile.createNewFile();
+                String blobID = currCommit.getContents().get(blobName);
+                byte[] myContent = Blob.deserialize("./.gitlet/" + blobID).getContent();
+                Utils.writeContents(targetFile, myContent);
+            }
+
+            for (String j : Commit.deserialize("./.gitlet/", currHeadID).getContents().keySet()) {
+                if (!currCommit.getContents().keySet().contains(j)) {
+                    File rmFile = new File("./" + j);
+                    if (rmFile.exists()) {
+                        rmFile.delete();
+                    }
+                }
+            }
+            heads.put(currBranch, currCommit);
+            currHeadID = heads.get(currBranch).getID();
+            stagingArea.clear();
+        }
     }
 
     public void merge(String branchName) throws IOException {
