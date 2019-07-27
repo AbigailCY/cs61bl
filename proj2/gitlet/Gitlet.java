@@ -245,6 +245,7 @@ public class Gitlet implements Serializable {
             currBranch = branchName;
             currHeadID = heads.get(currBranch).getID();
             stagingArea.clear();
+            removes.clear();
         }
     }
 
