@@ -266,7 +266,7 @@ public class Gitlet implements Serializable {
         } else {
             List<String> currFiles = Utils.plainFilenamesIn("./");
             Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
-            Commit headCommit = heads.get(currBranch);
+            Commit headCommit = Commit.deserialize("./.gitlet/", currHeadID);
             for (String i : currFiles) {
                 if (!headCommit.getContents().containsKey(i)) {
                     String iD = new Blob(new File("./" + i)).getSHA();
