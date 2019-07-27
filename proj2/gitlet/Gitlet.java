@@ -318,7 +318,7 @@ public class Gitlet implements Serializable {
         Commit currCommit = Commit.deserialize("./.gitlet/", currHeadID);
         String splitID = isSplit.get(Arrays.asList(branchName, currBranch));
         if (splitID == null) {
-            isSplit.get(Arrays.asList(currBranch, branchName));
+            splitID = isSplit.get(Arrays.asList(currBranch, branchName));
         }
 
         if (splitID.equals(heads.get(branchName).getID())) {
