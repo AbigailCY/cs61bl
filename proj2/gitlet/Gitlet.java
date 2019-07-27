@@ -301,7 +301,7 @@ public class Gitlet implements Serializable {
             heads.put(currBranch, currCommit);
             currHeadID = heads.get(currBranch).getID();
             stagingArea.clear();
-            removes.clear();
+            removes.get(currBranch).clear();
         }
     }
 
@@ -492,7 +492,7 @@ public class Gitlet implements Serializable {
 
         System.out.println("=== Removed Files ===");
 
-        for (String fileName :removes.keySet()) {
+        for (String fileName :removes.get(currBranch)) {
             System.out.println(fileName);
         }
         System.out.println();
@@ -517,7 +517,7 @@ public class Gitlet implements Serializable {
 
         for (String fileName : comCon.keySet()) {
             File myFile = new File("./" + fileName);
-            if (!myFile.exists() && !removes.get(fileName).equals(comCon.get(fileName))) {
+            if (!myFile.exists() && !removes.get(currBranch).contains(fileName)) {
                 System.out.println(fileName + " (deleted)");
             }
         }
