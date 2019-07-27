@@ -23,7 +23,7 @@ public class Commit implements Serializable {
     private String ID;
     private boolean isSplit;
 
-    public Commit(String message, HashMap<String, String> StagingArea, String gitletDirectory) {
+    public Commit(String message, HashMap<String, String> stagingArea, String gitletDirectory) {
         parent = null;
         this.message = message;
         Date date = new Date();
@@ -32,8 +32,9 @@ public class Commit implements Serializable {
         isSplit = false;
     }
 
-    public Commit(String parentId, String message, HashMap<String, String> StagingArea,
-                  HashMap<String, Commit> commits, String gitletDirectory, HashMap<String, String> removes) throws IOException {
+    public Commit(String parentId, String message, HashMap<String, String> stagingArea,
+                  HashMap<String, Commit> commits, String gitletDirectory,
+                  HashMap<String, String> removes) throws IOException {
         parent = parentId;
         this.message = message;
         Date date = new Date();
@@ -59,16 +60,17 @@ public class Commit implements Serializable {
             }
         }
 
-        HashMap<String, String> temp2 = copyHash(StagingArea);
+        HashMap<String, String> temp2 = copyHash(stagingArea);
         for (String keyName : temp2.keySet()) {
-            if (contents.containsKey(keyName) && contents.get(keyName).equals(StagingArea.get(keyName))) {
-                File file = new File(gitletDirectory + "StagingArea/" + StagingArea.get(keyName));
+            if (contents.containsKey(keyName) &&
+                    contents.get(keyName).equals(stagingArea.get(keyName))) {
+                File file = new File(gitletDirectory + "StagingArea/" + stagingArea.get(keyName));
                 file.delete();
             } else {
-                contents.put(keyName, StagingArea.get(keyName));
-                File moveFile = new File(gitletDirectory + "commit/" + StagingArea.get(keyName));
-                Files.move(Paths.get(gitletDirectory + "StagingArea/" + StagingArea.get(keyName)),
-                        Paths.get(gitletDirectory + StagingArea.get(keyName)));
+                contents.put(keyName, stagingArea.get(keyName));
+                File moveFile = new File(gitletDirectory + "commit/" + stagingArea.get(keyName));
+                Files.move(Paths.get(gitletDirectory + "StagingArea/" + stagingArea.get(keyName)),
+                        Paths.get(gitletDirectory + stagingArea.get(keyName)));
                 moveFile.delete();
             }
         }
@@ -92,7 +94,8 @@ public class Commit implements Serializable {
             System.out.println("3Error!");
             return null;
         }
-        File newOut = new File(gitletDirectory + "commit/" + Utils.sha1(Utils.readContents(outFile)));
+        File newOut = new File(
+                gitletDirectory + "commit/" + Utils.sha1(Utils.readContents(outFile)));
         newOut.createNewFile();
         Utils.writeContents(newOut, Utils.readContents(outFile));
         outFile.delete();
