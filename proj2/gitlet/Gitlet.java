@@ -249,19 +249,19 @@ public class Gitlet implements Serializable {
     }
 
     public void reset(String commitID) throws IOException {
-        boolean contain = false;
-        for (String commitId : Utils.plainFilenamesIn("./.gitlet/commit/")) {
-            if (commitID.length() >= 6 && commitId.startsWith(commitID)) {
-                commitID = commitId;
-                contain = true;
-            }
-        }
-        if (!contain) {
-            System.out.println("No commit with that id exists.");
-            return;
-        }
-//        if (!Utils.plainFilenamesIn("./.gitlet/commit/").contains(commitID)) {
+//        boolean contain = false;
+//        for (String commitId : Utils.plainFilenamesIn("./.gitlet/commit/")) {
+//            if (commitID.length() >= 6 && commitId.startsWith(commitID)) {
+//                commitID = commitId;
+//                contain = true;
+//            }
+//        }
+//        if (!contain) {
 //            System.out.println("No commit with that id exists.");
+//            return;
+//        }
+        if (!Utils.plainFilenamesIn("./.gitlet/commit/").contains(commitID)) {
+            System.out.println("No commit with that id exists.");
 
         List<String> currFiles = Utils.plainFilenamesIn("./");
         Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
@@ -269,7 +269,8 @@ public class Gitlet implements Serializable {
         for (String i : currFiles) {
             if (!headCommit.getContents().containsKey(i) && !stagingArea.containsKey(i)) {
                 String iD = new Blob(new File("./" + i)).getSHA();
-                if (currCommit.getContents().containsKey(i) && currCommit.getContents().get(i) != iD) {
+                if (currCommit.getContents().containsKey(i)
+                        && currCommit.getContents().get(i) != iD) {
                     System.out.println(
                             "There is an untracked file in the way; delete it or add it first.");
                     return;
