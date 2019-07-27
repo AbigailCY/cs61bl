@@ -62,8 +62,8 @@ public class Commit implements Serializable {
 
         HashMap<String, String> temp2 = copyHash(stagingArea);
         for (String keyName : temp2.keySet()) {
-            if (contents.containsKey(keyName) &&
-                    contents.get(keyName).equals(stagingArea.get(keyName))) {
+            if (contents.containsKey(keyName)
+                    && contents.get(keyName).equals(stagingArea.get(keyName))) {
                 File file = new File(gitletDirectory + "StagingArea/" + stagingArea.get(keyName));
                 file.delete();
             } else {

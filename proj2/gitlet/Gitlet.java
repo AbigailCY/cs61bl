@@ -88,8 +88,8 @@ public class Gitlet implements Serializable {
 //            boolean workingRm = false;
             Commit myCommit = Commit.deserialize("./.gitlet/", currHeadID);
             for (String name : myCommit.getContents().keySet()) {
-                if (removes.containsKey(name) &&
-                        removes.containsValue(myCommit.getContents().get(name))) {
+                if (removes.containsKey(name)
+                        && removes.containsValue(myCommit.getContents().get(name))) {
                     rm = true;
                 } else if (!new File("./" + name).exists()) {
                     removes.put(name, myCommit.getContents().get(name));
@@ -143,7 +143,6 @@ public class Gitlet implements Serializable {
         heads.put(branchName, heads.get(currBranch));
         isSplit.put(Arrays.asList(currBranch, branchName), currHeadID);
     }
-
 
     public void rmBranch(String branchName) {
         if (!(heads.keySet().contains(branchName))) {
@@ -221,8 +220,8 @@ public class Gitlet implements Serializable {
                 String blobID = toCommit.getContents().get(blobName);
                 if (targetFile.exists()) {
                     if (!new Blob(targetFile).getSHA().equals(blobID)) {
-                        System.out.println("There is " +
-                                "an untracked file in the way; delete it or add it first.");
+                        System.out.println("There is "
+                                + "an untracked file in the way; delete it or add it first.");
                         return;
                     } else {
                         targetFile.delete();
@@ -339,8 +338,8 @@ public class Gitlet implements Serializable {
         HashSet<String> toChange = new HashSet<>();
         for (String file : splitCon.keySet()) {
             if (currCon.containsKey(file) && givenCon.containsKey(file)) {
-                if (!currCon.get(file).equals(splitCon.get(file)) &&
-                        !givenCon.get(file).equals(splitCon.get(file))) {
+                if (!currCon.get(file).equals(splitCon.get(file))
+                        && !givenCon.get(file).equals(splitCon.get(file))) {
                     toMerge1.add(file);
                 } else if (currCon.get(file).equals(splitCon.get(file))
                         && !givenCon.get(file).equals(splitCon.get(file))) {
@@ -369,8 +368,8 @@ public class Gitlet implements Serializable {
         }
         for (String i : currFiles) {
             String iD = new Blob(new File("./" + i)).getSHA();
-            if (toMerge1.contains(i) || toMerge2.contains(i) ||
-                    toMerge3.contains(i) || toChange.contains(i)
+            if (toMerge1.contains(i) || toMerge2.contains(i)
+                    || toMerge3.contains(i) || toChange.contains(i)
                     || toCheckout.contains(i) || toRemove.contains(i)) {
                 if (!currCon.containsValue(iD)) {
                     System.out.println(
@@ -507,8 +506,8 @@ public class Gitlet implements Serializable {
                 if (!stagingArea.containsKey(fileName)) {
                     System.out.println(fileName + " (modified)");
                 }
-            } else if (stagingArea.containsKey(fileName) &&
-                    !stagingArea.get(fileName).equals(fileID)) {
+            } else if (stagingArea.containsKey(fileName)
+                    && !stagingArea.get(fileName).equals(fileID)) {
                 System.out.println(fileName + " (modified)");
             }
         }
