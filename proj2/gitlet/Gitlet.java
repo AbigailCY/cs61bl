@@ -263,7 +263,6 @@ public class Gitlet implements Serializable {
         if (!Utils.plainFilenamesIn("./.gitlet/commit/").contains(commitID)) {
             System.out.println("No commit with that id exists.");
         } else {
-
             List<String> currFiles = Utils.plainFilenamesIn("./");
             Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
             Commit headCommit = heads.get(currBranch);
@@ -290,8 +289,8 @@ public class Gitlet implements Serializable {
                 Utils.writeContents(targetFile, myContent);
             }
 
-            for (String j : Commit.deserialize("./.gitlet/", currHeadID).getContents().keySet()) {
-                if (!currCommit.getContents().keySet().contains(j)) {
+            for (String j : headCommit.getContents().keySet()) {
+                if (!currCommit.getContents().containsKey(j)) {
                     File rmFile = new File("./" + j);
                     if (rmFile.exists()) {
                         rmFile.delete();
@@ -301,6 +300,7 @@ public class Gitlet implements Serializable {
             heads.put(currBranch, currCommit);
             currHeadID = heads.get(currBranch).getID();
             stagingArea.clear();
+            removes.clear();
         }
     }
 
