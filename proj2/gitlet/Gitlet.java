@@ -1,9 +1,7 @@
 package gitlet;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,10 +9,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class Gitlet implements Serializable {
     //    StagingArea: filename -- file SHA1
@@ -436,13 +430,10 @@ public class Gitlet implements Serializable {
                         + currCon.get(fileName)).getContent();
                 byte[] given = Blob.deserialize("./.gitlet/"
                         + givenCon.get(fileName)).getContent();
-                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, current);
-                Utils.writeContents(myFile, "=======".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, given);
-                Utils.writeContents(myFile, ">>>>>>>".getBytes());
+                String contents = "<<<<<<< HEAD" + sp.toString() + current.toString()
+                        + "=======" + sp.toString() + given.toString() + ">>>>>>>";
+
+                Utils.writeContents(myFile, contents.getBytes());
                 add(fileName);
             }
 
