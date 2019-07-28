@@ -10,7 +10,7 @@ import java.io.IOException;
 public class Main {
     /* Usage: java gitlet.Main ARGS, where ARGS contains
        <COMMAND> <OPERAND> .... */
-    public static void log_block(String[] args) throws IOException {
+    public static void logBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet/");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -22,7 +22,7 @@ public class Main {
         Gitlet.serialize(myGit);
     }
 
-    public static void status_block(String[] args) throws IOException {
+    public static void statusBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet//");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -34,7 +34,7 @@ public class Main {
         Gitlet.serialize(myGit);
     }
 
-    public static void commit_block(String[] args) throws IOException {
+    public static void commitBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet/");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -52,7 +52,7 @@ public class Main {
 
     }
 
-    public static void rm_block(String[] args) throws IOException {
+    public static void rmBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet/");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -69,7 +69,7 @@ public class Main {
         Gitlet.serialize(myGit);
     }
 
-    public static void find_block(String[] args) throws IOException {
+    public static void findBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet/");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -86,7 +86,7 @@ public class Main {
         Gitlet.serialize(myGit);
     }
 
-    public static void checkout_block(String[] args) throws IOException {
+    public static void checkoutBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet/");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -118,7 +118,7 @@ public class Main {
         }
     }
 
-    public static void reset_block(String[] args) throws IOException {
+    public static void resetBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet/");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -135,7 +135,7 @@ public class Main {
         Gitlet.serialize(myGit);
     }
 
-    public static void branch_block(String[] args) throws IOException {
+    public static void branchBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet/");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -152,7 +152,7 @@ public class Main {
         Gitlet.serialize(myGit);
     }
 
-    public static void merge_block(String[] args) throws IOException {
+    public static void mergeBlock(String[] args) throws IOException {
         File gitletFile = new File("./.gitlet/");
         if (!gitletFile.exists()) {
             System.out.println("Not in an initialized gitlet directory.");
@@ -181,7 +181,7 @@ public class Main {
             return;
         }
         if (args[0].equals("log")) {
-            log_block(args);
+            logBlock(args);
         } else if (args[0].equals("global-log")) {
             File gitletFile = new File("./.gitlet/");
             if (!gitletFile.exists()) {
@@ -194,7 +194,7 @@ public class Main {
             Gitlet.serialize(myGit);
 
         } else if (args[0].equals("status")) {
-            status_block(args);
+            statusBlock(args);
         } else if (args[0].equals("add")) {
             File gitletFile = new File("./.gitlet/");
             if (!gitletFile.exists()) {
@@ -210,15 +210,15 @@ public class Main {
             myGit.add(message);
             Gitlet.serialize(myGit);
         } else if (args[0].equals("commit")) {
-            commit_block(args);
+            commitBlock(args);
         } else if (args[0].equals("rm")) {
-            rm_block(args);
+            rmBlock(args);
         } else if (args[0].equals("find")) {
-            find_block(args);
+            findBlock(args);
         } else if (args[0].equals("checkout")) {
-            checkout_block(args);
+            checkoutBlock(args);
         } else if (args[0].equals("branch")) {
-            branch_block(args);
+            branchBlock(args);
         } else if (args[0].equals("rm-branch")) {
             File gitletFile = new File("./.gitlet/");
             if (!gitletFile.exists()) {
@@ -235,9 +235,9 @@ public class Main {
             myGit.rmBranch(message);
             Gitlet.serialize(myGit);
         } else if (args[0].equals("reset")) {
-            reset_block(args);
+            resetBlock(args);
         } else if (args[0].equals("merge")) {
-            merge_block(args);
+            mergeBlock(args);
         } else {
             System.out.println("No command with that name exists.");
         }
