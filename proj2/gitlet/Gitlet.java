@@ -344,7 +344,8 @@ public class Gitlet implements Serializable {
         for (String file : splitCon.keySet()) {
             if (currCon.containsKey(file) && givenCon.containsKey(file)) {
                 if (!currCon.get(file).equals(splitCon.get(file))
-                        && !givenCon.get(file).equals(splitCon.get(file))) {
+                        && !givenCon.get(file).equals(splitCon.get(file))
+                        && !currCon.get(file).equals(givenCon.get(file))) {
                     toMerge1.add(file);
                 } else if (currCon.get(file).equals(splitCon.get(file))
                         && !givenCon.get(file).equals(splitCon.get(file))) {
@@ -400,13 +401,15 @@ public class Gitlet implements Serializable {
             System.out.println("Encountered a merge conflict.");
             for (String fileName : toMerge1) {
                 File myFile = new File("./" + fileName);
-                System.out.println(Utils.plainFilenamesIn("./gitlet/"));
+                System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
+                System.out.println(Utils.plainFilenamesIn("./"));
+                System.out.println(Utils.plainFilenamesIn("./"));
                 System.out.println(currCon.get(fileName));
                 System.out.println(givenCon.get(fileName));
-                byte[] current = Blob.deserialize("./gitlet/" + currCon.get(fileName)).getContent();
-                byte[] given = Blob.deserialize("./gitlet/" + givenCon.get(fileName)).getContent();
                 byte[] sp = System.getProperty("line.separator").getBytes();
                 System.out.println(sp);
+                byte[] current = Blob.deserialize("./.gitlet/" + currCon.get(fileName)).getContent();
+                byte[] given = Blob.deserialize("./.gitlet/" + givenCon.get(fileName)).getContent();
                 Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
                 Utils.writeContents(myFile, sp);
                 Utils.writeContents(myFile, current);
