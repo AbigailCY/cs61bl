@@ -100,6 +100,11 @@ public class Gitlet implements Serializable {
                 return;
             }
         }
+        for (String name : commits.get(currBranch).getContents().keySet()) {
+            if (!new File("./" + name).exists()) {
+                removes.get(currBranch).add(name);
+            }
+        }
         Commit currCom = heads.get(currBranch);
         Commit newCom = new Commit(currCom.getID(), message,
                 stagingArea, commits, "./.gitlet/", removes.get(currBranch));
