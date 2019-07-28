@@ -72,10 +72,9 @@ public class Gitlet implements Serializable {
             }
 
             Blob currFile = new Blob(new File(path));
-            if (commits.get(currHeadID).getContents().containsValue(currFile.getSHA())) {
-                if (heads.get(currBranch).getContents().containsKey(filename)) {
+            Commit mycom = Commit.deserialize("./.gitlet/", currHeadID);
+            if (mycom.getContents().containsValue(currFile.getSHA())) {
                     return;
-                }
             }
             File myFile = currFile.serialize("./.gitlet/StagingArea/");
             stagingArea.put(filename, myFile.getName());
