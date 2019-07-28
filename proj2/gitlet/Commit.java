@@ -48,13 +48,6 @@ public class Commit implements Serializable {
             contents = new HashMap<>();
         }
 
-//        HashMap<String, String> temp1 = copyHash(contents);
-//        for (String checkName : temp1.keySet()) {
-//            Blob toCheck = Blob.deserialize(gitletDirectory + contents.get(checkName));
-//            if (toCheck.isToRemove()) {
-//                contents.remove(checkName);
-//            }
-//        }
         for (String checkName : removes) {
             if (contents.containsKey(checkName)) {
                 contents.remove(checkName);
@@ -69,10 +62,10 @@ public class Commit implements Serializable {
                 file.delete();
             } else {
                 contents.put(keyName, stagingArea.get(keyName));
-                File moveFile = new File(gitletDirectory + "commit/" + stagingArea.get(keyName));
-                Files.move(Paths.get(gitletDirectory + "StagingArea/" + stagingArea.get(keyName)),
-                        Paths.get(gitletDirectory + stagingArea.get(keyName)));
-                moveFile.delete();
+                if (!new File(gitletDirectory + stagingArea.get(keyName)).exists()) {
+                    Files.move(Paths.get(gitletDirectory + "StagingArea/" + stagingArea.get(keyName)),
+                            Paths.get(gitletDirectory + stagingArea.get(keyName)));
+                }
             }
         }
     }
