@@ -392,7 +392,7 @@ public class Gitlet implements Serializable {
         for (String fileName : toRemove) {
             rm(fileName);
         }
-        if (toMerge1 == null && toMerge2 == null && toMerge3 == null) {
+        if (toMerge1.isEmpty() && toMerge2.isEmpty() && toMerge3.isEmpty()) {
             String message = "Merged [" + currBranch + "] with [" + branchName + "].";
             commit(message);
             return;
