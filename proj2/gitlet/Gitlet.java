@@ -226,7 +226,7 @@ public class Gitlet implements Serializable {
         } else if (currBranch.equals(branchName)) {
             System.out.println("No need to checkout the current branch.");
         } else {
-            Commit toCommit = heads.get(branchName);
+            Commit toCommit = Commit.deserialize("./.gitlet/", heads.get(branchName).getID());
             Commit myCommit = heads.get(currBranch);
 
             for (String blobName : toCommit.getContents().keySet()) {
@@ -336,7 +336,7 @@ public class Gitlet implements Serializable {
             return;
         }
 //        split point finded
-        Commit currCommit = heads.get(currBranch);
+        Commit currCommit = Commit.deserialize("./.gitlet", currHeadID);
         String splitID = isSplit.get(Arrays.asList(branchName, currBranch));
         if (splitID == null) {
             splitID = isSplit.get(Arrays.asList(currBranch, branchName));
