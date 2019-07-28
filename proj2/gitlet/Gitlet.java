@@ -373,8 +373,7 @@ public class Gitlet implements Serializable {
         }
         for (String i : currFiles) {
             String iD = new Blob(new File("./" + i)).getSHA();
-            if (toMerge1.contains(i) || toMerge2.contains(i)
-                    || toMerge3.contains(i) || toCheckout.contains(i)) {
+            if (toMerge1.contains(i) || toMerge3.contains(i) || toCheckout.contains(i)) {
                 if (!currCon.containsValue(iD) && !stagingArea.containsValue(iD)) {
                     System.out.println(
                             "There is an untracked file in the way; delete it or add it first.");
