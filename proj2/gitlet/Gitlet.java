@@ -329,7 +329,6 @@ public class Gitlet implements Serializable {
             return;
         }
 //        split point finded
-        Commit currCommit = Commit.deserialize("./.gitlet", currHeadID);
         String splitID = isSplit.get(Arrays.asList(branchName, currBranch));
         if (splitID == null) {
             splitID = isSplit.get(Arrays.asList(currBranch, branchName));
@@ -344,6 +343,7 @@ public class Gitlet implements Serializable {
         }
 //
         List<String> currFiles = Utils.plainFilenamesIn("./");
+        Commit currCommit = Commit.deserialize("./.gitlet", currHeadID);
         Commit split = Commit.deserialize("./.gitlet/", splitID);
         Commit givenCommit = Commit.deserialize("./.gitlet/", heads.get(branchName).getID());
         HashMap<String, String> currCon = currCommit.getContents();
