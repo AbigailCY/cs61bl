@@ -314,13 +314,13 @@ public class Gitlet implements Serializable {
             System.out.println("Cannot merge a branch with itself.");
             return;
         }
-
+//        split point finded
         Commit currCommit = Commit.deserialize("./.gitlet/", currHeadID);
         String splitID = isSplit.get(Arrays.asList(branchName, currBranch));
         if (splitID == null) {
             splitID = isSplit.get(Arrays.asList(currBranch, branchName));
         }
-
+//        error
         if (splitID.equals(heads.get(branchName).getID())) {
             System.out.println("Given branch is an ancestor of the current branch");
             return;
@@ -328,7 +328,7 @@ public class Gitlet implements Serializable {
             System.out.println("Current branch fast-forward");
             return;
         }
-
+//
         List<String> currFiles = Utils.plainFilenamesIn("./");
         Commit split = Commit.deserialize("./.gitlet/", splitID);
         Commit givenCommit = Commit.deserialize("./.gitlet/", heads.get(branchName).getID());
@@ -374,8 +374,7 @@ public class Gitlet implements Serializable {
         for (String i : currFiles) {
             String iD = new Blob(new File("./" + i)).getSHA();
             if (toMerge1.contains(i) || toMerge2.contains(i)
-                    || toMerge3.contains(i) || toChange.contains(i)
-                    || toCheckout.contains(i) || toRemove.contains(i)) {
+                    || toMerge3.contains(i) || toCheckout.contains(i)) {
                 if (!currCon.containsValue(iD)) {
                     System.out.println(
                             "There is an untracked file in the way; delete it or add it first.");
