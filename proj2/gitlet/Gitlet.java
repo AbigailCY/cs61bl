@@ -140,7 +140,7 @@ public class Gitlet implements Serializable {
             return;
         }
         heads.put(branchName, heads.get(currBranch));
-        isSplit.put(Arrays.asList(currBranch, branchName), currHeadID);
+        isSplit.put(Arrays.asList(currBranch, branchName), heads.get(currBranch).getID());
         removes.put(branchName, removes.get(currBranch));
     }
 
@@ -225,7 +225,7 @@ public class Gitlet implements Serializable {
                                 + "an untracked file in the way; delete it or add it first.");
                         return;
                     } else {
-                        targetFile.delete();
+                        break;
                     }
                 }
                 targetFile.createNewFile();
@@ -233,8 +233,8 @@ public class Gitlet implements Serializable {
                 Utils.writeContents(targetFile, myContent);
             }
 
-            for (String j : Commit.deserialize("./.gitlet/", currHeadID).getContents().keySet()) {
-                if (!toCommit.getContents().keySet().contains(j)) {
+            for (String j : heads.get(currBranch).getContents().keySet()) {
+                if (!toCommit.getContents().containsKey(j)) {
                     File rmFile = new File("./" + j);
                     if (rmFile.exists()) {
                         rmFile.delete();
@@ -242,7 +242,6 @@ public class Gitlet implements Serializable {
 
                 }
             }
-
             currBranch = branchName;
             currHeadID = heads.get(currBranch).getID();
             stagingArea.clear();
