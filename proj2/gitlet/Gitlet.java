@@ -149,7 +149,7 @@ public class Gitlet implements Serializable {
             System.out.println("A branch with that name already exists.");
             return;
         }
-        heads.put(branchName, heads.get(currBranch));
+        heads.put(branchName, Commit.deserialize("./.gitlet/", currHeadID));
         isSplit.put(Arrays.asList(currBranch, branchName), heads.get(currBranch).getID());
         removes.put(branchName, removes.get(currBranch));
     }
@@ -221,7 +221,6 @@ public class Gitlet implements Serializable {
 //        System.out.println(heads.get(branchName).getID());
 //        System.out.print(heads.get(currBranch).getID());
         if (!heads.containsKey(branchName)) {
-            System.out.println(Utils.plainFilenamesIn("./"));
             System.out.println("No such branch exists.");
 
         } else if (currBranch.equals(branchName)) {
