@@ -221,7 +221,7 @@ public class Gitlet implements Serializable {
                 String blobID = toCommit.getContents().get(blobName);
                 if (targetFile.exists()) {
                     if (!new Blob(targetFile).getSHA().equals(blobID)) {
-                        if (!heads.get(currBranch).getContents().containsValue(blobID)) {
+                        if (!heads.get(currBranch).getContents().containsValue(new Blob(targetFile).getSHA())) {
                             System.out.println("There is "
                                     + "an untracked file in the way; delete it or add it first.");
                             return;
