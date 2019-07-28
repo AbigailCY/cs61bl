@@ -88,10 +88,10 @@ public class Gitlet implements Serializable {
 //            boolean workingRm = false;
             Commit myCommit = Commit.deserialize("./.gitlet/", currHeadID);
             for (String name : myCommit.getContents().keySet()) {
-                if (removes.get(currBranch).contains(name)) {
-                    rm = true;
-                } else if (!new File("./" + name).exists()) {
+                if (!new File("./" + name).exists()) {
                     removes.get(currBranch).add(name);
+                }
+                if (removes.get(currBranch).contains(name)) {
                     rm = true;
                 }
             }
@@ -208,8 +208,8 @@ public class Gitlet implements Serializable {
     }
 
     public void checkout(String branchName) throws IOException {
-        System.out.println(heads.get(branchName).getID());
-        System.out.print(heads.get(currBranch).getID());
+//        System.out.println(heads.get(branchName).getID());
+//        System.out.print(heads.get(currBranch).getID());
         if (!heads.containsKey(branchName)) {
             System.out.println(Utils.plainFilenamesIn("./"));
             System.out.println("No such branch exists.");
@@ -218,7 +218,7 @@ public class Gitlet implements Serializable {
             System.out.println("No need to checkout the current branch.");
         } else {
             Commit toCommit = heads.get(branchName);
-
+            Commit myCommit = heads.get(currBranch);
 
             for (String blobName : toCommit.getContents().keySet()) {
                 File targetFile = new File("./" + blobName);
@@ -232,14 +232,17 @@ public class Gitlet implements Serializable {
                         } else {
                             targetFile.delete();
                         }
+                    } else {
+                        continue;
                     }
                 }
                 targetFile.createNewFile();
                 byte[] myContent = Blob.deserialize("./.gitlet/" + blobID).getContent();
                 Utils.writeContents(targetFile, myContent);
+                System.out.println(blobName);
             }
 
-            for (String j : heads.get(currBranch).getContents().keySet()) {
+            for (String j : myCommit.getContents().keySet()) {
                 if (!toCommit.getContents().containsKey(j)) {
                     File rmFile = new File("./" + j);
                     if (rmFile.exists()) {
