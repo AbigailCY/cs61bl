@@ -72,7 +72,7 @@ public class Gitlet implements Serializable {
             }
 
             Blob currFile = new Blob(new File(path));
-            if (heads.get(currBranch).getContents().containsValue(currFile.getSHA())) {
+            if (commits.get(currHeadID).getContents().containsValue(currFile.getSHA())) {
                 if (heads.get(currBranch).getContents().containsKey(filename)) {
                     return;
                 }
