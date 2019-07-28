@@ -261,8 +261,6 @@ public class Gitlet implements Serializable {
 
                 }
             }
-            System.out.println(removes.get(currBranch).iterator());
-            System.out.println(removes.get(branchName).iterator());
             currBranch = branchName;
             currHeadID = heads.get(currBranch).getID();
             stagingArea.clear();
