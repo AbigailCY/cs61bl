@@ -230,12 +230,8 @@ public class Gitlet implements Serializable {
             Commit myCommit = heads.get(currBranch);
 
             for (String blobName : toCommit.getContents().keySet()) {
-//                System.out.println(blobName);
                 File targetFile = new File("./" + blobName);
-//                String blobID = toCommit.getContents().get(blobName);
-//                System.out.println(blobID);
-//                System.out.println(Utils.plainFilenamesIn("./.gitlet"));
-//                System.out.println(new Blob(targetFile).getSHA());
+                String blobID = toCommit.getContents().get(blobName);
                 if (targetFile.exists()) {
                     if (!new Blob(targetFile).getSHA().equals(blobID)) {
                         if (!heads.get(currBranch).getContents().containsValue(new Blob(targetFile).getSHA())) {
@@ -252,7 +248,6 @@ public class Gitlet implements Serializable {
                 targetFile.createNewFile();
                 byte[] myContent = Blob.deserialize("./.gitlet/" + blobID).getContent();
                 Utils.writeContents(targetFile, myContent);
-                System.out.println(blobName);
             }
 
             for (String j : myCommit.getContents().keySet()) {
