@@ -99,7 +99,8 @@ public class Gitlet implements Serializable {
                 return;
             }
         }
-        if (!heads.get(currBranch).getContents().isEmpty()) {
+        Commit mycom = Commit.deserialize("./.gitlet/", currHeadID);
+        if (!mycom.getContents().isEmpty()) {
             for (String name : heads.get(currBranch).getContents().keySet()) {
                 if (!new File("./" + name).exists()) {
                     removes.get(currBranch).add(name);
@@ -109,8 +110,7 @@ public class Gitlet implements Serializable {
                 }
             }
         }
-        Commit currCom = heads.get(currBranch);
-        Commit newCom = new Commit(currCom.getID(), message,
+        Commit newCom = new Commit(currHeadID, message,
                 stagingArea, commits, "./.gitlet/", removes.get(currBranch));
         removes.get(currBranch).clear();
         currHeadID = newCom.initializeID("./.gitlet/");
@@ -174,8 +174,8 @@ public class Gitlet implements Serializable {
     }
 
     public void checkout(String fileName, int num) throws IOException {
-        Commit myCommit = commits.get(currHeadID);
-        if (!myCommit.getContents().containsKey(fileName)) {
+        Commit mycom = Commit.deserialize("./.gitlet/", currHeadID);
+        if (!mycom.getContents().containsKey(fileName)) {
             System.out.println("File does not exist in that commit.");
         } else {
             File targetFile = new File("./" + fileName);
@@ -183,7 +183,7 @@ public class Gitlet implements Serializable {
                 targetFile.delete();
             }
             targetFile.createNewFile();
-            String fileID = myCommit.getContents().get(fileName);
+            String fileID = mycom.getContents().get(fileName);
             byte[] myContent = Blob.deserialize("./.gitlet/" + fileID).getContent();
             Utils.writeContents(targetFile, myContent);
         }
@@ -343,7 +343,7 @@ public class Gitlet implements Serializable {
         }
 //
         List<String> currFiles = Utils.plainFilenamesIn("./");
-        Commit currCommit = heads.get(currBranch);
+        Commit currCommit = Commit.deserialize("./.gitlet/", currHeadID);
         Commit split = Commit.deserialize("./.gitlet/", splitID);
         Commit givenCommit = Commit.deserialize("./.gitlet/", heads.get(branchName).getID());
         HashMap<String, String> currCon = currCommit.getContents();
