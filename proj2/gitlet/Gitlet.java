@@ -74,7 +74,7 @@ public class Gitlet implements Serializable {
             Blob currFile = new Blob(new File(path));
             Commit mycom = Commit.deserialize("./.gitlet/", currHeadID);
             if (mycom.getContents().containsValue(currFile.getSHA())) {
-                    return;
+                return;
             }
             File myFile = currFile.serialize("./.gitlet/StagingArea/");
             stagingArea.put(filename, myFile.getName());
@@ -416,7 +416,6 @@ public class Gitlet implements Serializable {
 //                File myFile = new File("./" + fileName);
 
 
-
 //                System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
 //                System.out.println(Utils.plainFilenamesIn("./"));
 //                System.out.println(Utils.plainFilenamesIn("./StagingArea"));
@@ -424,11 +423,11 @@ public class Gitlet implements Serializable {
 //                System.out.println(givenCon.get(fileName));
 
 
-
-
 //                byte[] sp = System.getProperty("line.separator").getBytes();
-//                byte[] current = Blob.deserialize("./.gitlet/" + currCon.get(fileName)).getContent();
-//                byte[] given = Blob.deserialize("./.gitlet/" + givenCon.get(fileName)).getContent();
+//                byte[] current = Blob.deserialize("./.gitlet/"
+//                        + currCon.get(fileName)).getContent();
+//                byte[] given = Blob.deserialize("./.gitlet/"
+//                        + givenCon.get(fileName)).getContent();
 //                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
 //                Utils.writeContents(myFile, sp);
 //                Utils.writeContents(myFile, current);
@@ -442,7 +441,8 @@ public class Gitlet implements Serializable {
 //            for (String fileName : toMerge2) {
 //                File myFile = new File("./" + fileName);
 //                myFile.createNewFile();
-//                byte[] given = Blob.deserialize("./gitlet/" + givenCon.get(fileName)).getContent();
+//                byte[] given = Blob.deserialize("./gitlet/"
+//                        + givenCon.get(fileName)).getContent();
 //                byte[] sp = System.getProperty("line.separator").getBytes();
 //                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
 //                Utils.writeContents(myFile, sp);
@@ -455,7 +455,8 @@ public class Gitlet implements Serializable {
 //            }
 //            for (String fileName : toMerge3) {
 //                File myFile = new File("./" + fileName);
-//                byte[] current = Blob.deserialize("./gitlet/" + currCon.get(fileName)).getContent();
+//                byte[] current = Blob.deserialize("./gitlet/"
+//                        + currCon.get(fileName)).getContent();
 //                byte[] sp = System.getProperty("line.separator").getBytes();
 //                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
 //                Utils.writeContents(myFile, sp);

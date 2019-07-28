@@ -63,7 +63,8 @@ public class Commit implements Serializable {
             } else {
                 contents.put(keyName, stagingArea.get(keyName));
                 if (!new File(gitletDirectory + stagingArea.get(keyName)).exists()) {
-                    Files.move(Paths.get(gitletDirectory + "StagingArea/" + stagingArea.get(keyName)),
+                    Files.move(Paths.get(gitletDirectory
+                                    + "StagingArea/" + stagingArea.get(keyName)),
                             Paths.get(gitletDirectory + stagingArea.get(keyName)));
                 }
             }
