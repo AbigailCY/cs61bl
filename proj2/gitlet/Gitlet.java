@@ -341,12 +341,12 @@ public class Gitlet implements Serializable {
         HashSet<String> toMerge3 = new HashSet<>();
         HashSet<String> toRemove = new HashSet<>();
         HashSet<String> toCheckout = new HashSet<>();
-//        HashSet<String> toChange = new HashSet<>();
         for (String file : splitCon.keySet()) {
             if (currCon.containsKey(file) && givenCon.containsKey(file)) {
-//                && !currCon.get(file).equals(givenCon.get(file))
                 if (!currCon.get(file).equals(splitCon.get(file))
-                        && !givenCon.get(file).equals(splitCon.get(file))) {
+                        && !givenCon.get(file).equals(splitCon.get(file))
+                        && !currCon.get(file).equals(givenCon.get(file))) {
+
                     toMerge1.add(file);
                 } else if (currCon.get(file).equals(splitCon.get(file))
                         && !givenCon.get(file).equals(splitCon.get(file))) {
