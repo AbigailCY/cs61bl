@@ -289,6 +289,8 @@ public class Gitlet implements Serializable {
                         System.out.println("There is an untracked file "
                                 + "in the way; delete it or add it first.");
                         return;
+                    } else {
+                        new File("./" + i).delete();
                     }
                 }
             }
