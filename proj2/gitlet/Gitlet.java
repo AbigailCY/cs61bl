@@ -121,7 +121,8 @@ public class Gitlet implements Serializable {
     }
 
     public void rm(String fileName) {
-        if (heads.get(currBranch).getContents().containsKey(fileName)) {
+        Commit mycom = Commit.deserialize("./.gitlet/", currHeadID);
+        if (mycom.getContents().containsKey(fileName)) {
 //            String targetID = heads.get(currBranch).getContents().get(fileName);
 //            Blob targetBlob = Blob.deserialize("./.gitlet/" + targetID);
 //            targetBlob.setToRemove(true);
