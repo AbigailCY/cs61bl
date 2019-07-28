@@ -100,11 +100,13 @@ public class Gitlet implements Serializable {
                 return;
             }
         }
-        for (String name : commits.get(currBranch).getContents().keySet()) {
-            if (!new File("./" + name).exists()) {
-                removes.get(currBranch).add(name);
-                if (stagingArea.containsKey(name)) {
-                    stagingArea.remove(name);
+        if (commits.get(currBranch).getContents() != null) {
+            for (String name : commits.get(currBranch).getContents().keySet()) {
+                if (!new File("./" + name).exists()) {
+                    removes.get(currBranch).add(name);
+                    if (stagingArea.containsKey(name)) {
+                        stagingArea.remove(name);
+                    }
                 }
             }
         }
