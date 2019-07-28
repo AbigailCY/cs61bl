@@ -281,19 +281,19 @@ public class Gitlet implements Serializable {
             List<String> currFiles = Utils.plainFilenamesIn("./");
             Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
             Commit headCommit = Commit.deserialize("./.gitlet/", currHeadID);
-            for (String i : currFiles) {
-                String iD = new Blob(new File("./" + i)).getSHA();
-                if (!headCommit.getContents().containsValue(iD) && !stagingArea.containsValue(iD)) {
-                    if (currCommit.getContents().containsKey(i)
-                            && currCommit.getContents().get(i) != iD) {
-                        System.out.println("There is an untracked file "
-                                + "in the way; delete it or add it first.");
-                        return;
-                    } else {
-                        new File("./" + i).delete();
-                    }
-                }
-            }
+//            for (String i : currFiles) {
+//                String iD = new Blob(new File("./" + i)).getSHA();
+//                if (!headCommit.getContents().containsValue(iD) && !stagingArea.containsValue(iD)) {
+//                    if (currCommit.getContents().containsKey(i)
+//                            && currCommit.getContents().get(i) != iD) {
+//                        System.out.println("There is an untracked file "
+//                                + "in the way; delete it or add it first.");
+//                        return;
+//                    } else {
+//                        new File("./" + i).delete();
+//                    }
+//                }
+//            }
 
             for (String blobName : currCommit.getContents().keySet()) {
                 checkout(commitID, blobName);
@@ -418,13 +418,13 @@ public class Gitlet implements Serializable {
             System.out.println("Encountered a merge conflict.");
             for (String fileName : toMerge1) {
                 File myFile = new File("./" + fileName);
-
-
-                System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
-                System.out.println(Utils.plainFilenamesIn("./"));
-                System.out.println(Utils.plainFilenamesIn("./StagingArea"));
-                System.out.println(currCon.get(fileName));
-                System.out.println(givenCon.get(fileName));
+//
+//
+//                System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
+//                System.out.println(Utils.plainFilenamesIn("./"));
+//                System.out.println(Utils.plainFilenamesIn("./StagingArea"));
+//                System.out.println(currCon.get(fileName));
+//                System.out.println(givenCon.get(fileName));
 
 
                 byte[] sp = System.getProperty("line.separator").getBytes();
