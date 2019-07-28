@@ -218,8 +218,6 @@ public class Gitlet implements Serializable {
     }
 
     public void checkout(String branchName) throws IOException {
-//        System.out.println(heads.get(branchName).getID());
-//        System.out.print(heads.get(currBranch).getID());
         if (!heads.containsKey(branchName)) {
             System.out.println("No such branch exists.");
 
@@ -227,14 +225,14 @@ public class Gitlet implements Serializable {
             System.out.println("No need to checkout the current branch.");
         } else {
             Commit toCommit = Commit.deserialize("./.gitlet/", heads.get(branchName).getID());
-            Commit myCommit = heads.get(currBranch);
+            Commit myCommit = Commit.deserialize("./.gitlet/", currHeadID);
 
             for (String blobName : toCommit.getContents().keySet()) {
                 File targetFile = new File("./" + blobName);
                 String blobID = toCommit.getContents().get(blobName);
                 if (targetFile.exists()) {
                     if (!new Blob(targetFile).getSHA().equals(blobID)) {
-                        if (!heads.get(currBranch).getContents().containsValue(new Blob(targetFile).getSHA())) {
+                        if (!myCommit.getContents().containsKey(blobName)) {
                             System.out.println("There is "
                                     + "an untracked file in the way; delete it or add it first.");
                             return;
