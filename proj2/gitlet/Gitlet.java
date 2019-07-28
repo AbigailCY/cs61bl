@@ -315,7 +315,7 @@ public class Gitlet implements Serializable {
             return;
         }
 //        split point finded
-        Commit currCommit = Commit.deserialize("./.gitlet/", currHeadID);
+        Commit currCommit = heads.get(currBranch);
         String splitID = isSplit.get(Arrays.asList(branchName, currBranch));
         if (splitID == null) {
             splitID = isSplit.get(Arrays.asList(currBranch, branchName));
@@ -410,6 +410,7 @@ public class Gitlet implements Serializable {
                 Utils.writeContents(myFile, sp);
                 Utils.writeContents(myFile, given);
                 Utils.writeContents(myFile, ">>>>>>>".getBytes());
+                add(fileName);
             }
 
             for (String fileName : toMerge2) {
@@ -424,6 +425,7 @@ public class Gitlet implements Serializable {
                 Utils.writeContents(myFile, sp);
                 Utils.writeContents(myFile, given);
                 Utils.writeContents(myFile, ">>>>>>>".getBytes());
+                add(fileName);
             }
             for (String fileName : toMerge3) {
                 File myFile = new File("./" + fileName);
@@ -436,6 +438,7 @@ public class Gitlet implements Serializable {
                 Utils.writeContents(myFile, sp);
                 Utils.writeContents(myFile, sp);
                 Utils.writeContents(myFile, ">>>>>>>".getBytes());
+                add(fileName);
             }
             commit("Encountered a merge conflict.");
 
