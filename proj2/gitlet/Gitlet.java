@@ -446,10 +446,9 @@ public class Gitlet implements Serializable {
                 byte[] given = Blob.deserialize("./gitlet/"
                         + givenCon.get(fileName)).getContent();
                 String sp = System.getProperty("line.separator");
-                Utils.writeContents(myFile, ("<<<<<<< HEAD" + sp + sp).getBytes());
-                Utils.writeContents(myFile, ("=======" + sp).getBytes());
-                Utils.writeContents(myFile, given);
-                Utils.writeContents(myFile, (sp + ">>>>>>>").getBytes());
+                String contents = "<<<<<<< HEAD" + sp + sp + "======="
+                        + sp + new String(given) + sp + ">>>>>>>";
+                Utils.writeContents(myFile, contents.getBytes());
                 add(fileName);
             }
             for (String fileName : toMerge3) {
@@ -457,10 +456,9 @@ public class Gitlet implements Serializable {
                 byte[] current = Blob.deserialize("./gitlet/"
                         + currCon.get(fileName)).getContent();
                 String sp = System.getProperty("line.separator");
-                Utils.writeContents(myFile, ("<<<<<<< HEAD" + sp).getBytes());
-                Utils.writeContents(myFile, current);
-                Utils.writeContents(myFile, ("=======" + sp + sp).getBytes());
-                Utils.writeContents(myFile, ">>>>>>>".getBytes());
+                String contents = "<<<<<<< HEAD" + sp + new String(current)
+                        + "=======" + sp + sp + ">>>>>>>";
+                Utils.writeContents(myFile, contents.getBytes());
                 add(fileName);
             }
             commit("Encountered a merge conflict.");
