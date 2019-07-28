@@ -101,7 +101,7 @@ public class Gitlet implements Serializable {
             }
         }
         if (!heads.get(currBranch).getContents().isEmpty()) {
-            for (String name : commits.get(currBranch).getContents().keySet()) {
+            for (String name : heads.get(currBranch).getContents().keySet()) {
                 if (!new File("./" + name).exists()) {
                     removes.get(currBranch).add(name);
                     if (stagingArea.containsKey(name)) {
