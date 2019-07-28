@@ -257,6 +257,8 @@ public class Gitlet implements Serializable {
 
                 }
             }
+            System.out.println(removes.get(currBranch).iterator());
+            System.out.println(removes.get(branchName).iterator());
             currBranch = branchName;
             currHeadID = heads.get(currBranch).getID();
             stagingArea.clear();
@@ -281,19 +283,19 @@ public class Gitlet implements Serializable {
             List<String> currFiles = Utils.plainFilenamesIn("./");
             Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
             Commit headCommit = Commit.deserialize("./.gitlet/", currHeadID);
-//            for (String i : currFiles) {
-//                String iD = new Blob(new File("./" + i)).getSHA();
-//                if (!headCommit.getContents().containsValue(iD) && !stagingArea.containsValue(iD)) {
-//                    if (currCommit.getContents().containsKey(i)
-//                            && currCommit.getContents().get(i) != iD) {
-//                        System.out.println("There is an untracked file "
-//                                + "in the way; delete it or add it first.");
-//                        return;
-//                    } else {
-//                        new File("./" + i).delete();
-//                    }
-//                }
-//            }
+            for (String i : currFiles) {
+                String iD = new Blob(new File("./" + i)).getSHA();
+                if (!headCommit.getContents().containsValue(iD) && !stagingArea.containsValue(iD)) {
+                    if (currCommit.getContents().containsKey(i)
+                            && currCommit.getContents().get(i) != iD) {
+                        System.out.println("There is an untracked file "
+                                + "in the way; delete it or add it first.");
+                        return;
+                    } else {
+                        new File("./" + i).delete();
+                    }
+                }
+            }
 
             for (String blobName : currCommit.getContents().keySet()) {
                 checkout(commitID, blobName);
