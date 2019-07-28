@@ -446,26 +446,20 @@ public class Gitlet implements Serializable {
                 byte[] given = Blob.deserialize("./gitlet/"
                         + givenCon.get(fileName)).getContent();
                 String sp = System.getProperty("line.separator");
-                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, "=======".getBytes());
-                Utils.writeContents(myFile, sp);
+                Utils.writeContents(myFile, ("<<<<<<< HEAD" + sp + sp).getBytes());
+                Utils.writeContents(myFile, ("=======" + sp).getBytes());
                 Utils.writeContents(myFile, given);
-                Utils.writeContents(myFile, ">>>>>>>".getBytes());
+                Utils.writeContents(myFile, (sp + ">>>>>>>").getBytes());
                 add(fileName);
             }
             for (String fileName : toMerge3) {
                 File myFile = new File("./" + fileName);
                 byte[] current = Blob.deserialize("./gitlet/"
                         + currCon.get(fileName)).getContent();
-                byte[] sp = System.getProperty("line.separator").getBytes();
-                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
-                Utils.writeContents(myFile, sp);
+                String sp = System.getProperty("line.separator");
+                Utils.writeContents(myFile, ("<<<<<<< HEAD" + sp).getBytes());
                 Utils.writeContents(myFile, current);
-                Utils.writeContents(myFile, "=======".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, sp);
+                Utils.writeContents(myFile, ("=======" + sp + sp).getBytes());
                 Utils.writeContents(myFile, ">>>>>>>".getBytes());
                 add(fileName);
             }
