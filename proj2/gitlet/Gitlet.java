@@ -403,7 +403,7 @@ public class Gitlet implements Serializable {
                 File myFile = new File("./" + fileName);
                 System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
                 System.out.println(Utils.plainFilenamesIn("./"));
-                System.out.println(Utils.plainFilenamesIn("./"));
+                System.out.println(Utils.plainFilenamesIn("./StagingArea"));
                 System.out.println(currCon.get(fileName));
                 System.out.println(givenCon.get(fileName));
                 byte[] sp = System.getProperty("line.separator").getBytes();
