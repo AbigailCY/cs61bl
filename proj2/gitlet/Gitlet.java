@@ -425,13 +425,13 @@ public class Gitlet implements Serializable {
 //                System.out.println(givenCon.get(fileName));
 
 
-                byte[] sp = System.getProperty("line.separator").getBytes();
+                String sp = System.getProperty("line.separator");
                 byte[] current = Blob.deserialize("./.gitlet/"
                         + currCon.get(fileName)).getContent();
                 byte[] given = Blob.deserialize("./.gitlet/"
                         + givenCon.get(fileName)).getContent();
-                String contents = "<<<<<<< HEAD" + sp.toString() + current.toString()
-                        + "=======" + sp.toString() + given.toString() + ">>>>>>>";
+                String contents = "<<<<<<< HEAD" + sp + new String(current)
+                        + sp + "=======" + sp + new String(given) + sp + ">>>>>>>";
 
                 Utils.writeContents(myFile, contents.getBytes());
                 add(fileName);
@@ -445,7 +445,7 @@ public class Gitlet implements Serializable {
                 myFile.createNewFile();
                 byte[] given = Blob.deserialize("./gitlet/"
                         + givenCon.get(fileName)).getContent();
-                byte[] sp = System.getProperty("line.separator").getBytes();
+                String sp = System.getProperty("line.separator");
                 Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
                 Utils.writeContents(myFile, sp);
                 Utils.writeContents(myFile, sp);
