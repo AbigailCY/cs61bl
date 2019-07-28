@@ -340,7 +340,7 @@ public class Gitlet implements Serializable {
         HashSet<String> toMerge3 = new HashSet<>();
         HashSet<String> toRemove = new HashSet<>();
         HashSet<String> toCheckout = new HashSet<>();
-        HashSet<String> toChange = new HashSet<>();
+//        HashSet<String> toChange = new HashSet<>();
         for (String file : splitCon.keySet()) {
             if (currCon.containsKey(file) && givenCon.containsKey(file)) {
                 if (!currCon.get(file).equals(splitCon.get(file))
@@ -348,7 +348,7 @@ public class Gitlet implements Serializable {
                     toMerge1.add(file);
                 } else if (currCon.get(file).equals(splitCon.get(file))
                         && !givenCon.get(file).equals(splitCon.get(file))) {
-                    toChange.add(file);
+                    toCheckout.add(file);
                 }
             } else if (!currCon.containsKey(file) && givenCon.containsKey(file)) {
                 if (!givenCon.get(file).equals(splitCon.get(file))) {
@@ -375,17 +375,17 @@ public class Gitlet implements Serializable {
             String iD = new Blob(new File("./" + i)).getSHA();
             if (toMerge1.contains(i) || toMerge2.contains(i)
                     || toMerge3.contains(i) || toCheckout.contains(i)) {
-                if (!currCon.containsValue(iD)) {
+                if (!currCon.containsValue(iD) && !stagingArea.containsValue(iD)) {
                     System.out.println(
                             "There is an untracked file in the way; delete it or add it first.");
                     return;
                 }
             }
         }
-        for (String fileName : toChange) {
-            checkout(givenCommit.getID(), fileName);
-            add(fileName);
-        }
+//        for (String fileName : toChange) {
+//            checkout(givenCommit.getID(), fileName);
+//            add(fileName);
+//        }
         for (String fileName : toCheckout) {
             checkout(givenCommit.getID(), fileName);
             add(fileName);
