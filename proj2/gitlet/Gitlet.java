@@ -23,7 +23,7 @@ public class Gitlet implements Serializable {
     private HashMap<String, Commit> heads = new HashMap<>();
     //   Commits: commit SHA1 -- commit
     private HashMap<String, Commit> commits = new HashMap<>();
-//    Removes: remove file name--SHA
+//    Removes: remove branch == filename
     private HashMap<String, HashSet<String>> removes = new HashMap<>();
     private String currHeadID;
     private String currBranch;
@@ -151,7 +151,11 @@ public class Gitlet implements Serializable {
         }
         heads.put(branchName, Commit.deserialize("./.gitlet/", currHeadID));
         isSplit.put(Arrays.asList(currBranch, branchName), heads.get(currBranch).getID());
-        removes.put(branchName, removes.get(currBranch));
+        HashSet<String> newSet = new HashSet<>();
+        for (String i : removes.get(currBranch)) {
+            newSet.add(i);
+        }
+        removes.put(branchName, newSet);
     }
 
     public void rmBranch(String branchName) {
