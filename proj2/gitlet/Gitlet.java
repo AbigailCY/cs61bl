@@ -209,10 +209,10 @@ public class Gitlet implements Serializable {
 
     public void checkout(String branchName) throws IOException {
         System.out.println(heads.get(branchName).getID());
+        System.out.print(heads.get(currBranch).getID());
         if (!heads.containsKey(branchName)) {
-            System.out.print(currHeadID + "sa");
             System.out.println(Utils.plainFilenamesIn("./"));
-            System.out.println("No such branch existswd.");
+            System.out.println("No such branch exists.");
 
         } else if (currBranch.equals(branchName)) {
             System.out.println("No need to checkout the current branch.");
