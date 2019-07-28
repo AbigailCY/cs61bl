@@ -397,6 +397,7 @@ public class Gitlet implements Serializable {
         if (toMerge1.isEmpty() && toMerge2.isEmpty() && toMerge3.isEmpty()) {
             String message = "Merged [" + currBranch + "] with [" + branchName + "].";
             commit(message);
+            status();
             return;
         } else {
             System.out.println("Encountered a merge conflict.");
