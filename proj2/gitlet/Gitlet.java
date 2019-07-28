@@ -383,10 +383,7 @@ public class Gitlet implements Serializable {
 //                }
 //            }
 //        }
-//        for (String fileName : toChange) {
-//            checkout(givenCommit.getID(), fileName);
-//            add(fileName);
-//        }
+
         for (String fileName : toCheckout) {
             checkout(givenCommit.getID(), fileName);
             add(fileName);
@@ -403,13 +400,12 @@ public class Gitlet implements Serializable {
             System.out.println("Encountered a merge conflict.");
             for (String fileName : toMerge1) {
                 File myFile = new File("./" + fileName);
-                System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
-                System.out.println(Utils.plainFilenamesIn("./"));
-                System.out.println(Utils.plainFilenamesIn("./StagingArea"));
-                System.out.println(currCon.get(fileName));
-                System.out.println(givenCon.get(fileName));
+//                System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
+//                System.out.println(Utils.plainFilenamesIn("./"));
+//                System.out.println(Utils.plainFilenamesIn("./StagingArea"));
+//                System.out.println(currCon.get(fileName));
+//                System.out.println(givenCon.get(fileName));
                 byte[] sp = System.getProperty("line.separator").getBytes();
-                System.out.println(sp);
                 byte[] current = Blob.deserialize("./.gitlet/" + currCon.get(fileName)).getContent();
                 byte[] given = Blob.deserialize("./.gitlet/" + givenCon.get(fileName)).getContent();
                 Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
