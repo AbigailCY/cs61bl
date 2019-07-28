@@ -443,6 +443,9 @@ public class Gitlet implements Serializable {
             }
 
             for (String fileName : toMerge2) {
+                System.out.println(fileName);
+                System.out.println(givenCon.get(fileName));
+                System.out.println(Utils.plainFilenamesIn("./gitlet/"));
                 File myFile = new File("./" + fileName);
                 myFile.createNewFile();
                 byte[] given = Blob.deserialize("./gitlet/"
