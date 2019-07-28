@@ -281,17 +281,17 @@ public class Gitlet implements Serializable {
             List<String> currFiles = Utils.plainFilenamesIn("./");
             Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
             Commit headCommit = Commit.deserialize("./.gitlet/", currHeadID);
-//            for (String i : currFiles) {
-//                if (!headCommit.getContents().containsKey(i)) {
-//                    String iD = new Blob(new File("./" + i)).getSHA();
-//                    if (currCommit.getContents().containsKey(i)
-//                            && currCommit.getContents().get(i) != iD) {
-//                        System.out.println("There is an untracked file "
-//                                + "in the way; delete it or add it first.");
-//                        return;
-//                    }
-//                }
-//            }
+            for (String i : currFiles) {
+                if (!headCommit.getContents().containsKey(i) && !stagingArea.containsKey(i)) {
+                    String iD = new Blob(new File("./" + i)).getSHA();
+                    if (currCommit.getContents().containsKey(i)
+                            && currCommit.getContents().get(i) != iD) {
+                        System.out.println("There is an untracked file "
+                                + "in the way; delete it or add it first.");
+                        return;
+                    }
+                }
+            }
 
             for (String blobName : currCommit.getContents().keySet()) {
                 File targetFile = new File("./" + blobName);
