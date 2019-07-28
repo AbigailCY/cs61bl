@@ -282,8 +282,8 @@ public class Gitlet implements Serializable {
             Commit currCommit = Commit.deserialize("./.gitlet/", commitID);
             Commit headCommit = Commit.deserialize("./.gitlet/", currHeadID);
             for (String i : currFiles) {
-                if (!headCommit.getContents().containsKey(i) && !stagingArea.containsKey(i)) {
-                    String iD = new Blob(new File("./" + i)).getSHA();
+                String iD = new Blob(new File("./" + i)).getSHA();
+                if (!headCommit.getContents().containsValue(iD) && !stagingArea.containsValue(iD)) {
                     if (currCommit.getContents().containsKey(i)
                             && currCommit.getContents().get(i) != iD) {
                         System.out.println("There is an untracked file "
@@ -296,15 +296,18 @@ public class Gitlet implements Serializable {
             }
 
             for (String blobName : currCommit.getContents().keySet()) {
+                checkout(commitID, blobName);
                 File targetFile = new File("./" + blobName);
                 if (targetFile.exists()) {
                     targetFile.delete();
                 }
                 targetFile.createNewFile();
-                String blobID = currCommit.getContents().get(blobName);
-                byte[] myContent = Blob.deserialize("./.gitlet/" + blobID).getContent();
+                String fileID = currCommit.getContents().get(blobName);
+                byte[] myContent = Blob.deserialize("./.gitlet/" + fileID).getContent();
                 Utils.writeContents(targetFile, myContent);
             }
+
+
 
             for (String j : headCommit.getContents().keySet()) {
                 if (!currCommit.getContents().containsKey(j)) {
