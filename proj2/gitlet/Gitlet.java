@@ -208,13 +208,17 @@ public class Gitlet implements Serializable {
     }
 
     public void checkout(String branchName) throws IOException {
-
+        System.out.println(heads.get(branchName).getID());
         if (!heads.containsKey(branchName)) {
-            System.out.println("No such branch exists.");
+            System.out.print(currHeadID + "sa");
+            System.out.println(Utils.plainFilenamesIn("./"));
+            System.out.println("No such branch exists." + "sa");
+
         } else if (currBranch.equals(branchName)) {
             System.out.println("No need to checkout the current branch.");
         } else {
             Commit toCommit = heads.get(branchName);
+
 
             for (String blobName : toCommit.getContents().keySet()) {
                 File targetFile = new File("./" + blobName);
