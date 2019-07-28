@@ -386,6 +386,7 @@ public class Gitlet implements Serializable {
                 }
             }
         }
+    }
 //        for (String i : currFiles) {
 //            String iD = new Blob(new File("./" + i)).getSHA();
 //            if (toMerge1.contains(i) || toMerge3.contains(i) || toCheckout.contains(i)) {
@@ -397,71 +398,78 @@ public class Gitlet implements Serializable {
 //            }
 //        }
 
-        for (String fileName : toCheckout) {
-            checkout(givenCommit.getID(), fileName);
-            add(fileName);
-        }
-        for (String fileName : toRemove) {
-            rm(fileName);
-        }
-        if (toMerge1.isEmpty() && toMerge2.isEmpty() && toMerge3.isEmpty()) {
-            String message = "Merged [" + currBranch + "] with [" + branchName + "].";
-            commit(message);
-            status();
-            return;
-        } else {
-            System.out.println("Encountered a merge conflict.");
-            for (String fileName : toMerge1) {
-                File myFile = new File("./" + fileName);
+//        for (String fileName : toCheckout) {
+//            checkout(givenCommit.getID(), fileName);
+//            add(fileName);
+//        }
+//        for (String fileName : toRemove) {
+//            rm(fileName);
+//        }
+//        if (toMerge1.isEmpty() && toMerge2.isEmpty() && toMerge3.isEmpty()) {
+//            String message = "Merged [" + currBranch + "] with [" + branchName + "].";
+//            commit(message);
+//            status();
+//            return;
+//        } else {
+//            System.out.println("Encountered a merge conflict.");
+//            for (String fileName : toMerge1) {
+//                File myFile = new File("./" + fileName);
+
+
+
 //                System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
 //                System.out.println(Utils.plainFilenamesIn("./"));
 //                System.out.println(Utils.plainFilenamesIn("./StagingArea"));
 //                System.out.println(currCon.get(fileName));
 //                System.out.println(givenCon.get(fileName));
-                byte[] sp = System.getProperty("line.separator").getBytes();
-                byte[] current = Blob.deserialize("./.gitlet/" + currCon.get(fileName)).getContent();
-                byte[] given = Blob.deserialize("./.gitlet/" + givenCon.get(fileName)).getContent();
-                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, current);
-                Utils.writeContents(myFile, "=======".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, given);
-                Utils.writeContents(myFile, ">>>>>>>".getBytes());
-                add(fileName);
-            }
 
-            for (String fileName : toMerge2) {
-                File myFile = new File("./" + fileName);
-                myFile.createNewFile();
-                byte[] given = Blob.deserialize("./gitlet/" + givenCon.get(fileName)).getContent();
-                byte[] sp = System.getProperty("line.separator").getBytes();
-                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, "=======".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, given);
-                Utils.writeContents(myFile, ">>>>>>>".getBytes());
-                add(fileName);
-            }
-            for (String fileName : toMerge3) {
-                File myFile = new File("./" + fileName);
-                byte[] current = Blob.deserialize("./gitlet/" + currCon.get(fileName)).getContent();
-                byte[] sp = System.getProperty("line.separator").getBytes();
-                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, current);
-                Utils.writeContents(myFile, "=======".getBytes());
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, sp);
-                Utils.writeContents(myFile, ">>>>>>>".getBytes());
-                add(fileName);
-            }
-            commit("Encountered a merge conflict.");
 
-        }
-    }
+
+
+//                byte[] sp = System.getProperty("line.separator").getBytes();
+//                byte[] current = Blob.deserialize("./.gitlet/" + currCon.get(fileName)).getContent();
+//                byte[] given = Blob.deserialize("./.gitlet/" + givenCon.get(fileName)).getContent();
+//                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
+//                Utils.writeContents(myFile, sp);
+//                Utils.writeContents(myFile, current);
+//                Utils.writeContents(myFile, "=======".getBytes());
+//                Utils.writeContents(myFile, sp);
+//                Utils.writeContents(myFile, given);
+//                Utils.writeContents(myFile, ">>>>>>>".getBytes());
+//                add(fileName);
+//            }
+//
+//            for (String fileName : toMerge2) {
+//                File myFile = new File("./" + fileName);
+//                myFile.createNewFile();
+//                byte[] given = Blob.deserialize("./gitlet/" + givenCon.get(fileName)).getContent();
+//                byte[] sp = System.getProperty("line.separator").getBytes();
+//                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
+//                Utils.writeContents(myFile, sp);
+//                Utils.writeContents(myFile, sp);
+//                Utils.writeContents(myFile, "=======".getBytes());
+//                Utils.writeContents(myFile, sp);
+//                Utils.writeContents(myFile, given);
+//                Utils.writeContents(myFile, ">>>>>>>".getBytes());
+//                add(fileName);
+//            }
+//            for (String fileName : toMerge3) {
+//                File myFile = new File("./" + fileName);
+//                byte[] current = Blob.deserialize("./gitlet/" + currCon.get(fileName)).getContent();
+//                byte[] sp = System.getProperty("line.separator").getBytes();
+//                Utils.writeContents(myFile, "<<<<<<< HEAD".getBytes());
+//                Utils.writeContents(myFile, sp);
+//                Utils.writeContents(myFile, current);
+//                Utils.writeContents(myFile, "=======".getBytes());
+//                Utils.writeContents(myFile, sp);
+//                Utils.writeContents(myFile, sp);
+//                Utils.writeContents(myFile, ">>>>>>>".getBytes());
+//                add(fileName);
+//            }
+//            commit("Encountered a merge conflict.");
+
+//        }
+//    }
 
     public void log() {
         for (String pointer = currHeadID; pointer != null;
