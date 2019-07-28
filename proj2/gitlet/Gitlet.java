@@ -212,7 +212,7 @@ public class Gitlet implements Serializable {
         if (!heads.containsKey(branchName)) {
             System.out.print(currHeadID + "sa");
             System.out.println(Utils.plainFilenamesIn("./"));
-            System.out.println("No such branch exists." + "sa");
+            System.out.println("No such branch existswd.");
 
         } else if (currBranch.equals(branchName)) {
             System.out.println("No need to checkout the current branch.");
