@@ -353,12 +353,12 @@ public class Gitlet implements Serializable {
             } else if (!currCon.containsKey(file) && givenCon.containsKey(file)) {
                 if (!givenCon.get(file).equals(splitCon.get(file))) {
                     toMerge2.add(file);
-                } else {
-                    toRemove.add(file);
                 }
             } else if (currCon.containsKey(file) && !givenCon.containsKey(file)) {
                 if (!currCon.get(file).equals(splitCon.get(file))) {
                     toMerge3.add(file);
+                } else {
+                    toRemove.add(file);
                 }
             }
         }
