@@ -161,33 +161,30 @@ public class Graph implements Iterable<Integer> {
        List. If START == STOP, returns a List with START. */
     public List<Integer> path(int start, int stop) {
 
-
-        ArrayList<Integer> result = new ArrayList<Integer>();
+        ArrayList<Integer> result = new ArrayList<>();
         if (start == stop) {
             result.add(start);
         } else {
             if (!pathExists(start, stop)) {
                 return new ArrayList<>();
             }
+            List<Integer> temp = dfs(start);
+            temp = temp.subList(0, temp.indexOf(stop) + 1);
 
-            int temp = stop;
-            result.add(temp);
-            while (!neighbors(temp).contains(start)) {
-                for (int nbhd : neighbors(temp)) {
-                    if (dfs(start).contains(nbhd) && !result.contains(nbhd)) {
-                        temp = nbhd;
-                        result.add(temp);
+            result.add(stop);
+            for (int index = temp.size() - 2; index >= 0; index --) {
+                if (isAdjacent(temp.get(index), result.get(0))) {
+                    result.add(0, temp.get(index));
+                    if (result.get(0) == start) {
                         break;
                     }
                 }
+
             }
-            result.add(start);
-            Collections.reverse(result);
         }
         return result;
-
-
     }
+
 
     public List<Integer> topologicalSort() {
         ArrayList<Integer> result = new ArrayList<Integer>();
@@ -315,27 +312,22 @@ public class Graph implements Iterable<Integer> {
     }
 
     public static void main(String[] args) {
-//        Graph g1 = new Graph(5);
-//        g1.generateG1();
+
+
+
+
+        Graph g1 = new Graph(5);
+        g1.generateG1();
 //        g1.printDFS(0);
 //        g1.printDFS(2);
 //        g1.printDFS(3);
 //        g1.printDFS(4);
-//
-//        g1.printPath(0, 3);
-//        g1.printPath(0, 4);
-//        g1.printPath(1, 3);
-//        g1.printPath(1, 4);
-//        g1.printPath(4, 0);
 
-        Graph g3 = new Graph(7);
-        g3.generateG3();
-        g3.printDFS(0);
-
-        g3.printPath(0, 5);
-        g3.printPath(0, 1);
-        g3.printPath(0, 4);
-        g3.printPath(0, 6);
+        g1.printPath(0, 3);
+        g1.printPath(0, 4);
+        g1.printPath(1, 3);
+        g1.printPath(1, 4);
+        g1.printPath(4, 0);
 
 
 //        Graph g2 = new Graph(5);
