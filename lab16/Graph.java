@@ -1,9 +1,4 @@
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-import java.util.Stack;
-import java.util.HashSet;
+import java.util.*;
 
 public class Graph implements Iterable<Integer> {
 
@@ -79,9 +74,6 @@ public class Graph implements Iterable<Integer> {
     public int inDegree(int v) {
         int degree = 0;
         for (LinkedList<Edge> myList : adjLists) {
-//            if (myList.isEmpty()) {
-//                continue;
-//            }
             for (Edge myEdge : myList) {
                 if (myEdge.to == v) {
                     degree += 1;
@@ -177,17 +169,20 @@ public class Graph implements Iterable<Integer> {
             if (!pathExists(start, stop)) {
                 return new ArrayList<>();
             }
-            Iterator<Integer> iter = new DFSIterator(start);
-            while (iter.hasNext()) {
-                int num = iter.next();
-                result.add(num);
-                if (num == stop) {
-                    break;
-                }else if (isAdjacent(num, stop)) {
-                    result.add(stop);
-                    break;
+
+            int temp = stop;
+            result.add(temp);
+            while (!neighbors(temp).contains(start)) {
+                for (int nbhd : neighbors(temp)) {
+                    if (dfs(start).contains(nbhd)) {
+                        temp = nbhd;
+                        result.add(temp);
+                        break;
+                    }
                 }
             }
+            result.add(start);
+            Collections.reverse(result);
         }
         return result;
 
@@ -268,13 +263,12 @@ public class Graph implements Iterable<Integer> {
     }
 
     private void generateG3() {
+        addUndirectedEdge(0, 1);
         addUndirectedEdge(0, 2);
-        addUndirectedEdge(0, 3);
+        addUndirectedEdge(1, 3);
         addUndirectedEdge(1, 4);
-        addUndirectedEdge(1, 5);
-        addUndirectedEdge(2, 3);
+        addUndirectedEdge(2, 5);
         addUndirectedEdge(2, 6);
-        addUndirectedEdge(4, 5);
     }
 
     private void generateG4() {
@@ -321,21 +315,31 @@ public class Graph implements Iterable<Integer> {
     }
 
     public static void main(String[] args) {
-        Graph g1 = new Graph(5);
-        g1.generateG1();
-        g1.printDFS(0);
-        g1.printDFS(2);
-        g1.printDFS(3);
-        g1.printDFS(4);
+//        Graph g1 = new Graph(5);
+//        g1.generateG1();
+//        g1.printDFS(0);
+//        g1.printDFS(2);
+//        g1.printDFS(3);
+//        g1.printDFS(4);
+//
+//        g1.printPath(0, 3);
+//        g1.printPath(0, 4);
+//        g1.printPath(1, 3);
+//        g1.printPath(1, 4);
+//        g1.printPath(4, 0);
 
-        g1.printPath(0, 3);
-        g1.printPath(0, 4);
-        g1.printPath(1, 3);
-        g1.printPath(1, 4);
-        g1.printPath(4, 0);
+        Graph g3 = new Graph(7);
+        g3.generateG3();
+        g3.printDFS(0);
 
-        Graph g2 = new Graph(5);
-        g2.generateG2();
-        g2.printTopologicalSort();
+        g3.printPath(0, 5);
+        g3.printPath(0, 1);
+        g3.printPath(0, 4);
+        g3.printPath(0, 6);
+
+
+//        Graph g2 = new Graph(5);
+//        g2.generateG2();
+//        g2.printTopologicalSort();
     }
 }
