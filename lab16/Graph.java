@@ -174,7 +174,7 @@ public class Graph implements Iterable<Integer> {
             result.add(temp);
             while (!neighbors(temp).contains(start)) {
                 for (int nbhd : neighbors(temp)) {
-                    if (dfs(start).contains(nbhd)) {
+                    if (dfs(start).contains(nbhd) && !result.contains(nbhd)) {
                         temp = nbhd;
                         result.add(temp);
                         break;
