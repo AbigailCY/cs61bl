@@ -200,7 +200,7 @@ public class Graph implements Iterable<Integer> {
 
         Double[] distTo = new Double[adjLists.length];
         Integer[] prev = new Integer[adjLists.length];
-        HashSet<Integer> visited = new HashSet<>();
+//        HashSet<Integer> visited = new HashSet<>();
         PriorityQueue<Integer> myQueue = new PriorityQueue<>((v1, v2) -> Double.compare(distTo[v1], distTo[v2]));
 
         for (int i = 0; i < adjLists.length; i++) {
@@ -215,13 +215,13 @@ public class Graph implements Iterable<Integer> {
 
         while (!myQueue.isEmpty()) {
             int u = myQueue.poll();
-            visited.add(u);
+//            visited.add(u);
             if (u == stop) {
                 break;
             }
             for (Edge thisEdge : adjLists[u]) {
                 int v = thisEdge.to;
-                if (!visited.contains(v) && distTo[v] > distTo[u] + thisEdge.weight) {
+                if (distTo[v] > distTo[u] + thisEdge.weight) {
                     distTo[v] = distTo[u] + thisEdge.weight;
                     prev[v] = u;
                     myQueue.remove(thisEdge.to);
