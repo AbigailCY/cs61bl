@@ -416,14 +416,12 @@ public class Gitlet implements Serializable {
             System.out.println("Encountered a merge conflict.");
             for (String fileName : toMerge1) {
                 File myFile = new File("./" + fileName);
-//
-//
+
 //                System.out.println(Utils.plainFilenamesIn("./.gitlet/"));
 //                System.out.println(Utils.plainFilenamesIn("./"));
 //                System.out.println(Utils.plainFilenamesIn("./StagingArea"));
 //                System.out.println(currCon.get(fileName));
 //                System.out.println(givenCon.get(fileName));
-
 
                 String sp = System.getProperty("line.separator");
                 byte[] current = Blob.deserialize("./.gitlet/"
