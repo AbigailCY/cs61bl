@@ -1,9 +1,11 @@
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Random;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+
 /* Test suite for the KDTree.
    @author Christine Zhou */
 public class KDTreeTest {
@@ -52,15 +54,17 @@ public class KDTreeTest {
         for (Point p : queryPoints) {
             naiveNearest.add(naive.nearest(p.getX(), p.getY()));
         }
-        System.out.println(String.format("The NaivePointSet took %s seconds to perform 200 queries.", sw0.elapsedTime()));
+        System.out.println(String.format("The NaivePointSet took %s seconds to " +
+                "perform 200 queries.", sw0.elapsedTime()));
 
-        Stopwatch sw1= new Stopwatch();
+        Stopwatch sw1 = new Stopwatch();
         for (int i = 0; i < 200; i++) {
             double lon = queryPoints.get(i).getX();
             double lat = queryPoints.get(i).getY();
             assertEquals(naiveNearest.get(i), kd.nearest(lon, lat));
         }
-        System.out.println(String.format("The KDTree took %s seconds to perform 200 queries.", sw1.elapsedTime()));
+        System.out.println(String.format("The KDTree took %s seconds to " +
+                "perform 200 queries.", sw1.elapsedTime()));
     }
 
     /* Creates 10,000 random points and 2,000 query points. Insert the 10,000
@@ -78,15 +82,17 @@ public class KDTreeTest {
         for (Point p : queryPoints) {
             naiveNearest.add(naive.nearest(p.getX(), p.getY()));
         }
-        System.out.println(String.format("The NaivePointSet took %s seconds to perform 2,000 queries.", sw0.elapsedTime()));
+        System.out.println(String.format("The NaivePointSet took %s seconds to " +
+                "perform 2,000 queries.", sw0.elapsedTime()));
 
-        Stopwatch sw1= new Stopwatch();
+        Stopwatch sw1 = new Stopwatch();
         for (int i = 0; i < 2000; i++) {
             double lon = queryPoints.get(i).getX();
             double lat = queryPoints.get(i).getY();
             assertEquals(naiveNearest.get(i), kd.nearest(lon, lat));
         }
-        System.out.println(String.format("The KDTree took %s seconds to perform 2,000 queries.", sw1.elapsedTime()));
+        System.out.println(String.format("The KDTree took %s seconds to " +
+                "perform 2,000 queries.", sw1.elapsedTime()));
     }
 
     // Your tests here!
