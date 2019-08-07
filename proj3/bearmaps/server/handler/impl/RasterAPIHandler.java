@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static bearmaps.utils.Constants.SEMANTIC_STREET_GRAPH;
-import static bearmaps.utils.Constants.ROUTE_LIST;
+import static bearmaps.utils.Constants.*;
 
 /**
  * Handles requests from the web browser for map images. These images
@@ -84,12 +83,90 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
      */
     @Override
     public Map<String, Object> processRequest(Map<String, Double> requestParams, Response response) {
-        //System.out.println("yo, wanna know the parameters given by the web browser? They are:");
-        //System.out.println(requestParams);
+//        System.out.println("yo, wanna know the parameters given by the web browser? They are:");
+//        System.out.println(requestParams);
         Map<String, Object> results = new HashMap<>();
-        System.out.println("Since you haven't implemented RasterAPIHandler.processRequest, nothing is displayed in "
-                + "your browser.");
+//        System.out.println("Since you haven't implemented RasterAPIHandler.processRequest, nothing is displayed in "
+//                + "your browser.");
+
+        double lrlon = requestParams.get("lrlon");
+        double lrlat = requestParams.get("lrlat");
+        double ullon = requestParams.get("ullon");
+        double ullat = requestParams.get("ullat");
+        double height = requestParams.get("h");
+        double width = requestParams.get("w");
+
+        results.put("render_grid", null);
+        results.put("raster_ul_lon", 0);
+        results.put("raster_ul_lat", 0);
+        results.put("raster_lr_lon", 0);
+        results.put("raster_lr_lat", 0);
+        results.put("depth", 0);
+        results.put("query_success", false);
+
+        if (lrlon <= ullon || lrlat >= ullat || height <= 0 || width <= 0) {
+            return results;
+        }
+        if (ullon >= ROOT_LRLON || ullat <= ROOT_LRLAT || lrlon <= ROOT_ULLON || lrlat >= ROOT_ULLAT) {
+            return results;
+        }
+
+        if (lrlon > ROOT_LRLON) {
+            lrlon = ROOT_LRLON;
+        }
+        if (lrlat < ROOT_LRLAT) {
+            lrlat = ROOT_LRLAT;
+        }
+        if (ullon < ROOT_ULLON) {
+            ullon = ROOT_ULLON;
+        }
+        if (ullat > ROOT_ULLAT) {
+            ullat = ROOT_ULLAT;
+        }
+
+        double[] sevenDPP = lonDPP();
+        double myLonDPP = (lrlon - ullon) / width;
+        int depth = 7;
+
+        for (int i = 0; i < 8; i++) {
+            if (sevenDPP[i] <= myLonDPP) {
+                depth = i;
+                break;
+            }
+        }
+        results.put("depth", depth);
+        results.put("query_success", true);
+
+        double parts = Math.pow(2, depth);
+        double partX = (ROOT_LRLON - ROOT_ULLON) / parts;
+        double partY = (ROOT_ULLAT - ROOT_LRLAT) / parts;
+        int x1 = (int) Math.floor((ullon - ROOT_ULLON) / partX);
+        int x2 = (int) Math.floor((lrlon - ROOT_ULLON) / partX);
+        int y1 = (int) Math.floor((ROOT_ULLAT - ullat) / partY);
+        int y2 = (int) Math.floor((ROOT_ULLAT - lrlat) / partY);
+        results.put("raster_ul_lon", ROOT_ULLON + partX * x1);
+        results.put("raster_ul_lat", ROOT_ULLAT - partY * y1);
+        results.put("raster_lr_lon", ROOT_ULLON + partX * (x2 + 1));
+        results.put("raster_lr_lat", ROOT_ULLAT - partY * (y2 + 1));
+        String[][] renderGrid = new String[y2 + 1 - y1][x2 + 1 - x1];
+        for (int y = 0; y <= y2 - y1; y++) {
+            for (int x = 0; x <= x2 - x1; x++) {
+                renderGrid[y][x] = "d" + depth + "_x" + (x + x1) + "_y" + (y + y1) + ".png";
+            }
+        }
+        results.put("render_grid", renderGrid);
+
         return results;
+    }
+
+    public double[] lonDPP() {
+        double[] LonDPP = new double[8];
+        double myLon = (ROOT_LRLON - ROOT_ULLON) / TILE_SIZE;
+        for (int i = 0; i < 8; i++) {
+            double small = Math.pow(2, i);
+            LonDPP[i] = myLon / small;
+        }
+        return LonDPP;
     }
 
     @Override
