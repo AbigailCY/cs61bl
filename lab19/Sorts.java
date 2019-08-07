@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -76,8 +75,8 @@ public class Sorts {
         }
 
         if (list3.size() > 1) {
-        int me2 = generator.nextInt(list3.size() - 1);
-        quickSort(list.subList(end + 1, list.size()), me2, me2);
+            int me2 = generator.nextInt(list3.size() - 1);
+            quickSort(list.subList(end + 1, list.size()), me2, me2);
         }
 
     }
@@ -95,6 +94,7 @@ public class Sorts {
         mergeHelper(list);
 
     }
+
     public static void mergeHelper(List<Integer> list) {
         List<Integer> list1 = new ArrayList<>();
         for (int i = 0; i < list.size() / 2; i++) {
@@ -106,7 +106,7 @@ public class Sorts {
         }
         List<Integer> newList = new ArrayList<>();
 
-        while (list1.size()!=0 && list2.size()!=0) {
+        while (list1.size() != 0 && list2.size() != 0) {
             if (list1.get(0) <= list2.get(0)) {
                 newList.add(list1.remove(0));
             } else {
