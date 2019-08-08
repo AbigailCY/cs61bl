@@ -4,6 +4,7 @@ import bearmaps.utils.graph.streetmap.Node;
 import bearmaps.utils.graph.streetmap.StreetMapGraph;
 import bearmaps.utils.ps.KDTree;
 import bearmaps.utils.ps.Point;
+import bearmaps.utils.ps.WeirdPointSet;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +45,10 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             }
         }
 
-        KDTree kd = new KDTree(points);
-        Point target = kd.nearest(lon, lat);
+//        KDTree kd = new KDTree(points);
+//        Point target = kd.nearest(lon, lat);
+        WeirdPointSet wps = new WeirdPointSet(points);
+        Point target = wps.nearest(lon, lat);
         return vertices.get(target);
     }
 
