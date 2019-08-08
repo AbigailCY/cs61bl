@@ -1,4 +1,5 @@
 package bearmaps.utils.graph;
+import bearmaps.utils.pq.DoubleMapPQ;
 import bearmaps.utils.pq.MinHeapPQ;
 import edu.princeton.cs.algs4.Stopwatch;
 
@@ -8,8 +9,9 @@ import java.util.List;
 
 
 public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
+    private DoubleMapPQ<Vertex> PQ;
+//    private MinHeapPQ<Vertex> PQ;
 
-    private MinHeapPQ<Vertex> PQ;
     private HashMap<Vertex, Double> distance;
     private HashMap<Vertex, Vertex> edge;
     private AStarGraph<Vertex> input;
@@ -25,7 +27,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         this.input = input;
         this.end = end;
         Stopwatch sw = new Stopwatch();
-        PQ = new MinHeapPQ<>();
+        PQ = new DoubleMapPQ<>();
         distance = new HashMap<>();
         edge = new HashMap<>();
         numStatesExplored = 0;
