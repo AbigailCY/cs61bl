@@ -9,8 +9,8 @@ import java.util.List;
 
 
 public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
-    private DoubleMapPQ<Vertex> PQ;
-//    private MinHeapPQ<Vertex> PQ;
+//    private DoubleMapPQ<Vertex> PQ;
+    private MinHeapPQ<Vertex> PQ;
 
     private HashMap<Vertex, Double> distance;
     private HashMap<Vertex, Vertex> edge;
@@ -27,7 +27,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         this.input = input;
         this.end = end;
         Stopwatch sw = new Stopwatch();
-        PQ = new DoubleMapPQ<>();
+        PQ = new MinHeapPQ<>();
         distance = new HashMap<>();
         edge = new HashMap<>();
         numStatesExplored = 0;
@@ -39,7 +39,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         edge.put(start, null);
 
 
-        while (!PQ.peek().equals(end) && sw.elapsedTime() < timeout && PQ.size() != 0) {
+        while (PQ.size() != 0 && !PQ.peek().equals(end) && sw.elapsedTime() < timeout) {
             Vertex p = PQ.poll();
             numStatesExplored += 1;
             List<WeightedEdge<Vertex>> neighborEdges = input.neighbors(p);
