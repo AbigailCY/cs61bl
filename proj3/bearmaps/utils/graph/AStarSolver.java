@@ -1,5 +1,4 @@
 package bearmaps.utils.graph;
-import bearmaps.utils.pq.DoubleMapPQ;
 import bearmaps.utils.pq.MinHeapPQ;
 import edu.princeton.cs.algs4.Stopwatch;
 
