@@ -45,10 +45,10 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             }
         }
 
-//        KDTree kd = new KDTree(points);
-//        Point target = kd.nearest(lon, lat);
-        WeirdPointSet wps = new WeirdPointSet(points);
-        Point target = wps.nearest(lon, lat);
+        KDTree kd = new KDTree(points);
+        Point target = kd.nearest(lon, lat);
+//        WeirdPointSet wps = new WeirdPointSet(points);
+//        Point target = wps.nearest(lon, lat);
         return vertices.get(target);
     }
 
