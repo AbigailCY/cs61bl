@@ -12,7 +12,7 @@ public class MinHeap<E extends Comparable<E>> {
 
     /* Initializes an empty MinHeap. */
     public MinHeap() {
-        contents = new ArrayList<>();
+        contents = new ArrayList<>(10);
         contents.add(null);
     }
 
