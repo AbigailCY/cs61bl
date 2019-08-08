@@ -78,7 +78,7 @@ public class WeirdPointSet implements PointSet {
 
         if (iilliil < 0) {
             illililili.lillililili = iillililil(ilillili, illililili.lillililili, resize(ilililili), liliilli + 1);
-        } else if (iilliil >= 0) {
+        } else {
             illililili.liilillili = iillililil(ilillili, illililili.liilillili, resize(ilililili), liliilli + 1);
         }
         return illililili;

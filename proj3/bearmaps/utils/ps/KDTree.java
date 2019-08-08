@@ -88,12 +88,11 @@ public class KDTree implements PointSet {
             if (bad != null && Math.abs(g.getY() - bad.point.getY()) < Point.distance(g, best)) {
                 best = nearestHelper(g, bad, best);
             }
+        } else {
+            if (bad != null && Math.abs(g.getX() - bad.point.getX()) < Point.distance(g, best)) {
+                best = nearestHelper(g, bad, best);
+            }
         }
-//        else {
-//            if (bad != null && Math.abs(g.getX() - bad.point.getX()) < Point.distance(g, best)) {
-//                best = nearestHelper(g, bad, best);
-//            }
-//        }
 
         return best;
 
