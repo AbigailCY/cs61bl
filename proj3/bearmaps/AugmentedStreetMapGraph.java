@@ -1,7 +1,11 @@
 package bearmaps;
 
+import bearmaps.utils.graph.streetmap.Node;
 import bearmaps.utils.graph.streetmap.StreetMapGraph;
+import bearmaps.utils.ps.KDTree;
+import bearmaps.utils.ps.Point;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.LinkedList;
@@ -11,14 +15,16 @@ import java.util.LinkedList;
  * Specifically, it supports the following additional operations:
  *
  *
- * @author Alan Yao, Josh Hug, ________
+ * @author Alan Yao, Josh Hug, Yuan Chen
  */
 public class AugmentedStreetMapGraph extends StreetMapGraph {
+
+    private HashMap<Point, Long> vertices = new HashMap<>();
+    private List<Point> points = new LinkedList<>();
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
-        // List<Node> nodes = this.getNodes();
     }
 
 
@@ -30,7 +36,17 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * @return The id of the node in the graph closest to the target.
      */
     public long closest(double lon, double lat) {
-        return 0;
+        List<Node> nodes = this.getNodes();
+        for (Node node : nodes) {
+            if (!this.neighbors(node.id()).isEmpty()) {
+                vertices.put(new Point(node.lon(), node.lat()), node.id());
+                points.add(new Point(node.lon(), node.lat()));
+            }
+        }
+
+        KDTree kd = new KDTree(points);
+        Point target = kd.nearest(lon, lat);
+        return vertices.get(target);
     }
 
 
