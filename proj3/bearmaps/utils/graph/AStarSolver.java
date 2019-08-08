@@ -9,8 +9,8 @@ import java.util.List;
 
 
 public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
-    private DoubleMapPQ<Vertex> PQ;
-//    private MinHeapPQ<Vertex> PQ;
+//    private DoubleMapPQ<Vertex> PQ;
+    private MinHeapPQ<Vertex> PQ;
 
     private HashMap<Vertex, Double> distance;
     private HashMap<Vertex, Vertex> edge;
@@ -27,8 +27,8 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         this.input = input;
         this.end = end;
         Stopwatch sw = new Stopwatch();
-//        PQ = new MinHeapPQ<>();
-        PQ = new DoubleMapPQ<>();
+        PQ = new MinHeapPQ<>();
+//        PQ = new DoubleMapPQ<>();
         distance = new HashMap<>();
         edge = new HashMap<>();
         numStatesExplored = 0;
@@ -40,7 +40,19 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         edge.put(start, null);
 
 
-        while (PQ.size() != 0 && !PQ.peek().equals(end) && sw.elapsedTime() < timeout) {
+        while (PQ.size() != 0 && sw.elapsedTime() < timeout) {
+            if (PQ.peek().equals(end)) {
+                solutionWeight = distance.get(end);
+                outcome = SolverOutcome.SOLVED;
+                Vertex me = end;
+                while (!me.equals(start)) {
+                    solution.add(0, me);
+                    me = edge.get(me);
+                }
+                solution.add(0, start);
+                timeSpent = sw.elapsedTime();
+                return;
+            }
             Vertex p = PQ.poll();
             numStatesExplored += 1;
             List<WeightedEdge<Vertex>> neighborEdges = input.neighbors(p);
@@ -55,18 +67,18 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             return;
         }
 
-        if (PQ.peek().equals(end)) {
-            solutionWeight = distance.get(end);
-            outcome = SolverOutcome.SOLVED;
-            Vertex me = end;
-            while (!me.equals(start)) {
-                solution.add(0, me);
-                me = edge.get(me);
-            }
-            solution.add(0, start);
-            timeSpent = sw.elapsedTime();
-            return;
-        }
+//        if (PQ.peek().equals(end)) {
+//            solutionWeight = distance.get(end);
+//            outcome = SolverOutcome.SOLVED;
+//            Vertex me = end;
+//            while (!me.equals(start)) {
+//                solution.add(0, me);
+//                me = edge.get(me);
+//            }
+//            solution.add(0, start);
+//            timeSpent = sw.elapsedTime();
+//            return;
+//        }
 
         if (PQ.size() == 0) {
             outcome = SolverOutcome.UNSOLVABLE;

@@ -14,6 +14,7 @@ public class MinHeap<E extends Comparable<E>> {
     public MinHeap() {
         contents = new ArrayList<>(10);
         contents.add(null);
+        size = 0;
     }
 
     /* Returns the element at index INDEX, and null if it is out of bounds. */
