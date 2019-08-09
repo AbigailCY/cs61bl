@@ -53,6 +53,9 @@ public class MyTrieSet implements TrieSet61BL {
         }
         List<String> keys = new ArrayList<>();
         String key = prefix;
+        if (curr.isKey) {
+            keys.add(prefix);
+        }
 
         for (char in : curr.map.keySet()) {
             colHelp(key + in, keys, curr.map.get(in));
