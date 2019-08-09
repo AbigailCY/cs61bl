@@ -73,7 +73,9 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         List<String> simples = trieSet.keysWithPrefix(simPrefix);
         List<String> toReturn = new LinkedList<>();
         for (String simple : simples) {
-            toReturn.add(names.get(simple).get(0).name());
+            for (Node node : names.get(simple)) {
+                toReturn.add(node.name());
+            }
         }
         return toReturn;
     }
