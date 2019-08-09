@@ -34,7 +34,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
             }
 
             if (node.name() != null) {
-                String simpleName = node.name().replaceAll("[^a-zA-Z]", "").toLowerCase();
+                String simpleName = cleanString(node.name());
                 if (!names.keySet().contains(simpleName)) {
                     names.put(simpleName, new ArrayList<>());
                 }
@@ -69,7 +69,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * cleaned <code>prefix</code>.
      */
     public List<String> getLocationsByPrefix(String prefix) {
-        List<String> simples = trieSet.keysWithPrefix(prefix);
+        String simPrefix = cleanString(prefix);
+        List<String> simples = trieSet.keysWithPrefix(simPrefix);
         List<String> toReturn = new LinkedList<>();
         for (String simple : simples) {
             toReturn.add(names.get(simple).get(0).name());
@@ -91,7 +92,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * "id" -> Number, The id of the node. <br>
      */
     public List<Map<String, Object>> getLocations(String locationName) {
-        String cleanName = locationName.replaceAll("[^a-zA-Z]", "").toLowerCase();
+        String cleanName = cleanString(locationName);
         List<Map<String, Object>> toReturn = new ArrayList<>();
 
         for (Node node : names.get(cleanName)) {
