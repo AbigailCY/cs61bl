@@ -1,4 +1,10 @@
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
 
 /* A mutable and finite Graph object. Edge labels are stored via a HashMap
    where labels are mapped to a key calculated by the following. The graph is
@@ -127,7 +133,8 @@ public class Graph {
 
         int[] cost = new int[this.edges.size()];
         Integer[] prev = new Integer[this.edges.size()];
-        PriorityQueue<Integer> PQ = new PriorityQueue<>((v1, v2) -> Integer.compare(cost[v1], cost[v2]));
+        PriorityQueue<Integer> pPQ =
+                new PriorityQueue<>((v1, v2) -> Integer.compare(cost[v1], cost[v2]));
         Graph toReturn = new Graph();
 
         for (int i = 0; i < edges.size(); i++) {
@@ -136,11 +143,11 @@ public class Graph {
         }
         cost[start] = 0;
         for (int v = 0; v < edges.size(); v++) {
-            PQ.add(v);
+            pPQ.add(v);
         }
 
-        while (!PQ.isEmpty()) {
-            int v = PQ.poll();
+        while (!pPQ.isEmpty()) {
+            int v = pPQ.poll();
 
             toReturn.addVertex(v);
 
@@ -152,8 +159,8 @@ public class Graph {
                 if (cost[u] > thisEdge.getWeight()) {
                     cost[u] = thisEdge.getWeight();
                     prev[u] = v;
-                    PQ.remove(thisEdge.getDest());
-                    PQ.add(thisEdge.getDest());
+                    pPQ.remove(thisEdge.getDest());
+                    pPQ.add(thisEdge.getDest());
                 }
             }
         }
