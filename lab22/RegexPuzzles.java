@@ -30,7 +30,7 @@ public class RegexPuzzles {
         // Create a String pattern to fill return array
         List<String> toReturn = new ArrayList<>();
         Pattern nameCapturer = Pattern.compile
-                ("^(Data|App|my|on|un)([A-Za-hi-z0-9]+)(ly|sy|ify|\\.io|\\.fm|\\.tv)$");
+                ("^(Data|App|my|on|un)([A-Za-hj-z0-9]+)(ly|sy|ify|\\.io|\\.fm|\\.tv)$");
         for (String name : names) {
             Matcher nameMatcher = nameCapturer.matcher(name);
             if (nameMatcher.matches()) {
