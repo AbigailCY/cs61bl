@@ -27,10 +27,13 @@ public class UnionFind {
     public int find(int v) {
         if (v >= array.length) {
             throw new IllegalArgumentException();
-        } else if (array[v] < 0) {
-            return v;
+        } else {
+            int u = v;
+            while (array[u] >= 0) {
+                u = array[u];
+            }
+            return u;
         }
-        return find(array[v]);
     }
 
     /* Connects two elements V1 and V2 together. V1 and V2 can be any element,
