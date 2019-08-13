@@ -28,6 +28,9 @@ public class UnionFind {
         if (v >= array.length) {
             throw new IllegalArgumentException();
         } else {
+            if (array[v] < 0) {
+                return v;
+            }
             int u = v;
             while (array[u] >= 0) {
                 u = array[u];

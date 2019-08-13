@@ -15,7 +15,8 @@ public class RegexPuzzles {
     public static List<String> urlRegex(String[] urls) {
         // Create a String pattern to fill return array
         List<String> toReturn = new ArrayList<>();
-        Pattern urlCapturer = Pattern.compile("^\\(.*?https?://(\\w+\\.)+[a-z]{2,3}/\\w+\\.html.*?\\)$");
+        Pattern urlCapturer = Pattern.compile
+                ("^\\(.*?https?://(\\w+\\.)+[a-z]{2,3}/\\w+\\.html.*?\\)$");
         for (String url : urls) {
             Matcher urlMatcher = urlCapturer.matcher(url);
             if (urlMatcher.matches()) {
@@ -28,7 +29,8 @@ public class RegexPuzzles {
     public static List<String> findStartupName(String[] names) {
         // Create a String pattern to fill return array
         List<String> toReturn = new ArrayList<>();
-        Pattern nameCapturer = Pattern.compile("^(Data|App|my|on|un)([^i]+)(ly|sy|ify|\\.io|\\.fm|\\.tv)$");
+        Pattern nameCapturer = Pattern.compile
+                ("^(Data|App|my|on|un)([A-Za-hi-z0-9]+)(ly|sy|ify|\\.io|\\.fm|\\.tv)$");
         for (String name : names) {
             Matcher nameMatcher = nameCapturer.matcher(name);
             if (nameMatcher.matches()) {
@@ -66,12 +68,12 @@ public class RegexPuzzles {
 
     public static BufferedImage arrayToBufferedImage(int[][][] arr) {
         BufferedImage img = new BufferedImage(arr.length,
-        	arr[0].length, BufferedImage.TYPE_INT_RGB);
+                arr[0].length, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length; j++) {
                 int pixel = 0;
                 for (int k = 0; k < 3; k++) {
-                    pixel += arr[i][j][k] << (16 - 8*k);
+                    pixel += arr[i][j][k] << (16 - 8 * k);
                 }
                 img.setRGB(i, j, pixel);
             }
