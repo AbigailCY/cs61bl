@@ -63,7 +63,8 @@ public class GraphTest {
         Graph output = loadFromText("outputs/graphTestMultiEdge.out");
         Graph tocheck = input.prims(0);
         assertEquals("Prim's algorithm failed on graphTestMultiEdge.", output, input.prims(0));
-//        assertEquals("Kruskal's algorithm failed on graphTestMultiEdge.", output, input.kruskals());
+//        assertEquals("Kruskal's algorithm failed on graphTestMultiEdge.",
+//                output, input.kruskals());
     }
 
     @Test

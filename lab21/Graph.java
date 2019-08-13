@@ -152,7 +152,7 @@ public class Graph {
             toReturn.addVertex(v);
 
             if (prev[v] != null && cost[v] >= 0) {
-                    toReturn.addEdge(prev[v], v, cost[v]);
+                toReturn.addEdge(prev[v], v, cost[v]);
             }
             for (Edge thisEdge : edges.get(v)) {
                 int u = thisEdge.getDest();
